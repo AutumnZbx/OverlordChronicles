@@ -1,0 +1,7 @@
+{
+  "name": "OverlordChronicles",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
