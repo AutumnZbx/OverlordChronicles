@@ -30,15 +30,38 @@ export class HomePage {
   }
 
   irPersonajes(){
-    this.router.navigate(['/personajes']);
+    let navigationextras: NavigationExtras = {
+      state:{
+        nombre: this.usuario,
+      }
+    }
+    this.router.navigate(['/personajes'],navigationextras);
   }
 
   irGuias(){
-    this.router.navigate(['/guias']);
+    let navigationextras: NavigationExtras = {
+      state:{
+        nombre: this.usuario,
+      }
+    }
+    this.router.navigate(['/guias'],navigationextras);
   }
 
   irForo(){
-    this.router.navigate(['/foro']);
+    let navigationextras: NavigationExtras = {
+      state:{
+        nombre: this.usuario,
+      }
+    }
+    this.router.navigate(['/foro'],navigationextras);
+  }
+  irHome(){
+    let navigationextras: NavigationExtras = {
+      state:{
+        nombre: this.usuario,
+      }
+    }
+    this.router.navigate(['/home'],navigationextras);
   }
 
   

@@ -22,7 +22,7 @@ export class LoginPage implements OnInit {
   async presentToast(position: 'top' | 'middle' | 'bottom') {
     const toast = await this.toastController.create({
       message: 'Inicio de sesion exitoso!',
-      duration: 2000,
+      duration: 1000,
       position: position,
     });
 

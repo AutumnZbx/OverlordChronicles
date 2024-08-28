@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { NavigationExtras,Router,ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-perfil',
@@ -20,6 +20,50 @@ export class PerfilPage implements OnInit {
   });
  }
   ngOnInit() {
+  }
+
+  irPerfil(){
+    let navigationextras: NavigationExtras = {
+      state:{
+        nombre: this.usuario,
+      }
+    }
+    this.router.navigate(['/perfil'],navigationextras);
+  }
+
+  irPersonajes(){
+    let navigationextras: NavigationExtras = {
+      state:{
+        nombre: this.usuario,
+      }
+    }
+    this.router.navigate(['/personajes'],navigationextras);
+  }
+
+  irGuias(){
+    let navigationextras: NavigationExtras = {
+      state:{
+        nombre: this.usuario,
+      }
+    }
+    this.router.navigate(['/guias'],navigationextras);
+  }
+
+  irForo(){
+    let navigationextras: NavigationExtras = {
+      state:{
+        nombre: this.usuario,
+      }
+    }
+    this.router.navigate(['/foro'],navigationextras);
+  }
+  irHome(){
+    let navigationextras: NavigationExtras = {
+      state:{
+        nombre: this.usuario,
+      }
+    }
+    this.router.navigate(['/home'],navigationextras);
   }
 
 }
