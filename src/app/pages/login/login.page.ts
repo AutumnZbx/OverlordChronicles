@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { NavigationExtras,Router } from '@angular/router';
 import { AlertController,ToastController } from '@ionic/angular';
 
 @Component({
@@ -9,6 +9,8 @@ import { AlertController,ToastController } from '@ionic/angular';
 })
 export class LoginPage implements OnInit {
 
+
+  usuario: string = "admin";
   password: string = '';
   showPassword: boolean = false;
 
@@ -32,8 +34,13 @@ export class LoginPage implements OnInit {
   }
 
   login(){
+    let navigationextras: NavigationExtras = {
+      state:{
+        nombre: this.usuario,
+      }
+    }
     this.presentToast('bottom');
-    this.router.navigate(['/home']);
+    this.router.navigate(['/home'],navigationextras);
   }
   cambiar(){
     this.router.navigate(['/cambio-pass']);

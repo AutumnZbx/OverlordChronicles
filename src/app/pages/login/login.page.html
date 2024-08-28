@@ -16,11 +16,11 @@
         <form>
           <div class="ion-padding">
             <ion-item>
-              <ion-input placeholder="username" ></ion-input>
+              <ion-input placeholder="nombre de usuario" ></ion-input>
               <ion-icon name="person-outline"></ion-icon>
             </ion-item>
             <ion-item>
-              <ion-input [type]="showPassword ? 'text' : 'password'" placeholder="password" [(ngModel)]="password" name="passwordInput" ></ion-input>
+              <ion-input [type]="showPassword ? 'text' : 'password'" placeholder="contraseña" [(ngModel)]="password" name="passwordInput" ></ion-input>
               <ion-icon [name]="showPassword ? 'eye-outline' : 'eye-off-outline'" slot="end" (click)="togglePasswordVisibility()"></ion-icon>
               
             </ion-item>

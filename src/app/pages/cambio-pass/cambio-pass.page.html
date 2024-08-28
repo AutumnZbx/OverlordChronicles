@@ -1,13 +1,35 @@
-<ion-header [translucent]="true">
+<ion-header class="ion-no-border">
   <ion-toolbar>
-    <ion-title>cambioPass</ion-title>
+    <!-- <ion-title>signup</ion-title> -->
+    <ion-buttons slot="start">
+      <ion-back-button defaulthref="login" text="">
+      </ion-back-button>
+      </ion-buttons>
   </ion-toolbar>
+
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">cambioPass</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content class="bg-color">
+
+    <ion-card class="ion-no-margin">
+
+        <ion-card-header>
+            <ion-card-title>
+              Cambio de contraseña
+            </ion-card-title>
+            <ion-card-subtitle>
+              Escribe tu correo electronico para poder cambiar tu contraseña
+            </ion-card-subtitle>
+        </ion-card-header>
+        <ion-card-content>
+        <ion-item>
+          <ion-input placeholder="email" class="input"></ion-input>
+          <ion-icon name="mail-outline"></ion-icon>
+        </ion-item>
+        </ion-card-content>
+        <div class="sign-btn-wrap">
+            <ion-button  shape="round" type="submit"  fill="solid" class="sign-btn" (click)="cambiarPassword()">Cambiar contraseña</ion-button>
+        </div>
+    </ion-card>
+
 </ion-content>
