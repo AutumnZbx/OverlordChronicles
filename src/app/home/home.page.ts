@@ -20,7 +20,7 @@ export class HomePage {
       }
     });
    }
-   login(){
+   irPerfil(){
     let navigationextras: NavigationExtras = {
       state:{
         nombre: this.usuario,
@@ -28,5 +28,20 @@ export class HomePage {
     }
     this.router.navigate(['/perfil'],navigationextras);
   }
+
+  irPersonajes(){
+    this.router.navigate(['/personajes']);
+  }
+
+  irGuias(){
+    this.router.navigate(['/guias']);
+  }
+
+  irForo(){
+    this.router.navigate(['/foro']);
+  }
+
+  
+
 
 }

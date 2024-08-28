@@ -17,7 +17,25 @@
     <strong>Ready to create an app?</strong>
     <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
   </div>
-  <div class="sign-btn-wrap">
-    <ion-button  shape="round" type="submit"  fill="solid" class="sign-btn" (click)="login()">Iniciar sesion</ion-button>
-   </div>
+
+   <ion-tabs>
+    <ion-tab-bar slot="bottom">
+      <ion-tab-button tab="personajes"(click)="irPersonajes()">
+        <ion-icon name="accessibility-sharp"></ion-icon>
+        Personajes
+      </ion-tab-button>
+      <ion-tab-button tab="guias"(click)="irGuias()">
+        <ion-icon name="book-sharp"></ion-icon>
+        Guias
+      </ion-tab-button>
+      <ion-tab-button tab="foro"(click)="irForo()">
+        <ion-icon name="library"></ion-icon>
+        Foro
+      </ion-tab-button>
+      <ion-tab-button tab="perfil"(click)="irPerfil()">
+        <ion-icon name="person-sharp"></ion-icon>
+        Perfil
+      </ion-tab-button>
+    </ion-tab-bar>
+  </ion-tabs>
 </ion-content>
