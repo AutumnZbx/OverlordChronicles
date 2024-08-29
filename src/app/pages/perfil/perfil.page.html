@@ -3,12 +3,23 @@
     <ion-buttons slot="start">
       <ion-back-button></ion-back-button>
     </ion-buttons>
-    <ion-title>perfil</ion-title>
+    <ion-title>perfil {{ usuario }}</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-label><b>ID: </b>{{ usuario }}</ion-label>
+  <div class="profile-container">
+    <ion-avatar class="profile-avatar">
+      <ion-img src="assets/images/header1.png"></ion-img>
+    </ion-avatar>
+    <ion-button fill="clear" class="change-image-button" (click)="changeProfileImage()">
+      <ion-icon name="camera-outline"></ion-icon>
+    </ion-button>
+  </div>
+
+  <ion-button expand="block" color="danger" (click)="confirmLogout()">
+    Cerrar sesión
+  </ion-button>
 
   <ion-tabs>
     <ion-tab-bar slot="bottom">
