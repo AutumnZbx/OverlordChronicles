@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { NavigationExtras,Router } from '@angular/router';
 import { AlertController,ToastController } from '@ionic/angular';
 
 @Component({
@@ -8,11 +8,13 @@ import { AlertController,ToastController } from '@ionic/angular';
   styleUrls: ['./registro.page.scss'],
 })
 export class RegistroPage implements OnInit {
-
+  username: string ="";
+  email: string="";
   password: string = '';
+  password2: string = '';
   showPassword: boolean = false;
 
-  constructor(private router:Router, private alertController: AlertController, private toastController: ToastController) { }
+  constructor(private router:Router, public alertController: AlertController, private toastController: ToastController) { }
 
   ngOnInit() {
   }
@@ -32,9 +34,26 @@ export class RegistroPage implements OnInit {
   }
 
   login(){
+    let navigationextras: NavigationExtras = {
+      state:{
+        nombre: this.username,
+        correo: this.email,
+        password: this.password
+      }
+    }
     this.presentToast('bottom');
-    this.router.navigate(['/login']);
+    this.router.navigate(['/login'], navigationextras);
   }
+  async presentAlert() {
+    const alert = await this.alertController.create({
+      header: 'Se a Registrado correctamente',
+      message: 'Loguear para entrar',
+      buttons: ['Aceptar'],
+    });
+
+    await alert.present();
+  }
+
 
 
 }

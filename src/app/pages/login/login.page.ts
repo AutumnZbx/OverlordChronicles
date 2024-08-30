@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { NavigationExtras,Router } from '@angular/router';
+import { ActivatedRoute, NavigationExtras,Router } from '@angular/router';
 import { AlertController,ToastController } from '@ionic/angular';
 
 @Component({
@@ -10,11 +10,22 @@ import { AlertController,ToastController } from '@ionic/angular';
 export class LoginPage implements OnInit {
 
 
-  usuario: string = "admin";
+  username: string ="";
+  email: string ="";
   password: string = '';
   showPassword: boolean = false;
 
-  constructor(private router:Router, private alertController: AlertController, private toastController: ToastController) { }
+  constructor(private router:Router, private alertController: AlertController, private toastController: ToastController,private activedroute: ActivatedRoute) { 
+    this.activedroute.queryParams.subscribe(param =>{
+      //validamos si recibe la informacion
+      if(this.router.getCurrentNavigation()?.extras.state){
+        //capturar la informacion
+        this.password = this.router.getCurrentNavigation()?.extras?.state?.['password'];
+        this.username = this.router.getCurrentNavigation()?.extras?.state?.['nombre'];
+        this.email = this.router.getCurrentNavigation()?.extras?.state?.['correo'];
+      }
+    });
+  }
 
   ngOnInit() {
   }
@@ -36,7 +47,9 @@ export class LoginPage implements OnInit {
   login(){
     let navigationextras: NavigationExtras = {
       state:{
-        nombre: this.usuario,
+        nombre: this.username,
+        correo: this.email,
+        password: this.password
       }
     }
     this.presentToast('bottom');
