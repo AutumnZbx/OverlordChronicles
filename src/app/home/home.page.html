@@ -1,45 +1,60 @@
 <ion-header [translucent]="true">
-  <ion-toolbar>
+  <ion-toolbar> 
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
     <ion-title>
-      Blank
+      Home {{usuario}}
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
+<ion-content [fullscreen]="true" class="home-background">
   <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
+    <ion-toolbar> 
+      <ion-title size="large">Home</ion-title>
     </ion-toolbar>
   </ion-header>
 
-  <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
-  </div>
+  <ion-card>
+    <ion-card-header class="header">
+      <ion-card-title>Novedades!!</ion-card-title>
+      <ion-card-subtitle>Los post más recientes</ion-card-subtitle>
+    </ion-card-header>
 
-   <ion-tabs>
-    <ion-tab-bar slot="bottom">
-      <ion-tab-button tab="personajes"(click)="irPersonajes()">
-        <ion-icon name="accessibility-sharp"></ion-icon>
-        Personajes
-      </ion-tab-button>
-      <ion-tab-button tab="guias"(click)="irGuias()">
-        <ion-icon name="book-sharp"></ion-icon>
-        Guias
-      </ion-tab-button>
-      <ion-tab-button tab="home"(click)="irHome()">
-        <ion-icon name="home-outline"></ion-icon>
-        Home
-      </ion-tab-button>
-      <ion-tab-button tab="foro"(click)="irForo()">
-        <ion-icon name="library"></ion-icon>
-        Foro
-      </ion-tab-button>
-      <ion-tab-button tab="perfil"(click)="irPerfil()">
-        <ion-icon name="person-sharp"></ion-icon>
-        Perfil
-      </ion-tab-button>
-    </ion-tab-bar>
-  </ion-tabs>
+    <ion-card-content>
+      <img alt="Silhouette of mountains" src="../../assets/images/publicacion1.png" />
+      Here's a small text description for the card content. Nothing more, nothing less.
+    </ion-card-content>
+    <span class="example-spacer"></span>
+    <ion-button fill="clear" (click)="irpost()">Ir al post</ion-button>
+    <button mat-icon-button class="example-icon favorite-icon" aria-label="Example icon-button with heart icon">
+      <mat-icon>favorite</mat-icon>
+    </button>
+    <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon">
+      <mat-icon>share</mat-icon>
+    </button>
+    <button mat-icon-button class="example-icon" aria-label="Example delete icon">
+      <mat-icon>delete</mat-icon>
+    </button>
+  </ion-card>
+    <hr>
+    <ion-card>
+    <ion-card-content>
+      <img alt="Silhouette of mountains" src="https://ionicframework.com/docs/img/demos/card-media.png" />
+      Here's a small text description for the card content. Nothing more, nothing less.
+    </ion-card-content>
+    <ion-button fill="clear">Ir al post</ion-button>
+    <button mat-icon-button class="example-icon favorite-icon" aria-label="Example icon-button with heart icon">
+      <mat-icon>favorite</mat-icon>
+    </button>
+    <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon">
+      <mat-icon>share</mat-icon>
+    </button>
+    <button mat-icon-button class="example-icon" aria-label="Example delete icon">
+      <mat-icon>delete</mat-icon>
+    </button>
+  </ion-card>
+
+
 </ion-content>

@@ -1,0 +1,59 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Modificar Perfil</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="bg-color">
+
+    <ion-card class="titulo">
+      <br>
+      <ion-label>Modifica tu perfil </ion-label>
+
+       <ion-card-content class="card1">
+        <ion-item>
+          <ion-label>Escriba nuevo nombre de usuario</ion-label>
+        </ion-item>
+        <ion-item class="input">
+          <ion-input placeholder="nombre de usuario"[(ngModel)]="username"name="username"></ion-input>
+          <ion-icon name="person-outline"></ion-icon>
+        </ion-item>
+        <br>
+        <ion-item>
+          <ion-label>Escriba su nuevo email</ion-label>
+        </ion-item>
+        <ion-item>
+          <ion-input placeholder="email@mail.com" class="input"[(ngModel)]="email"name="email"></ion-input>
+          <ion-icon name="mail-outline"></ion-icon>
+        </ion-item>
+        <br>
+        <ion-item>
+          <ion-label>Escriba su nueva contraseña</ion-label>
+        </ion-item>
+        <ion-item>
+          <ion-input [type]="showPassword ? 'text' : 'password'" placeholder="contraseña" [(ngModel)]="password" name="passwordInput" class="input"></ion-input>
+          <ion-icon [name]="showPassword ? 'eye-outline' : 'eye-off-outline'" slot="end" (click)="togglePasswordVisibility()"></ion-icon>
+        </ion-item>
+        <br>
+        <ion-item>
+          <ion-label>Reesscriba su nueva contraseña</ion-label>
+        </ion-item>
+        <ion-item>
+          <ion-input [type]="showPassword ? 'text' : 'password'" placeholder="escriba de nuevo la contraseña" [(ngModel)]="password2" name="passwordInput" class="input"></ion-input>
+          <ion-icon [name]="showPassword ? 'eye-outline' : 'eye-off-outline'" slot="end" (click)="togglePasswordVisibility()"></ion-icon>
+        </ion-item>
+        <br />
+      <p *ngIf="password!=password2">las contraseña no coinciden, porfavor vuelva a digitar las contraseñas</p>
+      <br />
+      
+        <div class="sign-btn-wrap">
+            <ion-button  shape="round" type="submit"  fill="solid" class="sign-btn" (click)="guardar()">Guardar cambios</ion-button>
+        </div>
+       </ion-card-content>
+    </ion-card>
+
+</ion-content>

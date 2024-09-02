@@ -1,27 +1,42 @@
-#container {
-  text-align: center;
-
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 50%;
-  transform: translateY(-50%);
+.home-page {
+  --background: none; 
+  background-image: url('../../assets/images/background-1.jpeg'); 
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  min-height: 100vh; 
+  color: #141826; 
 }
 
-#container strong {
-  font-size: 20px;
-  line-height: 26px;
+ion-toolbar {
+  --background: #141826;
+  --color: #bd955b; 
+}
+ion-card-title{
+  background-color: #141826;
+  color: #bd955b;
 }
 
-#container p {
-  font-size: 16px;
-  line-height: 22px;
-
-  color: #8c8c8c;
-
-  margin: 0;
+ion-card-subtitle{
+  background-color: #141826; 
+  color: #bd955b;
 }
 
-#container a {
-  text-decoration: none;
+ion-card {
+  background-color: #141826; 
+  color: #bd955b;
+}
+ion-card-content{
+  background-color: #141826; 
+  color: #bd955b;
+}
+
+ion-button{
+  background-color: #141826; 
+  color: #bd955b;
+}
+
+ion-tab-bar {
+  --background: #141826; 
+  --color: #bd955b; 
 }

@@ -6,6 +6,7 @@ import { NavigationExtras,Router,ActivatedRoute } from '@angular/router';
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
 })
+
 export class HomePage {
 
   usuario: string ="";
@@ -21,48 +22,27 @@ export class HomePage {
     });
    }
    irPerfil(){
-    let navigationextras: NavigationExtras = {
-      state:{
-        nombre: this.usuario,
-      }
-    }
-    this.router.navigate(['/perfil'],navigationextras);
+    this.router.navigate(['/perfil']);
   }
 
   irPersonajes(){
-    let navigationextras: NavigationExtras = {
-      state:{
-        nombre: this.usuario,
-      }
-    }
-    this.router.navigate(['/personajes'],navigationextras);
+    this.router.navigate(['/personajes']);
   }
 
   irGuias(){
-    let navigationextras: NavigationExtras = {
-      state:{
-        nombre: this.usuario,
-      }
-    }
-    this.router.navigate(['/guias'],navigationextras);
+    this.router.navigate(['/guias']);
   }
 
   irForo(){
-    let navigationextras: NavigationExtras = {
-      state:{
-        nombre: this.usuario,
-      }
-    }
-    this.router.navigate(['/foro'],navigationextras);
+    this.router.navigate(['/foro']);
   }
   irHome(){
-    let navigationextras: NavigationExtras = {
-      state:{
-        nombre: this.usuario,
-      }
-    }
-    this.router.navigate(['/home'],navigationextras);
+    this.router.navigate(['/home']);
   }
+  irpost(){
+    this.router.navigate(['/postejemplo']);
+  }
+   
 
   
 

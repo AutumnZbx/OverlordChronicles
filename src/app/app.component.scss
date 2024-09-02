@@ -1,0 +1,34 @@
+ion-menu {
+    --background: #141826;
+  }
+  
+  ion-toolbar {
+    --background: #141826;
+    --color: #141826; 
+  }
+  
+  ion-content {
+    --background: #141826; 
+  }
+  
+  ion-item {
+    --background: #141826;
+    --color: #bd955b;
+  }
+  
+  ion-icon {
+    color: #bd955b; 
+  }
+  
+  ion-label {
+    color: #bd955b; 
+  }
+  
+  .logo-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #141826;
+    padding: 10px;
+  }
+  

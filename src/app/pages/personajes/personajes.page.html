@@ -2,6 +2,7 @@
   <ion-toolbar>
     <ion-buttons slot="start">
       <ion-back-button></ion-back-button>
+      <ion-menu-button></ion-menu-button>
     </ion-buttons>
     <ion-title>Personajes</ion-title>
   </ion-toolbar>
@@ -13,30 +14,42 @@
       <ion-title size="large">Personajes</ion-title>
     </ion-toolbar>
   </ion-header>
-  <ion-label><b>ID: </b>{{ usuario }}</ion-label>
+  
+  <br>
 
-  <ion-tabs>
-    <ion-tab-bar slot="bottom">
-      <ion-tab-button tab="personajes"(click)="irPersonajes()">
-        <ion-icon name="accessibility-sharp"></ion-icon>
-        Personajes
-      </ion-tab-button>
-      <ion-tab-button tab="guias"(click)="irGuias()">
-        <ion-icon name="book-sharp"></ion-icon>
-        Guias
-      </ion-tab-button>
-      <ion-tab-button tab="home"(click)="irHome()">
-        <ion-icon name="home-outline"></ion-icon>
-        Home
-      </ion-tab-button>
-      <ion-tab-button tab="foro"(click)="irForo()">
-        <ion-icon name="library"></ion-icon>
-        Foro
-      </ion-tab-button>
-      <ion-tab-button tab="perfil"(click)="irPerfil()">
-        <ion-icon name="person-sharp"></ion-icon>
-        Perfil
-      </ion-tab-button>
-    </ion-tab-bar>
-  </ion-tabs>
+  <ion-card>
+    <img alt="Silhouette of mountains" src="../../../assets/images/alain_thumb.png" />
+    <ion-card-header>
+      <ion-card-title><a (click)="detalle()">Alain</a></ion-card-title>
+    </ion-card-header>
+  </ion-card>
+  
+  <ion-card>
+    <img alt="Silhouette of mountains" src="../../../assets/images/scarlett_thumb.png" />
+    <ion-card-header>
+      <ion-card-title><a (click)="detalle()">Scarlett</a></ion-card-title>
+    </ion-card-header>
+  </ion-card>
+
+  <ion-card>
+    <img alt="Silhouette of mountains" src="../../../assets/images/josef_thumb.png" />
+    <ion-card-header>
+      <ion-card-title><a (click)="detalle()">Josef</a></ion-card-title>
+    </ion-card-header>
+  </ion-card>
+
+  <ion-card>
+    <img alt="Silhouette of mountains" src="../../../assets/images/chloe_thumb.png" />
+    <ion-card-header>
+      <ion-card-title><a (click)="detalle()">Chloe</a></ion-card-title>
+    </ion-card-header>
+  </ion-card>
+
+  <ion-card>
+    <img alt="Silhouette of mountains" src="../../../assets/images/lex_thumb.png" />
+    <ion-card-header>
+      <ion-card-title><a (click)="detalle()">lex</a></ion-card-title>
+    </ion-card-header>
+  </ion-card>
+
 </ion-content>

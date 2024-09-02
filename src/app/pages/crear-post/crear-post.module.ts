@@ -7,13 +7,17 @@ import { IonicModule } from '@ionic/angular';
 import { CrearPostPageRoutingModule } from './crear-post-routing.module';
 
 import { CrearPostPage } from './crear-post.page';
+import {MatInputModule} from '@angular/material/input';
+import {MatFormFieldModule} from '@angular/material/form-field';
+
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    CrearPostPageRoutingModule
+    CrearPostPageRoutingModule,
+    FormsModule, MatFormFieldModule, MatInputModule
   ],
   declarations: [CrearPostPage]
 })

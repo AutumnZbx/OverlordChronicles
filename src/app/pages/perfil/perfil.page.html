@@ -2,47 +2,118 @@
   <ion-toolbar>
     <ion-buttons slot="start">
       <ion-back-button></ion-back-button>
+      <ion-menu-button></ion-menu-button>
     </ion-buttons>
     <ion-title>perfil {{ usuario }}</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <div class="profile-container">
-    <ion-avatar class="profile-avatar">
-      <ion-img src="assets/images/header1.png"></ion-img>
+  <div >
+    <ion-avatar class="avatar">
+      <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
+      <ion-label margin="center">{{ usuario }}</ion-label>
+      <ion-button (click)="modperfil()">Modificar perfil</ion-button>
     </ion-avatar>
-    <ion-button fill="clear" class="change-image-button" (click)="changeProfileImage()">
-      <ion-icon name="camera-outline"></ion-icon>
-    </ion-button>
   </div>
+  <br>
+  <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="center">
+    <mat-tab label="Ultimos post">
+      <ion-card>
+        <ion-card-header>
+          <ion-card-title>Post 1</ion-card-title>
+          <img alt="Silhouette of mountains" src="../../assets/images/publicacion1.png" />
+          <ion-card-subtitle>Texto del post de ejemplo</ion-card-subtitle>
+        </ion-card-header>
+      
+        <ion-card-content>
+          Here's a small text description for the card content. Nothing more, nothing less.
+        </ion-card-content>
+      
+        <ion-button fill="clear" (click)="irpost()">Ir al post</ion-button>
+      </ion-card>
+      <ion-card>
+        <ion-card-header>
+          <ion-card-title>Post 2</ion-card-title>
+          <ion-card-subtitle>Card Subtitle</ion-card-subtitle>
+        </ion-card-header>
+      
+        <ion-card-content>
+          Here's a small text description for the card content. Nothing more, nothing less.
+        </ion-card-content>
+      
+        <ion-button fill="clear" (click)="irpost()">Ir al post</ion-button>
+      </ion-card>
+      <ion-card>
+        <ion-card-header>
+          <ion-card-title>Post 3</ion-card-title>
+          <ion-card-subtitle>Card Subtitle</ion-card-subtitle>
+        </ion-card-header>
+      
+        <ion-card-content>
+          Here's a small text description for the card content. Nothing more, nothing less.
+        </ion-card-content>
+      
+        <ion-button fill="clear" (click)="irpost()">Ir al post</ion-button>
+      </ion-card>
+    </mat-tab>
+  
+    <mat-tab label="Favoritos">
+      <ion-card>
+      <ion-card-header>
+        <ion-card-title>Fav 1</ion-card-title>
+        <ion-card-subtitle>Card Subtitle</ion-card-subtitle>
+      </ion-card-header>
+    
+      <ion-card-content>
+        Here's a small text description for the card content. Nothing more, nothing less.
+      </ion-card-content>
+    
+      <ion-button fill="clear">Action 1</ion-button>
+      <ion-button fill="clear">Action 2</ion-button>
+    </ion-card>
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Fav 2</ion-card-title>
+        <ion-card-subtitle>Card Subtitle</ion-card-subtitle>
+      </ion-card-header>
+    
+      <ion-card-content>
+        Here's a small text description for the card content. Nothing more, nothing less.
+      </ion-card-content>
+    
+      <ion-button fill="clear">Action 1</ion-button>
+      <ion-button fill="clear">Action 2</ion-button>
+    </ion-card>
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Fav 3</ion-card-title>
+        <ion-card-subtitle>Card Subtitle</ion-card-subtitle>
+      </ion-card-header>
+    
+      <ion-card-content>
+        Here's a small text description for the card content. Nothing more, nothing less.
+      </ion-card-content>
+    
+      <ion-button fill="clear">Action 1</ion-button>
+      <ion-button fill="clear">Action 2</ion-button>
+    </ion-card>
+  </mat-tab>
+    <mat-tab label="Comentarios">
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Ultimos post</ion-card-title>
+        <ion-card-subtitle>Card Subtitle</ion-card-subtitle>
+      </ion-card-header>
+    
+      <ion-card-content>
+        Here's a small text description for the card content. Nothing more, nothing less.
+      </ion-card-content>
+    
+      <ion-button fill="clear">Action 1</ion-button>
+      <ion-button fill="clear">Action 2</ion-button>
+    </ion-card>
+    </mat-tab>
+    
+  </mat-tab-group>
 
-  <ion-button expand="block" color="danger" (click)="confirmLogout()">
-    Cerrar sesión
-  </ion-button>
-
-  <ion-tabs>
-    <ion-tab-bar slot="bottom">
-      <ion-tab-button tab="personajes"(click)="irPersonajes()">
-        <ion-icon name="accessibility-sharp"></ion-icon>
-        Personajes
-      </ion-tab-button>
-      <ion-tab-button tab="guias"(click)="irGuias()">
-        <ion-icon name="book-sharp"></ion-icon>
-        Guias
-      </ion-tab-button>
-      <ion-tab-button tab="home"(click)="irHome()">
-        <ion-icon name="home-outline"></ion-icon>
-        Home
-      </ion-tab-button>
-      <ion-tab-button tab="foro"(click)="irForo()">
-        <ion-icon name="library"></ion-icon>
-        Foro
-      </ion-tab-button>
-      <ion-tab-button tab="perfil"(click)="irPerfil()">
-        <ion-icon name="person-sharp"></ion-icon>
-        Perfil
-      </ion-tab-button>
-    </ion-tab-bar>
-  </ion-tabs>
-</ion-content>

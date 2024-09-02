@@ -1,16 +1,35 @@
 <ion-header [translucent]="true">
-  <ion-toolbar>
+  <ion-toolbar >
     <ion-buttons slot="start">
       <ion-back-button></ion-back-button>
+      <ion-menu-button></ion-menu-button>
     </ion-buttons>
-    <ion-title>crearPost</ion-title>
+    <ion-title>Crear Post</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
+<ion-content [fullscreen]="true" class="content-centered">
   <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">crearPost</ion-title>
+    <ion-toolbar > 
+      <ion-title size="large">Crear Post</ion-title>
     </ion-toolbar>
   </ion-header>
+  <ion-card><ion-label>Título</ion-label>
+    <ion-input label="Escriba un título para el post" labelPlacement="floating" [counter]="true" maxlength="30"></ion-input></ion-card>
+
+
+  <ion-card><ion-label>Subtítulo</ion-label>
+    <ion-input label="Escriba un subtítulo" labelPlacement="floating" [counter]="true" maxlength="30"></ion-input></ion-card>
+
+
+  <ion-card><ion-label>Post</ion-label></ion-card>
+
+  <ion-card><ion-textarea label="Outline textarea" labelPlacement="floating" fill="outline" placeholder="Enter text"></ion-textarea></ion-card>
+
+
+  <div class="sign-btn-wrap">
+    <ion-button  shape="round" type="submit"  fill="solid" class="sign-btn" (click)="crear()">Crear post</ion-button>
+   </div>
+
 </ion-content>
+

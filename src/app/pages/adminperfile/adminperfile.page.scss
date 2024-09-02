@@ -1,0 +1,31 @@
+ion-header {
+    background-image: url('../../../assets/images/fondo.jpg') ;
+    --background: #4a90e2; 
+    --color: #bd955b; 
+  }
+  
+  ion-content {
+    background-image: url('../../../assets/images/fondo.jpg') 
+    
+  }
+  
+  ion-card {
+    background-color: #141826; 
+    border-radius: 8px; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+    padding: 16px;
+  }
+  ion-title{
+    background-color: #141826;
+  color: #bd955b;
+  }
+  
+  mat-list-item {
+    color: #333333; 
+    font-weight: bold;
+  }
+  
+  mat-divider {
+    background-color: #dddddd; 
+  }
+  

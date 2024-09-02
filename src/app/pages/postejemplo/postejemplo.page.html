@@ -1,0 +1,47 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>postejemplo</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">postejemplo</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-card>
+    <ion-card-content>
+      <ion-card-subtitle>nombre usuario</ion-card-subtitle>
+      <img alt="Silhouette of mountains" src="../../../assets/images/publicacion1.png" />
+      Here's a small text description for the card content. Nothing more, nothing less.
+    </ion-card-content>
+    <span class="example-spacer"></span>
+    <button mat-icon-button class="example-icon favorite-icon" aria-label="Example icon-button with heart icon">
+      <mat-icon>favorite</mat-icon>
+    </button>
+    <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon">
+      <mat-icon>share</mat-icon>
+    </button>
+    <button mat-icon-button class="example-icon" aria-label="Example delete icon">
+      <mat-icon>delete</mat-icon>
+    </button>
+  </ion-card>
+  <br>
+  <form class="example-form">
+  
+    <mat-form-field class="example-full-width">
+      <mat-label>Deja un comentario</mat-label>
+      <textarea matInput placeholder="..."></textarea>
+    </mat-form-field>
+  </form>
+
+
+</ion-content>
+
+

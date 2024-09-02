@@ -54,7 +54,27 @@ const routes: Routes = [
   {
     path: 'inicio',
     loadChildren: () => import('./pages/inicio/inicio.module').then( m => m.InicioPageModule)
+  },  {
+    path: 'modperfil',
+    loadChildren: () => import('./pages/modperfil/modperfil.module').then( m => m.ModperfilPageModule)
   },
+  {
+    path: 'modpersonajes',
+    loadChildren: () => import('./pages/modpersonajes/modpersonajes.module').then( m => m.ModpersonajesPageModule)
+  },
+  {
+    path: 'adminperfile',
+    loadChildren: () => import('./pages/adminperfile/adminperfile.module').then( m => m.AdminperfilePageModule)
+  },
+  {
+    path: 'detalle',
+    loadChildren: () => import('./pages/detalle/detalle.module').then( m => m.DetallePageModule)
+  },
+  {
+    path: 'postejemplo',
+    loadChildren: () => import('./pages/postejemplo/postejemplo.module').then( m => m.PostejemploPageModule)
+  },
+
 ];
 
 @NgModule({

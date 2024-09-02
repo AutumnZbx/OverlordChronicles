@@ -1,50 +1,51 @@
-.profile-container {
-  text-align: center;
-  padding: 20px;
+ion-header {
+  --background: #000000; /* Color de fondo del encabezado */
+  --color: #bd955b; /* Color del texto del encabezado */
+}
 
-  .profile-avatar-container {
-    position: relative;
-    display: inline-block;
+ion-content {
+  background-image: url('../../../assets/images/background-1.jpeg'); 
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  min-height: 100vh; 
+}
 
-    .profile-avatar {
-      width: 200px;
-      height: 200px;
-      margin: 0 auto;
-      border-radius: 50%;
-      overflow: hidden;
+.avatar {
+  margin-top: 20px;
+  margin-left: auto;
+  margin-right: auto;
+  height: 15%;
+  width: 25%;
+}
+.avatar ion-button {
+  margin-left: auto;
+  margin-right: auto;
+}
+ion-button{
+  background-color: #141826; 
+  color: #bd955b;
+}
+
+mat-tab-group {
+  ion-card {
+    background-color: #141826; /* Color de fondo de las tarjetas */
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin: 16px;
+
+    ion-card-title,
+    ion-card-subtitle {
+      color: #bd955b; /* Color del texto del título y subtítulo */
     }
 
-    .change-image-button {
-      position: absolute;
-      bottom: 10px;
-      right: 10px;
-      background-color: rgba(0, 0, 0, 0.6);
-      border-radius: 50%;
-      padding: 10px;
-      --ion-color-base: #ffffff;
-      font-size: 1.5rem;
+    ion-card-content {
+      color: #bd955b; /* Color del texto del contenido */
     }
 
-    ion-icon {
-      font-size: 1.5rem;
+    ion-button {
+      --color: #141826; /* Color de los botones */
+      margin-right: 8px;
     }
   }
-}
-
-.posts-container {
-  margin-top: 20px;
-}
-
-ion-list-header {
-  margin-top: 20px;
-  font-weight: bold;
-}
-
-ion-button {
-  margin-top: 20px;
-}
-
-
-ion-button {
-  margin-top: 20px;
 }

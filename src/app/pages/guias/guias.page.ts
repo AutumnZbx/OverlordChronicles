@@ -21,50 +21,11 @@ export class GuiasPage implements OnInit {
    }
     ngOnInit() {
     }
-  
-    irPerfil(){
-      let navigationextras: NavigationExtras = {
-        state:{
-          nombre: this.usuario,
-        }
-      }
-      this.router.navigate(['/perfil'],navigationextras);
+    crear(){
+      this.router.navigate(['/crear-guia']);
     }
   
-    irPersonajes(){
-      let navigationextras: NavigationExtras = {
-        state:{
-          nombre: this.usuario,
-        }
-      }
-      this.router.navigate(['/personajes'],navigationextras);
-    }
-  
-    irGuias(){
-      let navigationextras: NavigationExtras = {
-        state:{
-          nombre: this.usuario,
-        }
-      }
-      this.router.navigate(['/guias'],navigationextras);
-    }
-  
-    irForo(){
-      let navigationextras: NavigationExtras = {
-        state:{
-          nombre: this.usuario,
-        }
-      }
-      this.router.navigate(['/foro'],navigationextras);
-    }
-    irHome(){
-      let navigationextras: NavigationExtras = {
-        state:{
-          nombre: this.usuario,
-        }
-      }
-      this.router.navigate(['/home'],navigationextras);
-    }
+    
 
 }
 

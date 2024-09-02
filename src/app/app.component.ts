@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router, NavigationEnd } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -6,5 +7,17 @@ import { Component } from '@angular/core';
   styleUrls: ['app.component.scss'],
 })
 export class AppComponent {
-  constructor() {}
+  VerMenu = true;
+  constructor(private router: Router) {
+    this.router.events.subscribe((event) =>{
+      if(event instanceof NavigationEnd) {
+        this.updateMenuVisibility(event.url)
+      }
+    });
+  }
+
+  updateMenuVisibility(url: string){
+    const hiddenRoutes = ['/login', '/register', '/cambiarcontra'];
+    this.VerMenu = !hiddenRoutes.includes(url);
+  }
 }
