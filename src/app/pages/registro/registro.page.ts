@@ -19,31 +19,17 @@ export class RegistroPage implements OnInit {
   ngOnInit() {
   }
 
-  async presentToast(position: 'top' | 'middle' | 'bottom') {
+  async presentToast(position: 'middle', texto:string) {
     const toast = await this.toastController.create({
-      message: 'Cuenta creada con exito',
-      duration: 2500,
+      message: texto,
+      duration: 1500,
       position: position,
     });
 
     await toast.present();
   }
 
-  togglePasswordVisibility() {
-    this.showPassword = !this.showPassword;
-  }
 
-  login(){
-    let navigationextras: NavigationExtras = {
-      state:{
-        nombre: this.username,
-        correo: this.email,
-        password: this.password
-      }
-    }
-    this.presentToast('bottom');
-    this.router.navigate(['/login'], navigationextras);
-  }
   async presentAlert() {
     const alert = await this.alertController.create({
       header: 'Se a Registrado correctamente',
@@ -54,6 +40,40 @@ export class RegistroPage implements OnInit {
     await alert.present();
   }
 
+  togglePasswordVisibility() {
+    this.showPassword = !this.showPassword;
+  }
 
+  login(){
+    if (this.username===""){
 
-}
+      this.presentToast('middle','El campo "Nombre" está vacío.');
+      return;
+    }if (this.email===""){
+
+      this.presentToast('middle','El campo "Correo electrónico" está vacío.');
+      return;
+    }if (this.password===""){
+
+      this.presentToast('middle','El campo "Contraseña" está vacío.');
+      return;
+    }if (this.password2===""){
+
+      this.presentToast('middle','El campo "Confirmar contraseña" está vacío.');
+      return;
+    }if (this.password!=this.password2){
+
+      this.presentToast('middle','Las contraseñas no coinciden.');
+      return;
+    }else{
+    let navigationextras: NavigationExtras = {
+      state:{
+        nombre: this.username,
+        correo: this.email,
+        password: this.password
+      }
+    }
+    this.presentAlert;
+    this.router.navigate(['/login'], navigationextras);
+  }
+}}

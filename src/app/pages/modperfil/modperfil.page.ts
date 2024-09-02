@@ -35,6 +35,7 @@ export class ModperfilPage implements OnInit {
   }
   
   guardar(){
+    this.presentToast('bottom');
     this.router.navigate(['/perfil']);
   }
 
