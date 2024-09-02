@@ -54,7 +54,8 @@ const routes: Routes = [
   {
     path: 'inicio',
     loadChildren: () => import('./pages/inicio/inicio.module').then( m => m.InicioPageModule)
-  },  {
+  },
+  {
     path: 'modperfil',
     loadChildren: () => import('./pages/modperfil/modperfil.module').then( m => m.ModperfilPageModule)
   },
@@ -73,6 +74,10 @@ const routes: Routes = [
   {
     path: 'postejemplo',
     loadChildren: () => import('./pages/postejemplo/postejemplo.module').then( m => m.PostejemploPageModule)
+  },
+  {
+    path: '**',
+    loadChildren: () => import('./pages/notfound/notfound.module').then( m => m.NotfoundPageModule)
   },
 
 ];
