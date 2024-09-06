@@ -30,10 +30,10 @@ export class LoginPage implements OnInit {
   ngOnInit() {
   }
 
-  async presentToast(position: 'top' | 'middle' | 'bottom') {
+  async presentToast(position: 'bottom', texto:string) {
     const toast = await this.toastController.create({
-      message: 'Inicio de sesion exitoso!',
-      duration: 1000,
+      message: texto,
+      duration: 1500,
       position: position,
     });
 
@@ -45,6 +45,16 @@ export class LoginPage implements OnInit {
   }
 
   login(){
+    if (this.username === "") {
+      this.presentToast('bottom', 'El campo "Nombre" no debe estar vacío.');
+      return;
+    }
+    
+    if (this.password === "") {
+      this.presentToast('bottom', 'El campo "Contraseña" no debe estar vacío.');
+      return;
+    }
+    
     let navigationextras: NavigationExtras = {
       state:{
         nombre: this.username,
@@ -52,7 +62,7 @@ export class LoginPage implements OnInit {
         password: this.password
       }
     }
-    this.presentToast('bottom');
+    this.presentToast('bottom', 'Inicio de sesion exitoso.');
     this.router.navigate(['/home'],navigationextras);
   }
   cambiar(){

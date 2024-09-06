@@ -19,7 +19,7 @@ export class RegistroPage implements OnInit {
   ngOnInit() {
   }
 
-  async presentToast(position: 'middle', texto:string) {
+  async presentToast(position: 'bottom', texto:string) {
     const toast = await this.toastController.create({
       message: texto,
       duration: 1500,
@@ -33,7 +33,7 @@ export class RegistroPage implements OnInit {
   async presentAlert() {
     const alert = await this.alertController.create({
       header: 'Se a Registrado correctamente',
-      message: 'Loguear para entrar',
+      message: 'Inicie sesion para entrar',
       buttons: ['Aceptar'],
     });
 
@@ -45,35 +45,53 @@ export class RegistroPage implements OnInit {
   }
 
   login(){
-    if (this.username===""){
-
-      this.presentToast('middle','El campo "Nombre" está vacío.');
+    if (this.username === "") {
+      this.presentToast('bottom', 'El campo "Nombre" no debe estar vacío.');
       return;
-    }if (this.email===""){
-
-      this.presentToast('middle','El campo "Correo electrónico" está vacío.');
+    }
+    
+    if (this.email === "") {
+      this.presentToast('bottom', 'El campo "Correo electrónico" no debe estar vacío.');
       return;
-    }if (this.password===""){
-
-      this.presentToast('middle','El campo "Contraseña" está vacío.');
+    }
+    if (!this.email.includes('@')) {
+      this.presentToast('bottom', 'El correo electrónico no es valido.');
       return;
-    }if (this.password2===""){
-
-      this.presentToast('middle','El campo "Confirmar contraseña" está vacío.');
+    }
+    
+    if (this.password === "") {
+      this.presentToast('bottom', 'El campo "Contraseña" no debe estar vacío.');
       return;
-    }if (this.password!=this.password2){
-
-      this.presentToast('middle','Las contraseñas no coinciden.');
+    }
+    
+    if (this.password2 === "") {
+      this.presentToast('bottom', 'El campo "Confirmar contraseña" no debe estar vacío.');
       return;
-    }else{
-    let navigationextras: NavigationExtras = {
-      state:{
+    }
+    
+
+    if (this.password !== this.password2) {
+      this.presentToast('bottom', 'Las contraseñas no coinciden.');
+      return;
+    }
+  
+    const passwordRegex = /^(?=.*[A-Z])(?=.*[!@#$&*])(?=.*[0-9])(?=.*[a-z]).{8,}$/;
+    
+    if (!passwordRegex.test(this.password)) {
+      this.presentToast('bottom', 'La contraseña debe tener al menos 8 caracteres, una mayúscula, un número y un carácter especial.');
+      return;
+    }
+  
+    // Si todo está bien, navega al login y muestra la alerta
+    let navigationExtras: NavigationExtras = {
+      state: {
         nombre: this.username,
         correo: this.email,
         password: this.password
       }
-    }
-    this.presentAlert;
-    this.router.navigate(['/login'], navigationextras);
+    };
+    
+    this.presentAlert();
+    this.router.navigate(['/login'], navigationExtras);
   }
-}}
+}

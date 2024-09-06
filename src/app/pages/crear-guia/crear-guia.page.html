@@ -14,22 +14,26 @@
       <ion-title size="large">Crear Guia</ion-title>
     </ion-toolbar>
   </ion-header>
-  <ion-card><ion-label>Título</ion-label>
-    <ion-input label="Escriba un título para el post" labelPlacement="floating" [counter]="true" maxlength="30"></ion-input></ion-card>
+  <ion-card>
+    <ion-label>Título</ion-label>
+    <ion-input label="Escriba un título para el post" [(ngModel)]="titulo" labelPlacement="floating" [counter]="true" maxlength="30"></ion-input>
+  </ion-card>
 
+  <ion-card>
+    <ion-label>Subtítulo</ion-label>
+    <ion-input label="Escriba un subtítulo" [(ngModel)]="subtitulo" labelPlacement="floating" [counter]="true" maxlength="30"></ion-input>
+  </ion-card>
 
-  <ion-card><ion-label>Subtítulo</ion-label>
-    <ion-input label="Escriba un subtítulo" labelPlacement="floating" [counter]="true" maxlength="30"></ion-input></ion-card>
+  <ion-card>
+    <ion-label>Guia</ion-label>
+  </ion-card>
 
-
-  <ion-card><ion-label>Escriba la guia</ion-label></ion-card>
-
-  <ion-card><ion-textarea label="Outline textarea" labelPlacement="floating" fill="outline" placeholder="Enter text"></ion-textarea></ion-card>
-
+  <ion-card>
+    <ion-textarea label="Escriba el contenido" [(ngModel)]="contenido" labelPlacement="floating" fill="outline" placeholder="Escriba su post aquí"></ion-textarea>
+  </ion-card>
 
   <div class="sign-btn-wrap">
-    <ion-button  shape="round" type="submit"  fill="solid" class="sign-btn" (click)="crear()">Crear Guia</ion-button>
-   </div>
-
+    <ion-button shape="round" type="submit" fill="solid" class="sign-btn" (click)="crear()">Crear guia</ion-button>
+  </div>
 </ion-content>
 
