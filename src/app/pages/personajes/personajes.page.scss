@@ -1,14 +1,23 @@
 ion-content {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center; 
-  align-items: center; 
-  gap: 16px; 
-  padding: 16px;
+  background-image: url('../../../assets/images/background-1.jpeg'); 
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
   min-height: 100vh; 
 }
 
+
 ion-card {
-  width: calc(50% - 16px); 
-  max-width: 300px; 
+  position: center;
+  text-align: center;
+  background-color: #141826; 
+  border-radius: 8px;
+
+  
+
+  ion-card-title{
+    color: #bd955b; 
+  }
+
+  
 }

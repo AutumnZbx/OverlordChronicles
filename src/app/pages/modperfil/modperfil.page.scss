@@ -4,7 +4,6 @@ ion-card {
     margin-bottom: 16px;
     background-color: #141826; 
     border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     padding: 16px;
 
     ion-label {
@@ -20,17 +19,19 @@ ion-card {
       --padding-end: 16px;
     }
   }
-
+.card1{
+  background-color: #141826; 
+}
 .sign-btn-wrap{
   text-align: center;
   padding-top: 45px;
  .sign-btn{
    --ion-primary-color:#bd955b;
    --background:#bd955b;
-   --background-activated:#E1EAF9;
-   --background-focused:#E1EAF9;
+   --background-activated:#141826;
+   --background-focused:#141826;
    --background-hover:#647B9D;
-   color:#F4F6FA;
+   color:#141826;
    background-color: #bd955b;
    border-radius: 25px;
  }}

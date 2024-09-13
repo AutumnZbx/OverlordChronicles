@@ -30,24 +30,7 @@
           <ion-input placeholder="email@mail.com" class="input"[(ngModel)]="email"name="email"></ion-input>
           <ion-icon name="mail-outline"></ion-icon>
         </ion-item>
-        <br>
-        <ion-item>
-          <ion-label>Escriba su nueva contraseña</ion-label>
-        </ion-item>
-        <ion-item>
-          <ion-input [type]="showPassword ? 'text' : 'password'" placeholder="contraseña" [(ngModel)]="password" name="passwordInput" class="input"></ion-input>
-          <ion-icon [name]="showPassword ? 'eye-outline' : 'eye-off-outline'" slot="end" (click)="togglePasswordVisibility()"></ion-icon>
-        </ion-item>
-        <br>
-        <ion-item>
-          <ion-label>Reesscriba su nueva contraseña</ion-label>
-        </ion-item>
-        <ion-item>
-          <ion-input [type]="showPassword ? 'text' : 'password'" placeholder="escriba de nuevo la contraseña" [(ngModel)]="password2" name="passwordInput" class="input"></ion-input>
-          <ion-icon [name]="showPassword ? 'eye-outline' : 'eye-off-outline'" slot="end" (click)="togglePasswordVisibility()"></ion-icon>
-        </ion-item>
-        <br />
-      <p *ngIf="password!=password2">las contraseña no coinciden, porfavor vuelva a digitar las contraseñas</p>
+
       <br />
       
         <div class="sign-btn-wrap">

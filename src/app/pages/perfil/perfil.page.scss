@@ -1,6 +1,6 @@
 ion-header {
-  --background: #000000; /* Color de fondo del encabezado */
-  --color: #bd955b; /* Color del texto del encabezado */
+  --background: #000000;
+  --color: #bd955b; 
 }
 
 ion-content {
@@ -26,22 +26,22 @@ ion-content {
 
 mat-tab-group {
   ion-card {
-    background-color: #141826; /* Color de fondo de las tarjetas */
+    background-color: #141826; 
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     margin: 16px;
 
     ion-card-title,
     ion-card-subtitle {
-      color: #bd955b; /* Color del texto del título y subtítulo */
+      color: #bd955b; 
     }
 
     ion-card-content {
-      color: #bd955b; /* Color del texto del contenido */
+      color: #bd955b; 
     }
 
     ion-button {
-      --color: #141826; /* Color de los botones */
+      --color: #141826; 
       margin-right: 8px;
     }
   }
