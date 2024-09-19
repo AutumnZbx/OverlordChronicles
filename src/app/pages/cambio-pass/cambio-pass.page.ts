@@ -8,6 +8,9 @@ import { AlertController } from '@ionic/angular';
   styleUrls: ['./cambio-pass.page.scss'],
 })
 export class CambioPassPage implements OnInit {
+  password: string = '';
+  password2: string = '';
+  showPassword: boolean = false;
 
   constructor(private router:Router, private alertController: AlertController) { }
 
@@ -24,9 +27,18 @@ export class CambioPassPage implements OnInit {
     await alert.present();
   }
 
+  togglePasswordVisibility() {
+    this.showPassword = !this.showPassword;
+  }
+
+  validarPassword(password: string): boolean {
+    const regex = /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/;
+    return regex.test(password);
+  }
+
   cambiarPassword(){
-    this.presentAlert('Contraseña cambiada', 'se le ha enviado a su correo un enlace en donde podra cambiar su contraseña');
-    this.router.navigate(['/inicio']);
+    this.presentAlert('Contraseña cambiada', 'Se ha cambiado la contraseña exitosamente');
+    this.router.navigate(['/perfil']);
   }
 
 }

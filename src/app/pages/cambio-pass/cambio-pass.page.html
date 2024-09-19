@@ -19,14 +19,26 @@
               Cambio de contraseña
             </ion-card-title>
             <ion-card-subtitle>
-              Escribe tu correo electronico para poder cambiar tu contraseña
+              Escribe tu nueva contraseña
             </ion-card-subtitle>
         </ion-card-header>
         <ion-card-content>
-        <ion-item>
-          <ion-input placeholder="email" class="input"></ion-input>
-          <ion-icon name="mail-outline"></ion-icon>
-        </ion-item>
+          <ion-item>
+            <ion-input label="password :"[type]="showPassword ? 'text' : 'password'" placeholder="contraseña" [(ngModel)]="password" name="passwordInput" class="input"></ion-input>
+            <ion-icon [name]="showPassword ? 'eye-outline' : 'eye-off-outline'" slot="end" (click)="togglePasswordVisibility()"></ion-icon>
+          </ion-item>
+          <ion-item>
+            <ion-input label="password :"[type]="showPassword ? 'text' : 'password'" placeholder="escriba de nuevo la contraseña" [(ngModel)]="password2" name="passwordInput" class="input"></ion-input>
+            <ion-icon [name]="showPassword ? 'eye-outline' : 'eye-off-outline'" slot="end" (click)="togglePasswordVisibility()"></ion-icon>
+          </ion-item>
+          <br />
+          <p *ngIf="password !== password2 && password2.length > 0" class="error-text">
+            Las contraseñas no coinciden, por favor vuelva a digitar las contraseñas.
+          </p>
+        <p *ngIf="!validarPassword(password) && password.length > 0" class="error-text">
+          La contraseña debe tener al menos 8 caracteres, una mayúscula, un número y un carácter especial.
+        </p>
+        <br />
         </ion-card-content>
         <div class="sign-btn-wrap">
             <ion-button  shape="round" type="submit"  fill="solid" class="sign-btn" (click)="cambiarPassword()">Cambiar contraseña</ion-button>

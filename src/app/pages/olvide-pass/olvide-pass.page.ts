@@ -25,7 +25,7 @@ export class OlvidePassPage implements OnInit {
 
   cambiarPassword(){
     this.presentAlert('Contraseña cambiada', 'se le ha enviado a su correo un enlace en donde podra cambiar su contraseña');
-    this.router.navigate(['/inicio']);
+    this.router.navigate(['/login']);
   }
 
 }

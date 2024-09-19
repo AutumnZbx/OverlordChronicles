@@ -76,11 +76,12 @@ const routes: Routes = [
     loadChildren: () => import('./pages/postejemplo/postejemplo.module').then( m => m.PostejemploPageModule)
   },
   {
-    path: '**',
-    loadChildren: () => import('./pages/notfound/notfound.module').then( m => m.NotfoundPageModule)
-  },  {
     path: 'olvide-pass',
     loadChildren: () => import('./pages/olvide-pass/olvide-pass.module').then( m => m.OlvidePassPageModule)
+  },
+  {
+    path: '**',
+    loadChildren: () => import('./pages/notfound/notfound.module').then( m => m.NotfoundPageModule)
   },
 
 

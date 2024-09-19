@@ -14,6 +14,9 @@ export class RegistroPage implements OnInit {
   password2: string = '';
   showPassword: boolean = false;
 
+  usernameTouched: boolean = false;
+  emailTouched: boolean = false;
+
   constructor(private router:Router, public alertController: AlertController, private toastController: ToastController) { }
 
   ngOnInit() {
@@ -44,44 +47,30 @@ export class RegistroPage implements OnInit {
     this.showPassword = !this.showPassword;
   }
 
-  login(){
-    if (this.username === "") {
-      this.presentToast('bottom', 'El campo "Nombre" no debe estar vacío.');
-      return;
-    }
-    
-    if (this.email === "") {
-      this.presentToast('bottom', 'El campo "Correo electrónico" no debe estar vacío.');
-      return;
-    }
-    if (!this.email.includes('@')) {
-      this.presentToast('bottom', 'El correo electrónico no es valido.');
-      return;
-    }
-    
-    if (this.password === "") {
-      this.presentToast('bottom', 'El campo "Contraseña" no debe estar vacío.');
-      return;
-    }
-    
-    if (this.password2 === "") {
-      this.presentToast('bottom', 'El campo "Confirmar contraseña" no debe estar vacío.');
-      return;
-    }
-    
+  validarEmail(email: string): boolean {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  }
 
-    if (this.password !== this.password2) {
-      this.presentToast('bottom', 'Las contraseñas no coinciden.');
-      return;
-    }
-  
-    const passwordRegex = /^(?=.*[A-Z])(?=.*[!@#$&*])(?=.*[0-9])(?=.*[a-z]).{8,}$/;
-    
-    if (!passwordRegex.test(this.password)) {
-      this.presentToast('bottom', 'La contraseña debe tener al menos 8 caracteres, una mayúscula, un número y un carácter especial.');
-      return;
-    }
-  
+  validarCampos(): boolean {
+    return this.username.trim() !== '' && this.email.trim() !== '';
+  }
+
+  validarPassword(password: string): boolean {
+    const regex = /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/;
+    return regex.test(password);
+  }
+
+  onUsernameBlur() {
+    this.usernameTouched = true;
+  }
+
+  onEmailBlur() {
+    this.emailTouched = true;
+  }
+
+
+  login(){
     // Si todo está bien, navega al login y muestra la alerta
     let navigationExtras: NavigationExtras = {
       state: {

@@ -19,11 +19,17 @@
               <ion-input placeholder="usuario" [(ngModel)]="username"name="username"></ion-input>
               <ion-icon name="person-outline"></ion-icon>
             </ion-item>
+            <p *ngIf="username.trim() === ''" class="error-text">
+              El campo de usuario no puede estar vacío.
+            </p>
             <ion-item>
               <ion-input [type]="showPassword ? 'text' : 'password'" placeholder="contraseña" [(ngModel)]="password" name="passwordInput" ></ion-input>
               <ion-icon [name]="showPassword ? 'eye-outline' : 'eye-off-outline'" slot="end" (click)="togglePasswordVisibility()"></ion-icon>
-              
             </ion-item>
+            <p *ngIf="password.trim() === ''" class="error-text">
+              El campo de usuario no puede estar vacío.
+            </p>
+      
             <div class="cambiarcontra">
               <a (click)="cambiar()">Olvidaste tu contraseña?</a>
             </div>

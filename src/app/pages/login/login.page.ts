@@ -14,6 +14,7 @@ export class LoginPage implements OnInit {
   email: string ="";
   password: string = '';
   showPassword: boolean = false;
+  
 
   constructor(private router:Router, private alertController: AlertController, private toastController: ToastController,private activedroute: ActivatedRoute) { 
     this.activedroute.queryParams.subscribe(param =>{
@@ -44,17 +45,13 @@ export class LoginPage implements OnInit {
     this.showPassword = !this.showPassword;
   }
 
+
+  validarCampos(): boolean {
+    return this.username.trim() !== '' && this.password.trim() !== '';
+  }
+
+
   login(){
-    if (this.username === "") {
-      this.presentToast('bottom', 'El campo "Nombre" no debe estar vacío.');
-      return;
-    }
-    
-    if (this.password === "") {
-      this.presentToast('bottom', 'El campo "Contraseña" no debe estar vacío.');
-      return;
-    }
-    
     let navigationextras: NavigationExtras = {
       state:{
         nombre: this.username,
@@ -66,7 +63,7 @@ export class LoginPage implements OnInit {
     this.router.navigate(['/home'],navigationextras);
   }
   cambiar(){
-    this.router.navigate(['/cambio-pass']);
+    this.router.navigate(['/olvide-pass']);
   }
   registro(){
     this.router.navigate(['/registro']);
