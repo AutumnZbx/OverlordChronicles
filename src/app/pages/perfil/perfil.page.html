@@ -4,7 +4,7 @@
       <ion-back-button></ion-back-button>
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
-    <ion-title>perfil {{ usuario }}</ion-title>
+    <ion-title>Profile {{ usuario }}</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -13,12 +13,12 @@
     <ion-avatar class="avatar">
       <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
       <ion-label margin="center">{{ usuario }}</ion-label>
-      <ion-button (click)="modperfil()">Modificar perfil</ion-button>
+      <ion-button (click)="modperfil()">Modify profile</ion-button>
     </ion-avatar>
   </div>
   <br>
   <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="center">
-    <mat-tab label="Ultimos post">
+    <mat-tab label="New post">
       <ion-card>
         <ion-card-header>
           <ion-card-title>Post 1</ion-card-title>
@@ -58,7 +58,7 @@
       </ion-card>
     </mat-tab>
   
-    <mat-tab label="Favoritos">
+    <mat-tab label="Favorite">
       <ion-card>
       <ion-card-header>
         <ion-card-title>Fav 1</ion-card-title>
@@ -99,7 +99,7 @@
       <ion-button fill="clear">Action 2</ion-button>
     </ion-card>
   </mat-tab>
-    <mat-tab label="Comentarios">
+    <mat-tab label="Comments">
     <ion-card>
       <ion-card-header>
         <ion-card-title>Ultimos post</ion-card-title>

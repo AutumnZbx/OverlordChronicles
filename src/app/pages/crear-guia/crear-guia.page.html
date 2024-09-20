@@ -4,28 +4,28 @@
       <ion-back-button></ion-back-button>
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
-    <ion-title>Crear Guia</ion-title>
+    <ion-title>Create new guide</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true" class="content-centered">
   <ion-header collapse="condense">
     <ion-toolbar > 
-      <ion-title size="large">Crear Guia</ion-title>
+      <ion-title size="large">Create new guid</ion-title>
     </ion-toolbar>
   </ion-header>
   <ion-card>
-    <ion-label>Título</ion-label>
+    <ion-label>Title</ion-label>
     <ion-input label="Escriba un título para el post" [(ngModel)]="titulo" labelPlacement="floating" [counter]="true" maxlength="30"></ion-input>
   </ion-card>
 
   <ion-card>
-    <ion-label>Subtítulo</ion-label>
+    <ion-label>Subtitle</ion-label>
     <ion-input label="Escriba un subtítulo" [(ngModel)]="subtitulo" labelPlacement="floating" [counter]="true" maxlength="30"></ion-input>
   </ion-card>
 
   <ion-card>
-    <ion-label>Guia</ion-label>
+    <ion-label>Guide</ion-label>
   </ion-card>
 
   <ion-card>
@@ -33,7 +33,7 @@
   </ion-card>
 
   <div class="sign-btn-wrap">
-    <ion-button shape="round" type="submit" fill="solid" class="sign-btn" (click)="crear()">Crear guia</ion-button>
+    <ion-button shape="round" type="submit" fill="solid" class="sign-btn" (click)="crear()">Submit guide</ion-button>
   </div>
 </ion-content>
 

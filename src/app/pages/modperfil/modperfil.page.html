@@ -4,7 +4,7 @@
       <ion-back-button></ion-back-button>
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
-    <ion-title>Modificar Perfil</ion-title>
+    <ion-title>Modify your profile</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -12,11 +12,11 @@
 
     <ion-card class="titulo">
       <br>
-      <ion-label>Modifica tu perfil </ion-label>
+      <ion-label>Modify your profile </ion-label>
 
        <ion-card-content class="card1">
         <ion-item>
-          <ion-label>Escriba nuevo nombre de usuario</ion-label>
+          <ion-label>Insert new username</ion-label>
         </ion-item>
         <ion-item class="input">
           <ion-input placeholder="nombre de usuario"[(ngModel)]="username"name="username"></ion-input>
@@ -24,7 +24,7 @@
         </ion-item>
         <br>
         <ion-item>
-          <ion-label>Escriba su nuevo email</ion-label>
+          <ion-label>Insert new email</ion-label>
         </ion-item>
         <ion-item>
           <ion-input placeholder="email@mail.com" class="input"[(ngModel)]="email"name="email"></ion-input>
@@ -32,9 +32,12 @@
         </ion-item>
 
       <br />
+      <div class="sign-btn-wrap">
+        <ion-button  shape="round" type="submit"  fill="solid" class="sign-btn" (click)="cambiarpass()">Change password</ion-button>
+    </div>
       
         <div class="sign-btn-wrap">
-            <ion-button  shape="round" type="submit"  fill="solid" class="sign-btn" (click)="guardar()">Guardar cambios</ion-button>
+            <ion-button  shape="round" type="submit"  fill="solid" class="sign-btn" (click)="guardar()">Save changes</ion-button>
         </div>
        </ion-card-content>
     </ion-card>

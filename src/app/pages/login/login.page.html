@@ -20,7 +20,7 @@
               <ion-icon name="person-outline"></ion-icon>
             </ion-item>
             <p *ngIf="username.trim() === ''" class="error-text">
-              El campo de usuario no puede estar vacío.
+              You can´t leave this state blank
             </p>
             <ion-item>
               <ion-input [type]="showPassword ? 'text' : 'password'" placeholder="contraseña" [(ngModel)]="password" name="passwordInput" ></ion-input>
@@ -31,10 +31,10 @@
             </p>
       
             <div class="cambiarcontra">
-              <a (click)="cambiar()">Olvidaste tu contraseña?</a>
+              <a (click)="cambiar()">Forgot your password?</a>
             </div>
             <div class="sign-btn-wrap">
-              <ion-button  shape="round" type="submit"  fill="solid" class="sign-btn" (click)="login()">Iniciar sesion</ion-button>
+              <ion-button  shape="round" type="submit"  fill="solid" class="sign-btn" (click)="login()">Log In</ion-button>
              </div>
           </div>
         </form>
@@ -43,7 +43,7 @@
 
 
     <div class="ion-card-footer">
-     <span>No tienes una cuenta?</span><button class="ion-no-padding" (click)="registro()" >Registrate!!</button>
+     <span>You don´t have a account?</span><button class="ion-no-padding" (click)="registro()" >Register now!</button>
       </div>
 
 </ion-content>

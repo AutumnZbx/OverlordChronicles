@@ -35,6 +35,10 @@ export class ModperfilPage implements OnInit {
     await alert.present();
   }
 
+  cambiarpass(){
+    this.router.navigate(['/cambio-pass'])
+  }
+
   
   guardar(){
     if (this.username === "") {

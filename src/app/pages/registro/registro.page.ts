@@ -14,9 +14,6 @@ export class RegistroPage implements OnInit {
   password2: string = '';
   showPassword: boolean = false;
 
-  usernameTouched: boolean = false;
-  emailTouched: boolean = false;
-
   constructor(private router:Router, public alertController: AlertController, private toastController: ToastController) { }
 
   ngOnInit() {
@@ -51,7 +48,6 @@ export class RegistroPage implements OnInit {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
   }
-
   validarCampos(): boolean {
     return this.username.trim() !== '' && this.email.trim() !== '';
   }
@@ -59,14 +55,6 @@ export class RegistroPage implements OnInit {
   validarPassword(password: string): boolean {
     const regex = /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/;
     return regex.test(password);
-  }
-
-  onUsernameBlur() {
-    this.usernameTouched = true;
-  }
-
-  onEmailBlur() {
-    this.emailTouched = true;
   }
 
 

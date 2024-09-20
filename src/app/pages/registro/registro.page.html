@@ -16,29 +16,29 @@
 
         <ion-card-header>
             <ion-card-title>
-              Registro
+              Create a new account
             </ion-card-title>
             <ion-card-subtitle>
-              Llena el siguiente formulario para crear tu cuenta
+              Fill this form to create your account
               </ion-card-subtitle>
         </ion-card-header>
        <ion-card-content>
         <ion-item class="input">
-          <ion-input label="username :" placeholder="nombre de usuario"[(ngModel)]="username" (blur)="onUsernameBlur()"  name="username"></ion-input>
+          <ion-input label="username :" placeholder="nombre de usuario"[(ngModel)]="username"  name="username"></ion-input>
           <ion-icon name="person-outline"></ion-icon>
         </ion-item>
-        <p *ngIf="emailTouched && email.trim() === ''" class="error-text">
-          El campo de correo no puede estar vacío.
+        <p *ngIf="username.trim() === ''" class="error-text">
+          Username can´t be left blank
         </p>
         <ion-item>
-          <ion-input label="email :" placeholder="email@mail.com" class="input"[(ngModel)]="email"(blur)="onEmailBlur()" name="email"></ion-input>
+          <ion-input label="email :" placeholder="email@mail.com" class="input"[(ngModel)]="email" name="email"></ion-input>
           <ion-icon name="mail-outline"></ion-icon>
         </ion-item>
-        <p *ngIf="emailTouched && !validarEmail(email) && email.trim() !== ''" class="error-text">
-          Por favor ingrese un correo electrónico válido.
+        <p *ngIf="email.trim() === ''" class="error-text">
+          Email cannot be left blank
         </p>
         <p *ngIf="!validarEmail(email) && email.trim() !== ''" class="error-text">
-          Por favor ingrese un correo electrónico válido.
+          Please use a valid email
         </p>
         <ion-item>
           <ion-input label="password :"[type]="showPassword ? 'text' : 'password'" placeholder="contraseña" [(ngModel)]="password" name="passwordInput" class="input"></ion-input>
@@ -50,10 +50,10 @@
         </ion-item>
         <br />
         <p *ngIf="password !== password2 && password2.length > 0" class="error-text">
-          Las contraseñas no coinciden, por favor vuelva a digitar las contraseñas.
+          Password don´t match. Try again
         </p>
       <p *ngIf="!validarPassword(password) && password.length > 0" class="error-text">
-        La contraseña debe tener al menos 8 caracteres, una mayúscula, un número y un carácter especial.
+        Password must have at least 8 character, a number, an uppercase and a special character
       </p>
       <br />
       
