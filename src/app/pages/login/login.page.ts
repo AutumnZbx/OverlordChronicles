@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationExtras,Router } from '@angular/router';
 import { AlertController,ToastController } from '@ionic/angular';
+import { SevicebdService } from 'src/app/services/sevicebd.service';
 
 @Component({
   selector: 'app-login',
@@ -8,36 +9,56 @@ import { AlertController,ToastController } from '@ionic/angular';
   styleUrls: ['./login.page.scss'],
 })
 export class LoginPage implements OnInit {
+  arregloUsuario: any = [
+    {
+      id_usuario: '',
+      nombre_usuario: '',
+      email: '',
+      password:'',
+      foto_perfil:'',
+    }
+  ]
 
 
-  username: string ="";
+  nombre_usuario: string ="";
   email: string ="";
-  password: string = '';
+  password: string = "";
   showPassword: boolean = false;
   
 
-  constructor(private router:Router, private alertController: AlertController, private toastController: ToastController,private activedroute: ActivatedRoute) { 
-    this.activedroute.queryParams.subscribe(param =>{
-      //validamos si recibe la informacion
-      if(this.router.getCurrentNavigation()?.extras.state){
-        //capturar la informacion
-        this.password = this.router.getCurrentNavigation()?.extras?.state?.['password'];
-        this.username = this.router.getCurrentNavigation()?.extras?.state?.['nombre'];
-        this.email = this.router.getCurrentNavigation()?.extras?.state?.['correo'];
-      }
-    });
+  constructor(private router:Router, private alertController: AlertController, private toastController: ToastController,private activedroute: ActivatedRoute,private bd:SevicebdService) { 
+    
   }
 
   ngOnInit() {
+    //consulto por el estado de la base de datos
+    this.bd.dbReady().subscribe(data=>{
+      //verifico si esta disponible
+      if(data){
+        //me subcribo al observable del select de todas las noticias
+        this.bd.fetchUsuario().subscribe(res=>{
+          //guardar ese resultado en mi variable propia
+          this.arregloUsuario = res;
+        })
+      }
+    })
   }
 
-  async presentToast(position: 'bottom', texto:string) {
-    const toast = await this.toastController.create({
-      message: texto,
-      duration: 1500,
-      position: position,
+  async presentAlert(message: string) {
+    const alert = await this.alertController.create({
+      header: 'Login Failed',
+      message,
+      buttons: ['OK']
     });
+    await alert.present();
+  }
 
+   async presentToast(message: string) {
+    const toast = await this.toastController.create({
+      message,
+      duration: 1500,
+      position: 'middle'
+    });
     await toast.present();
   }
 
@@ -47,20 +68,24 @@ export class LoginPage implements OnInit {
 
 
   validarCampos(): boolean {
-    return this.username.trim() !== '' && this.password.trim() !== '';
+    return this.email.trim() !== '' && this.password.trim() !== '';
   }
 
 
-  login(){
-    let navigationextras: NavigationExtras = {
-      state:{
-        nombre: this.username,
-        correo: this.email,
-        password: this.password
-      }
+  async login(){
+    const result = await this.bd.checkUserCredentials(this.email, this.password);
+    
+    if (result.rows.length > 0) {
+      // Successful login
+      this.presentToast('Login Successful');
+      
+      // Navigate to home or dashboard after successful login
+      this.router.navigate(['/home']);
+    } else {
+      // Failed login
+      this.presentAlert('Invalid email or password.');
     }
-    this.presentToast('bottom', 'Inicio de sesion exitoso.');
-    this.router.navigate(['/home'],navigationextras);
+
   }
   cambiar(){
     this.router.navigate(['/olvide-pass']);

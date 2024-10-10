@@ -8,77 +8,30 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">guias</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content class="ion-padding">
+  <ion-list>
+    <!-- Loop through posts and display them in ion-card -->
+    <ion-card *ngFor="let guias of guias">
+      <ion-card-header>
+        <ion-card-title>{{ guias.titulo }}</ion-card-title>
+      </ion-card-header>
 
-  <ion-card>
-    <ion-card-header class="header">
-      <ion-img src="../../../assets/images/header1.png" ></ion-img>
-      <ion-card-subtitle>Check the lastest guides provided from the community!!!</ion-card-subtitle>
-    </ion-card-header>
+      <ion-card-content>
+        <img *ngIf="guias.imagen" [src]="guias.imagen" alt="guias Image" style="width: 100%; height: auto;" />
+      <p>{{ guias.contenido }}</p>
+        <p><small>Posted on: {{ guias.fecha_publicacion }}</small></p>
+        <ion-button (click)="goToGuide(guias)" fill="outline">Ver Guia</ion-button> 
+      </ion-card-content>
+    </ion-card>
 
-    <ion-card-content>
-      <ion-card-subtitle>nombre usuario</ion-card-subtitle>
-      <img alt="Silhouette of mountains" src="https://ionicframework.com/docs/img/demos/card-media.png" />
-      Here's a small text description for the card content. Nothing more, nothing less.
-    </ion-card-content>
-    <span class="example-spacer"></span>
-    <ion-button fill="clear" color="primary">Ir a la guia</ion-button>
-    <button mat-icon-button class="example-icon favorite-icon" aria-label="Example icon-button with heart icon">
-      <mat-icon>favorite</mat-icon>
-    </button>
-    <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon">
-      <mat-icon>share</mat-icon>
-    </button>
-    <button mat-icon-button class="example-icon" aria-label="Example delete icon">
-      <mat-icon>delete</mat-icon>
-    </button>
-  </ion-card>
-    <hr>
-    <ion-card>
-    <ion-card-content>
-      <img alt="Silhouette of mountains" src="https://ionicframework.com/docs/img/demos/card-media.png" />
-      Here's a small text description for the card content. Nothing more, nothing less.
-    </ion-card-content>
-    <span class="example-spacer"></span>
-    <ion-button fill="clear" color="primary">Ir a la guia</ion-button>
-    <button mat-icon-button class="example-icon favorite-icon" aria-label="Example icon-button with heart icon">
-      <mat-icon>favorite</mat-icon>
-    </button>
-    <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon">
-      <mat-icon>share</mat-icon>
-    </button>
-    <button mat-icon-button class="example-icon" aria-label="Example delete icon">
-      <mat-icon>delete</mat-icon>
-    </button>
-  </ion-card>
-    <hr>
-    <ion-card>
-    <ion-card-content>
-      <img alt="Silhouette of mountains" src="https://ionicframework.com/docs/img/demos/card-media.png" />
-      Here's a small text description for the card content. Nothing more, nothing less.
-    </ion-card-content>
-    <span class="example-spacer"></span>
-    <ion-button fill="clear" color="primary">Ir a la guia</ion-button>
-    <button mat-icon-button class="example-icon favorite-icon" aria-label="Example icon-button with heart icon">
-      <mat-icon>favorite</mat-icon>
-    </button>
-    <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon">
-      <mat-icon>share</mat-icon>
-    </button>
-    <button mat-icon-button class="example-icon" aria-label="Example delete icon">
-      <mat-icon>delete</mat-icon>
-    </button>
-    <hr>
-    
-  </ion-card>
+    <!-- Message if no posts exist -->
+    <p *ngIf="guias.length === 0">No guide available.</p>
+  </ion-list>
 
+  <!-- Floating action button to create a new post -->
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button (click)="createGuide()">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
 </ion-content>
-
-<ion-footer>
-  <ion-button (click)="crear()">Create guide</ion-button>
-</ion-footer>

@@ -82,7 +82,11 @@ const routes: Routes = [
   {
     path: '**',
     loadChildren: () => import('./pages/notfound/notfound.module').then( m => m.NotfoundPageModule)
+  },  {
+    path: 'ejemplo-guias',
+    loadChildren: () => import('./pages/ejemplo-guias/ejemplo-guias.module').then( m => m.EjemploGuiasPageModule)
   },
+
 
 
 ];

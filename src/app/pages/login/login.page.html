@@ -16,10 +16,10 @@
         <form>
           <div class="ion-padding">
             <ion-item>
-              <ion-input placeholder="usuario" [(ngModel)]="username"name="username"></ion-input>
+              <ion-input placeholder="usuario" [(ngModel)]="email"name="username"></ion-input>
               <ion-icon name="person-outline"></ion-icon>
             </ion-item>
-            <p *ngIf="username.trim() === ''" class="error-text">
+            <p *ngIf="email.trim() === ''" class="error-text">
               You can´t leave this state blank
             </p>
             <ion-item>

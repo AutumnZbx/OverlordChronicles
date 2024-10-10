@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NavigationExtras,Router } from '@angular/router';
 import { AlertController,ToastController } from '@ionic/angular';
+import { SevicebdService } from 'src/app/services/sevicebd.service';
 
 @Component({
   selector: 'app-registro',
@@ -8,13 +9,13 @@ import { AlertController,ToastController } from '@ionic/angular';
   styleUrls: ['./registro.page.scss'],
 })
 export class RegistroPage implements OnInit {
-  username: string ="";
+  nombre_usuario: string ="";
   email: string="";
-  password: string = '';
-  password2: string = '';
+  password: string = "";
+  password2: string = "";
   showPassword: boolean = false;
-
-  constructor(private router:Router, public alertController: AlertController, private toastController: ToastController) { }
+  id_rol: number= 2;
+  constructor(private router:Router, public alertController: AlertController, private toastController: ToastController, private bd:SevicebdService) { }
 
   ngOnInit() {
   }
@@ -30,11 +31,11 @@ export class RegistroPage implements OnInit {
   }
 
 
-  async presentAlert() {
+  async presentAlert(titulo:string, msj:string) {
     const alert = await this.alertController.create({
-      header: 'Se a Registrado correctamente',
-      message: 'Inicie sesion para entrar',
-      buttons: ['Aceptar'],
+      header: titulo,
+      message: msj,
+      buttons: ['OK'],
     });
 
     await alert.present();
@@ -49,7 +50,7 @@ export class RegistroPage implements OnInit {
     return emailRegex.test(email);
   }
   validarCampos(): boolean {
-    return this.username.trim() !== '' && this.email.trim() !== '';
+    return this.nombre_usuario.trim() !== '' && this.email.trim() !== '';
   }
 
   validarPassword(password: string): boolean {
@@ -58,17 +59,14 @@ export class RegistroPage implements OnInit {
   }
 
 
-  login(){
+  async login(){
     // Si todo está bien, navega al login y muestra la alerta
-    let navigationExtras: NavigationExtras = {
-      state: {
-        nombre: this.username,
-        correo: this.email,
-        password: this.password
-      }
-    };
-    
-    this.presentAlert();
-    this.router.navigate(['/login'], navigationExtras);
+    const result = await this.bd.checkUserExists(this.nombre_usuario, this.email);
+    if (result.rows.length > 0) {
+      this.presentAlert('Error','User with this username or email already exists.');
+      return;
+    }
+    this.bd.registrarUsuario(this.nombre_usuario,this.email,this.password,this.id_rol)
+    this.router.navigate(['/login'], );
   }
 }

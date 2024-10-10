@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { NavigationExtras,Router,ActivatedRoute } from '@angular/router';
+import { Router,ActivatedRoute } from '@angular/router';
+import { SevicebdService } from 'src/app/services/sevicebd.service';
 
 @Component({
   selector: 'app-foro',
@@ -8,27 +9,32 @@ import { NavigationExtras,Router,ActivatedRoute } from '@angular/router';
 })
 export class ForoPage implements OnInit {
 
-  usuario: string ="";
+  post: any[] = [];
 
-  constructor(private router: Router, private activedroute: ActivatedRoute) { 
-    this.activedroute.queryParams.subscribe(param =>{
-      //verificar si viene la variable de contexto
-      if(this.router.getCurrentNavigation()?.extras.state){
-        //recepcionar y guardar los datos
-        this.usuario = this.router.getCurrentNavigation()?.extras?.state?.['nombre'];
-      }
-    });
+  constructor(private router: Router, private activedroute: ActivatedRoute, private bd:SevicebdService) { 
    }
     ngOnInit() {
+      this.loadPosts();
+    }
+
+    loadPosts() {
+      this.bd.getAllPosts().then(result => {
+        this.post = [];
+        for (let i = 0; i < result.rows.length; i++) {
+          this.post.push(result.rows.item(i));
+        }
+      });
     }
   
-    crear(){
+    // Navigate to the Create Post page
+    createPost() {
       this.router.navigate(['/crear-post']);
     }
 
-    irpost(){
-      this.router.navigate(['/postejemplo']);
+    goToPost(post: any) {
+      this.router.navigate(['/postejemplo', post]);
     }
+  
   
 
 }

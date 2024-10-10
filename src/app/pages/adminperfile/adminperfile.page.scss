@@ -5,27 +5,18 @@ ion-header {
   }
   
   ion-content {
-    background-image: url('../../../assets/images/fondo.jpg') 
-    
+    --background: #f0f0f5;
   }
   
-  ion-card {
-    background-color: #141826; 
-    border-radius: 8px; 
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
-    padding: 16px;
-  }
-  ion-title{
-    background-color: #141826;
-  color: #bd955b;
+  ion-item-sliding {
+    --min-height: 60px;
   }
   
-  mat-list-item {
-    color: #333333; 
-    font-weight: bold;
+  h2 {
+    font-size: 1.2em;
   }
   
-  mat-divider {
-    background-color: #dddddd; 
+  p {
+    font-size: 0.9em;
+    color: #666;
   }
-  

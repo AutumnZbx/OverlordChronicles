@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NavigationExtras,Router,ActivatedRoute } from '@angular/router';
+import { SevicebdService } from 'src/app/services/sevicebd.service';
 
 @Component({
   selector: 'app-guias',
@@ -8,21 +9,34 @@ import { NavigationExtras,Router,ActivatedRoute } from '@angular/router';
 })
 export class GuiasPage implements OnInit {
 
-  usuario: string ="";
+  guias: any[] = [];
 
-  constructor(private router: Router, private activedroute: ActivatedRoute) { 
-    this.activedroute.queryParams.subscribe(param =>{
-      //verificar si viene la variable de contexto
-      if(this.router.getCurrentNavigation()?.extras.state){
-        //recepcionar y guardar los datos
-        this.usuario = this.router.getCurrentNavigation()?.extras?.state?.['nombre'];
-      }
-    });
+  constructor(private router: Router, private activedroute: ActivatedRoute, private bd:SevicebdService) { 
+    
    }
     ngOnInit() {
+      this.loadGuides();
     }
     crear(){
       this.router.navigate(['/crear-guia']);
+    }
+
+    loadGuides() {
+      this.bd.getAllGuides().then(result => {
+        this.guias = [];
+        for (let i = 0; i < result.rows.length; i++) {
+          this.guias.push(result.rows.item(i));
+        }
+      });
+    }
+  
+    // Navigate to the Create Post page
+    createGuide() {
+      this.router.navigate(['/crear-guia']);
+    }
+
+    goToGuide(guias: any) {
+      this.router.navigate(['/ejemplo-guias', guias]);
     }
   
     

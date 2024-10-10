@@ -8,25 +8,28 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">adminperfile</ion-title>
-    </ion-toolbar>
-  </ion-header>
-  <ion-card><ion-title>Acá visualizaras los perfiles </ion-title></ion-card>
-  <ion-card>
-    <ion-title>Perfiles:</ion-title>
-    <mat-list>
-      <mat-list-item>Id :13123 | nombre usuario | <a (click)="perfil()">ir al perfil</a></mat-list-item>
-      <mat-divider></mat-divider>
-      <mat-list-item>Id :16346 | nombre usuario | <a (click)="perfil()">ir al perfil</a></mat-list-item>
-      <mat-divider></mat-divider>
-      <mat-list-item>Id :65472 | nombre usuario | <a (click)="perfil()">ir al perfil</a></mat-list-item>
-    </mat-list>
-  </ion-card>
-  
-</ion-content>
+<ion-content class="ion-padding">
+  <ion-list>
+    <!-- Loop through users and display them with ion-item-sliding -->
+    <ion-item-sliding *ngFor="let user of users">
+      <ion-item>
+        <ion-label>
+          <h2>{{ user.nombre_usuario }}</h2>
+          <p>{{ user.email }}</p>
+        </ion-label>
+      </ion-item>
 
+      <!-- Sliding options with delete button -->
+      <ion-item-options side="end">
+        <ion-item-option color="danger" (click)="confirmDeleteUser(user.id_usuario)">
+          Delete
+        </ion-item-option>
+      </ion-item-options>
+    </ion-item-sliding>
+  </ion-list>
+
+  <!-- Message if no users exist -->
+  <p *ngIf="users.length === 0">No users available.</p>
+</ion-content>
 
 
