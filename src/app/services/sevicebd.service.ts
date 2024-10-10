@@ -19,7 +19,7 @@ export class SevicebdService {
 
   tablaPost: string = "CREATE TABLE IF NOT EXISTS post (id_post INTEGER PRIMARY KEY AUTOINCREMENT, titulo TEXT NOT NULL, contenido TEXT NOT NULL, imagen BLOB , fecha_publicacion DATETIME DEFAULT CURRENT_TIMESTAMP, id_usuario INTEGER NOT NULL, FOREIGN KEY (id_usuario) REFERENCES usuario(id_usuario) ON DELETE CASCADE);";
 
-  tablaGuias: string = "CREATE TABLE IF NOT EXISTS guias (id_guia INTEGER PRIMARY KEY AUTOINCREMENT,titulo TEXT NOT NULL, contenido TEXT NOT NULL, imagen TEXT , fecha_publicacion DATETIME DEFAULT CURRENT_TIMESTAMP, id_usuario INTEGER NOT NULL, FOREIGN KEY (id_usuario) REFERENCES usuario(id_usuario) ON DELETE CASCADE);";
+  tablaGuias: string = "CREATE TABLE IF NOT EXISTS guias (id_guia INTEGER PRIMARY KEY AUTOINCREMENT,titulo TEXT NOT NULL, contenido TEXT NOT NULL, imagen BLOB , fecha_publicacion DATETIME DEFAULT CURRENT_TIMESTAMP, id_usuario INTEGER NOT NULL, FOREIGN KEY (id_usuario) REFERENCES usuario(id_usuario) ON DELETE CASCADE);";
 
   tablaPersonajes: string = "CREATE TABLE IF NOT EXISTS personajes (id_personaje INTEGER PRIMARY KEY AUTOINCREMENT, nombre_personaje TEXT NOT NULL, descripcion TEXT);";
 
