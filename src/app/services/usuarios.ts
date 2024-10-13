@@ -5,4 +5,5 @@ export class Usuarios {
     password!:string;
     foto_perfil!:object;
 
+
 }

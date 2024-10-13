@@ -21,6 +21,9 @@
       <p>{{ post.contenido }}</p>
         <p><small>Posted on: {{ post.fecha_publicacion }}</small></p>
         <ion-button (click)="goToPost(post)" fill="outline">Ver Post</ion-button> 
+        <button mat-icon-button class="example-icon" aria-label="Example delete icon" slot="end" (click)="deletePost(post.id_post)">
+          <mat-icon>delete</mat-icon>
+        </button>
       </ion-card-content>
     </ion-card>
 

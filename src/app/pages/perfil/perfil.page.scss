@@ -1,48 +1,93 @@
-ion-header {
-  --background: #000000;
+/* Cambiar el color de fondo general de la página */
+ion-content {
+  background-color: #141826; /* Color de fondo deseado */
+  --background: #141826;
+}
+
+ion-toolbar {
+  --background: #141826;
   --color: #bd955b; 
 }
 
-ion-content {
-  background-image: url('../../../assets/images/background-1.jpeg'); 
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  min-height: 100vh; 
+.profile-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px 0 20px;
+  background-color: #141826;
 }
 
+/* Contenedor para el avatar con el ícono encima */
+.avatar-container {
+  position: relative;
+  width: 150px;
+  height: 150px;
+  margin-bottom: 10px;
+}
+
+/* Avatar circular */
 .avatar {
-  margin-top: 20px;
-  margin-left: auto;
-  margin-right: auto;
-  height: 15%;
-  width: 25%;
-}
-.avatar ion-button {
-  margin-left: auto;
-  margin-right: auto;
+  width: 100%;
+  height: 100%;
+  border: 4px solid #bd955b;
+  border-radius: 50%;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
+/* Imagen del avatar */
+.avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
 
-mat-tab-group {
-  ion-card {
-    background-color: #141826; 
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    margin: 16px;
+/* Ícono para editar encima de la foto */
+.edit-icon {
+  position: absolute;
+  bottom: 5px;
+  right: 5px;
+  background-color: #bd955b;
+  color: #141826;
+  border-radius: 50%;
+  font-size: 24px;
+  padding: 6px;
+  cursor: pointer;
+  z-index: 10;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+}
 
-    ion-card-title,
-    ion-card-subtitle {
-      color: #bd955b; 
-    }
+/* Botón de modificar perfil */
+.edit-profile-button {
+  --background: #bd955b;
+  --color: #141826;
+  margin-top: 10px;
+  width: 80%;
+  border-radius: 8px;
+  --ion-button-hover-background: #e0bc86;
+}
 
-    ion-card-content {
-      color: #bd955b; 
-    }
+/* Estilo del mat-tab */
+.custom-tab-group {
+  background-color: #141826; /* Fondo personalizado para los tabs */
+  --text-color: #bd955b;
+}
 
-    ion-button {
-      --color: #141826; 
-      margin-right: 8px;
-    }
-  }
+/* Estilo para el título del tab activo */
+.mat-tab-label-active {
+  color: #e0bc86 !important; /* Color del texto del tab activo */
+}
+
+/* Card de los posts y guías */
+ion-card {
+  margin: 10px;
+  border-radius: 12px;
+  background-color: #141826;
+  --ion-card-background: #323541;
+  --ion-text-color: #bd955b;
+}
+
+ion-card-title {
+  font-size: 1.2em;
+  font-weight: bold;
 }

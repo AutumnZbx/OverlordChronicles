@@ -6,6 +6,11 @@ ion-content {
   min-height: 100vh; 
 }
 
+ion-header {
+  --background: #141826; 
+  --color: #bd955b; 
+}
+
 
 ion-card {
   position: center;

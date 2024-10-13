@@ -1,0 +1,47 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-card class="custom-card" *ngIf="post">
+    <ion-card-header>
+      <ion-card-title>{{ post.titulo }}</ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content>
+      <img *ngIf="post.imagen" [src]="post.imagen" alt="Post Image" class="post-image" />
+      <p>{{ post.contenido }}</p>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card *ngFor="let comentario of comentarios" class="comment-card">
+    <ion-card-content>
+      <p>{{ comentario.mensaje }}</p>
+      <div class="comment-footer">
+        <span class="username">{{ comentario.usuario }}</span>
+        <ion-icon name="trash" class="delete-icon" (click)="deleteComment(comentario.id)"></ion-icon>
+      </div>
+    </ion-card-content>
+  </ion-card>
+</ion-content>
+
+<!-- Caja de comentario flotante -->
+<div [class.show]="showCommentInput" class="comment-box-overlay">
+  <ion-item>
+    <ion-textarea [(ngModel)]="comentario" maxlength="250" placeholder="Escribe tu comentario"></ion-textarea>
+  </ion-item>
+  <p class="char-counter">{{ comentario.length || 0 }} / 250 caracteres</p>
+  <ion-button expand="block" (click)="submitComment()">Subir comentario</ion-button>
+</div>
+
+<!-- FAB para abrir la caja de comentarios -->
+<ion-fab vertical="bottom" horizontal="end" slot="fixed">
+  <ion-fab-button (click)="toggleCommentInput()">
+    <ion-icon name="chatbubbles"></ion-icon>
+  </ion-fab-button>
+</ion-fab>

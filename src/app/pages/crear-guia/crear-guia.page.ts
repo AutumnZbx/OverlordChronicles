@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
 import { SevicebdService } from 'src/app/services/sevicebd.service';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
+import { NativeStorage } from '@awesome-cordova-plugins/native-storage/ngx';
 
 @Component({
   selector: 'app-crear-guia',
@@ -15,10 +16,19 @@ export class CrearGuiaPage implements OnInit {
   titulo: string = '';
   contenido: string = '';
   imagen: any;
+  currentUserId: number = 0;
 
-  constructor(private router: Router, private alertController: AlertController, private sanitizer: DomSanitizer, private bd:SevicebdService) { }
+  constructor(private router: Router, private alertController: AlertController, private sanitizer: DomSanitizer, private bd:SevicebdService,private storage: NativeStorage) { }
 
   ngOnInit() {
+    const storedUser = localStorage.getItem('user');
+    if (storedUser) {
+      const user = JSON.parse(storedUser);
+      this.currentUserId = user.id_usuario; // Asignar el ID del usuario logueado
+    } else {
+      // Si no hay usuario logueado, redirigir a la página de login
+      this.router.navigate(['/login']);
+    }
   }
 
   takePicture = async () => {
@@ -43,9 +53,19 @@ export class CrearGuiaPage implements OnInit {
       return;
     }
 
-    // Save post data including the image
-    this.bd.addGuide(this.titulo, this.contenido, this.imagen).then(() => {
-      this.router.navigate(['/guias']);
+    // Guardar los datos del post, incluyendo la imagen y el ID del usuario
+    this.bd.addGuia(this.titulo, this.contenido, this.imagen, this.currentUserId).then(() => {
+      this.router.navigate(['/guias']);  // Redirigir al foro tras crear el post
     });
+
+  }
+  
+  async presentAlert(message: string) {
+    const alert = await this.alertController.create({
+      header: 'Error',
+      message,
+      buttons: ['OK']
+    });
+    await alert.present();
   }
 }

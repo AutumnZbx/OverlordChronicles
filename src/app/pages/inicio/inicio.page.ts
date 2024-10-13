@@ -14,8 +14,15 @@ export class InicioPage implements OnInit {
   constructor(private router:Router, private storage: NativeStorage,
     private bd:SevicebdService) { }
 
-  ngOnInit() {
+  async ngOnInit() {
     this.bd.dbReady();
+    // Verificar si el usuario ya está logueado
+    const storedUser = await localStorage.getItem('user');
+    
+    if (storedUser) {
+      // Si está logueado, redirigir a la página principal
+      this.router.navigate(['/home']);
+    }
   }
 
   login(){

@@ -4,6 +4,8 @@ import { BehaviorSubject, Observable} from 'rxjs';
 import { AlertController, Platform } from '@ionic/angular';
 import { Rol } from './rol';
 import { Usuarios } from './usuarios';
+import { Post } from './post';
+import { Guias } from './guias';
 
 @Injectable({
   providedIn: 'root'
@@ -31,7 +33,7 @@ export class SevicebdService {
   //registroNoticia: string = "INSERT or IGNOREJ INTO noticia(idnoticia, titulo, texto) VALUES (1, 'Soy un titulo', 'Soy un texto co,mo contenido de la noticia recien creada');";
   rolesApp: string = "INSERT or IGNORE INTO rol (nombre_rol) VALUES ('Admin'); INSERT INTO roles (nombre_rol) VALUES ('Usuario');"
 
-  usuariosApp: string = "INSERT or IGNORE INTO usuario (nombre_usuario,email,password,foto_perfil,id_rol) VALUES ('Admin','chris.sellao@gmail.com','Kuki2024*',NULL,'1');"
+  usuariosApp: string = "INSERT or IGNORE INTO usuario (nombre_usuario,email,password,foto_perfil,id_rol) VALUES ('Admin','chris.sellao@gmail.com','Kuki2024*','assets/images/alain_thumb.png','1');"
 
   //postApp: string = "INSERT or IGNORE INTO post ()"
 
@@ -55,6 +57,37 @@ export class SevicebdService {
   fetchUsuario(): Observable<Usuarios[]>{
     return this.listaApp.asObservable();
   }
+  fetchPost(): Observable<Post[]>{
+    return this.listaApp.asObservable();
+  }
+  getPostById(id_post: number) {
+    const sql = 'SELECT * FROM post WHERE id_post = ?';
+    return this.database.executeSql(sql, [id_post]).then(res => {
+      if (res.rows.length > 0) {
+        return res.rows.item(0); // Retorna el primer resultado si lo hay
+      } else {
+        return null; // Retorna null si no hay resultados
+      }
+    }).catch(e => {
+      console.error('Error al obtener el post:', e);
+      return null;
+    });
+  }
+  getGuideById(id_guia: number) {
+    const sql = 'SELECT * FROM guias WHERE id_guia = ?';
+    return this.database.executeSql(sql, [id_guia]).then(res => {
+      if (res.rows.length > 0) {
+        return res.rows.item(0); // Retorna el primer resultado si lo hay
+      } else {
+        return null; // Retorna null si no hay resultados
+      }
+    }).catch(e => {
+      console.error('Error al obtener la guia:', e);
+      return null;
+    });
+  }
+
+
   dbReady(){
     return this.isDBReady.asObservable();
   }
@@ -131,7 +164,8 @@ export class SevicebdService {
   }
 
   registrarUsuario(nombre_usuario: string, email: string, password:string, id_rol:number) {
-    return this.database.executeSql('INSERT INTO usuario(nombre_usuario, email, password, id_rol) VALUES(?,?,?,?)',[nombre_usuario,email,password,id_rol]).then(res=>{
+    const foto_perfil = 'assets/images/alain_thumb.png'; 
+    return this.database.executeSql('INSERT INTO usuario(nombre_usuario, email, password, foto_perfil, id_rol) VALUES(?,?,?,?,?)',[nombre_usuario,email,password,foto_perfil,id_rol]).then(res=>{
       this.presentAlert("Registro","Usuario agregado correctamente");
       this.seleccionarUsuario();
     }).catch(e=>{
@@ -139,6 +173,102 @@ export class SevicebdService {
     })
 
   }
+
+  seleccionarPost(){
+    return this.database.executeSql('SELECT * FROM post',[]).then(res=>{
+      //variable para guardar el resultado de la consulta
+      let items: Post[] = [];
+      //verificar si la consulta trae registros
+      if(res.rows.length > 0){
+        //recorro el cursor
+        for(var i = 0; i < res.rows.length; i++){
+          items.push({
+            id_post: res.rows.item(i).id_post,
+            titulo: res.rows.item(i).titulo,
+            contenido: res.rows.item(i).contenido,
+            imagen: res.rows.item(i).imagen,
+          })
+        }
+      }
+      //actualizamos el observable de este select
+      this.listaApp.next(items as any);
+    }).catch(e=>{
+      this.presentAlert('Select', 'Error: ' + JSON.stringify(e));
+    })
+  }
+  
+
+  seleccionarPostId(id_post: number){
+    return this.database.executeSql('SELECT * FROM post WHERE id_post = ?',[id_post]).then(res=>{
+      //variable para guardar el resultado de la consulta
+      let items: Post[] = [];
+      //verificar si la consulta trae registros
+      if(res.rows.length > 0){
+        //recorro el cursor
+        for(var i = 0; i < res.rows.length; i++){
+          items.push({
+            id_post: res.rows.item(i).id_post,
+            titulo: res.rows.item(i).titulo,
+            contenido: res.rows.item(i).contenido,
+            imagen: res.rows.item(i).imagen,
+          })
+        }
+      }
+      //actualizamos el observable de este select
+      this.listaApp.next(items as any);
+    }).catch(e=>{
+      this.presentAlert('Select', 'Error: ' + JSON.stringify(e));
+    })
+  }
+
+  addPost(titulo: string, contenido: string, imagen: any, id_usuario: number) {
+    const createdAt = new Date().toISOString();  // Generar la fecha de creación
+    return this.database.executeSql(
+      'INSERT INTO post (titulo, contenido, imagen, fecha_publicacion, id_usuario) VALUES (?, ?, ?, ?, ?)',  // Asegúrate de que sean 5 placeholders
+      [titulo, contenido, imagen, createdAt, id_usuario]  // Proveer los 5 valores en el mismo orden
+    ).then(res => {
+      this.presentAlert("Agregar", "Post creado correctamente");
+      this.seleccionarPost();  // Actualiza la lista de posts después de agregar el nuevo
+    }).catch(e => {
+      this.presentAlert('Agregar', 'Error: ' + JSON.stringify(e));
+    });
+}
+
+  seleccionarGuia(){
+    return this.database.executeSql('SELECT * FROM guias',[]).then(res=>{
+      //variable para guardar el resultado de la consulta
+      let items: Guias[] = [];
+      //verificar si la consulta trae registros
+      if(res.rows.length > 0){
+        //recorro el cursor
+        for(var i = 0; i < res.rows.length; i++){
+          items.push({
+            id_guia: res.rows.item(i).id_guia,
+            titulo: res.rows.item(i).titulo,
+            contenido: res.rows.item(i).contenido,
+            imagen: res.rows.item(i).imagen,
+          })
+        }
+      }
+      //actualizamos el observable de este select
+      this.listaApp.next(items as any);
+    }).catch(e=>{
+      this.presentAlert('Select', 'Error: ' + JSON.stringify(e));
+    })
+  }
+
+  addGuia(titulo: string, contenido: string, imagen: any, id_usuario: number) {
+    const createdAt = new Date().toISOString();  // Generar la fecha de creación
+    return this.database.executeSql(
+      'INSERT INTO guias (titulo, contenido, imagen, fecha_publicacion, id_usuario) VALUES (?, ?, ?, ?, ?)',  
+      [titulo, contenido, imagen, createdAt, id_usuario]  
+    ).then(res => {
+      this.presentAlert("Agregar", "Post creado correctamente");
+      this.seleccionarGuia();  
+    }).catch(e => {
+      this.presentAlert('Agregar', 'Error: ' + JSON.stringify(e));
+    });
+}
 
   checkUserExists(nombre_usuario: string, email: string) {
     return this.database.executeSql(`
@@ -188,63 +318,133 @@ export class SevicebdService {
     return this.database.executeSql(`SELECT * FROM guias ORDER BY fecha_publicacion DESC`, []);
   }
 
-  addPost(titulo: string, contenido: string, imagen: any) {
-    const createdAt = new Date().toISOString();
-    const sql = `INSERT INTO post (titulo, contenido, imagen, fecha_publicacion) VALUES (?, ?, ?, ?)`;
-    return this.database.executeSql(sql, [titulo, contenido, imagen, createdAt]);
-  }
 
-  addGuide(titulo: string, contenido: string, imagen: any) {
-    const createdAt = new Date().toISOString();
-    const sql = `INSERT INTO guias (titulo, contenido, imagen, fecha_publicacion) VALUES (?, ?, ?, ?)`;
-    return this.database.executeSql(sql, [titulo, contenido, imagen, createdAt]);
-  }
-
-  getPostById(postId: string) {
-    const sql = 'SELECT * FROM post WHERE id_post = ?';
-    return this.database.executeSql(sql, [postId]).then(res => {
-      return res.rows.item(0);
+  deletePost(id_post: number) {
+    const sql = 'DELETE FROM post WHERE id_post = ?';
+    return this.database.executeSql(sql, [id_post]).then(res => {
+      console.log('Post eliminado correctamente');
+    }).catch(e => {
+      console.log('Error al eliminar post:', JSON.stringify(e));
     });
   }
 
-  getCommentsByPostId(postId: string) {
-    const sql = `SELECT c.*, u.nombre_usuario FROM comentario c JOIN usuario u ON c.id_usuario = u.id_usuario WHERE c.post_id = ? ORDER BY c.fecha_publicacion DESC`;
-    return this.database.executeSql(sql, [postId]).then(res => {
-      let comments = [];
+  deleteGuide(id_guia: number) {
+    const sql = 'DELETE FROM guias WHERE id_guia = ?';
+    return this.database.executeSql(sql, [id_guia]).then(res => {
+      console.log('Guia eliminada correctamente');
+    }).catch(e => {
+      console.log('Error al eliminar guia:', JSON.stringify(e));
+    });
+  }
+
+  changeProfilePicture(newImage: string, userId: number) {
+    const sql = 'UPDATE usuarios SET foto_perfil = ? WHERE id_usuario = ?';
+    return this.database.executeSql(sql, [newImage, userId]).then(res => {
+      console.log('Imagen de perfil actualizada');
+    }).catch(e => {
+      console.error('Error al actualizar la imagen de perfil:', JSON.stringify(e));
+    });
+  }
+
+
+  getPostsByUser(id_usuario: number) {
+    const sql = 'SELECT * FROM post WHERE id_usuario = ?';
+    return this.database.executeSql(sql, [id_usuario]).then(res => {
+      const posts: any[] | PromiseLike<any[]> = [];
       for (let i = 0; i < res.rows.length; i++) {
-        comments.push(res.rows.item(i));
+        posts.push(res.rows.item(i));
       }
-      return comments;
+      return posts; // Retorna un array con todos los posts
+    }).catch(e => {
+      console.error('Error al obtener los posts:', e);
+      return [];
     });
   }
-  addComment(postId: number, userId: number, content: string, createdAt: string) {
-    const sql = `INSERT INTO comment (id_post, id_usuario, contenido, fecha_publicacion) VALUES (?, ?, ?, ?)`;
-    return this.database.executeSql(sql, [postId, userId, content, createdAt]);
+
+  getGuiasByUser(id_usuario: number) {
+    const sql = 'SELECT * FROM guias WHERE id_usuario = ?';
+    return this.database.executeSql(sql, [id_usuario]).then(res => {
+      const guias = [];
+      for (let i = 0; i < res.rows.length; i++) {
+        guias.push(res.rows.item(i));
+      }
+      return guias; // Retorna un array con todos los posts
+    }).catch(e => {
+      console.error('Error al obtener los posts:', e);
+      return [];
+    });
   }
 
-  deleteComment(commentId: number) {
-    const sql = 'DELETE FROM comment WHERE id_comentario = ?';
-    return this.database.executeSql(sql, [commentId]);
+  getUsuarioById(id_usuario: number) {
+    const sql = 'SELECT * FROM usuario WHERE id_usuario = ?';
+    return this.database.executeSql(sql, [id_usuario]).then(res => {
+      if (res.rows.length > 0) {
+        return res.rows.item(0); // Retorna el primer resultado, que será el usuario con el ID dado
+      } else {
+        return null; // Si no se encuentra el usuario, retorna null
+      }
+    }).catch(e => {
+      console.error('Error al obtener el usuario:', e);
+      return null; // Manejo de errores
+    });
   }
 
-  deletePost(postId:string){
-    return this.database.executeSql('DELETE FROM post WHERE id_post = ?',[postId]).then(res=>{
-      this.presentAlert("Eliminar","Post eliminada exitosamente");
-      this.getAllPosts();
-    }).catch(e=>{
-      this.presentAlert('Eliminar', 'Error: ' + JSON.stringify(e));
-    })
+  updateUserRole(id_usuario: number, id_rol: number) {
+    const sql = 'UPDATE usuario SET id_rol = ? WHERE id_usuario = ?';
+    return this.database.executeSql(sql, [id_rol, id_usuario]).then(res => {
+      console.log('User role updated successfully');
+    }).catch(e => {
+      console.error('Error updating user role:', JSON.stringify(e));
+    });
   }
-
-  deleteGuide(guideId:string){
-    return this.database.executeSql('DELETE FROM guias WHERE id_guia = ?',[guideId]).then(res=>{
-      this.presentAlert("Eliminar","Guia eliminada exitosamente");
-      this.getAllGuides();
-    }).catch(e=>{
-      this.presentAlert('Eliminar', 'Error: ' + JSON.stringify(e));
-    })
-  }
-
   
+  updateFotoPerfil(id_usuario: number, imagen: string) {
+    const sql = 'UPDATE usuario SET foto_perfil = ? WHERE id_usuario = ?';
+    return this.database.executeSql(sql, [imagen, id_usuario]);
+  }
+
+  updateUsuario(id_usuario: number, cambios: any) {
+    const campos = [];
+    const valores = [];
+  
+    if (cambios.nombre_usuario) {
+      campos.push('nombre_usuario = ?');
+      valores.push(cambios.nombre_usuario);
+    }
+    if (cambios.email) {
+      campos.push('email = ?');
+      valores.push(cambios.email);
+    }
+  
+    valores.push(id_usuario);
+    const sql = `UPDATE usuario SET ${campos.join(', ')} WHERE id_usuario = ?`;
+    
+    return this.database.executeSql(sql, valores).then(() => {
+      console.log('Usuario actualizado');
+    }).catch(e => {
+      console.error('Error al actualizar el usuario:', e);
+    });
+  }
+  
+  updatePassword(id_usuario: number, nuevaContrasena: string): Promise<any> {
+    return new Promise((resolve, reject) => {
+      // Lógica para realizar la actualización en la base de datos
+      const query = `UPDATE usuario SET password = ? WHERE id_usuario = ?`;
+      
+      // Ejecutar el query para actualizar la contraseña
+      this.database.executeSql(query, [nuevaContrasena, id_usuario])
+        .then(res => {
+          if (res.rowsAffected > 0) {
+            resolve('Contraseña actualizada con éxito');
+          } else {
+            reject('No se pudo actualizar la contraseña');
+          }
+        })
+        .catch(err => {
+          console.error('Error al actualizar la contraseña:', err);
+          reject(err);
+        });
+    });
+  }
 
 }

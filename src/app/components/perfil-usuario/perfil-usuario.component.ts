@@ -10,7 +10,7 @@ export class PerfilUsuarioComponent  implements OnInit {
   userName = 'John Doe';
   userBio = 'Gamer and guide creator';
 
-  constructor(private router: Router, private activedroute: ActivatedRoute) { }
+  constructor(private router: Router, private activedroute: ActivatedRoute, ) { }
 
   ngOnInit() {}
 

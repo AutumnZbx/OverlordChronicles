@@ -1,22 +1,88 @@
-ion-header {
-    background-image: url('../../../assets/images/fondo.jpg') ;
-    --background: #4a90e2; 
-    --color: #bd955b; 
-  }
-  
-  ion-content {
-    --background: #f0f0f5;
-  }
-  
-  ion-item-sliding {
-    --min-height: 60px;
-  }
-  
-  h2 {
-    font-size: 1.2em;
-  }
-  
-  p {
-    font-size: 0.9em;
-    color: #666;
-  }
+/* Cambiar el color de fondo general de la página */
+ion-content {
+  background-color: #141826; /* Color de fondo deseado */
+  --background: #323541;
+}
+
+ion-toolbar {
+  --background: #141826;
+  --color: #bd955b; 
+}
+
+/* Estilo general para las tarjetas */
+.user-card {
+  margin-bottom: 15px;
+  border-radius: 8px;
+  background-color: #323541; /* Fondo personalizable */
+  color: #bd955b;
+  text-align: center; /* Centra los contenidos */
+}
+
+/* Header de la tarjeta */
+.user-header {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  border-bottom: 1px solid #141826;
+}
+
+/* Avatar del usuario */
+ion-avatar {
+  margin-bottom: 10px;
+}
+
+ion-avatar ion-img {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+/* Contenido de la tarjeta */
+.user-content {
+  padding: 15px;
+}
+
+/* Campo individual (label + valor) */
+.user-field {
+  margin: 10px 0;
+}
+
+.field-label {
+  font-weight: bold;
+  display: block;
+  margin-bottom: 5px;
+  font-size: 1em;
+  color: #bd955b;
+}
+
+/* Botones de acción */
+.action-buttons {
+  display: flex;
+  justify-content: space-evenly;
+  padding: 10px;
+}
+
+.custom-button {
+  width: 45%;
+  --color: #ffffff;
+  --border-radius: 8px;
+}
+
+.admin-button {
+  --background: #4caf50; /* Verde */
+  --ion-button-hover-background: #66bb6a;
+}
+
+.delete-button {
+  --background: #f44336; /* Rojo */
+  --ion-button-hover-background: #e57373;
+}
+
+/* Mensaje cuando no hay usuarios */
+.no-users-message {
+  text-align: center;
+  margin-top: 20px;
+  color: #bd955b;
+  font-size: 1.2em;
+}

@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationExtras,Router } from '@angular/router';
+import { NativeStorage } from '@awesome-cordova-plugins/native-storage/ngx';
 import { AlertController,ToastController } from '@ionic/angular';
 import { SevicebdService } from 'src/app/services/sevicebd.service';
+
 
 @Component({
   selector: 'app-login',
@@ -26,22 +28,27 @@ export class LoginPage implements OnInit {
   showPassword: boolean = false;
   
 
-  constructor(private router:Router, private alertController: AlertController, private toastController: ToastController,private activedroute: ActivatedRoute,private bd:SevicebdService) { 
+  constructor(private router:Router, private alertController: AlertController, private toastController: ToastController,private activedroute: ActivatedRoute,private bd:SevicebdService, private storage: NativeStorage) { 
     
   }
 
   ngOnInit() {
-    //consulto por el estado de la base de datos
-    this.bd.dbReady().subscribe(data=>{
-      //verifico si esta disponible
-      if(data){
-        //me subcribo al observable del select de todas las noticias
-        this.bd.fetchUsuario().subscribe(res=>{
-          //guardar ese resultado en mi variable propia
-          this.arregloUsuario = res;
-        })
-      }
-    })
+    // Verificar si hay un usuario guardado en localStorage
+    const storedUser = localStorage.getItem('user');
+    if (storedUser) {
+      // Si ya está logueado, redirigir al home
+      this.router.navigate(['/home']);
+    } else {
+      // Consultar por el estado de la base de datos
+      this.bd.dbReady().subscribe(data => {
+        if (data) {
+          // Obtener los usuarios de la base de datos
+          this.bd.fetchUsuario().subscribe(res => {
+            this.arregloUsuario = res;
+          });
+        }
+      });
+    }
   }
 
   async presentAlert(message: string) {
@@ -57,7 +64,7 @@ export class LoginPage implements OnInit {
     const toast = await this.toastController.create({
       message,
       duration: 1500,
-      position: 'middle'
+      position: 'bottom'
     });
     await toast.present();
   }
@@ -72,20 +79,31 @@ export class LoginPage implements OnInit {
   }
 
 
-  async login(){
+  async login() {
     const result = await this.bd.checkUserCredentials(this.email, this.password);
-    
+
     if (result.rows.length > 0) {
-      // Successful login
+      // Usuario autenticado correctamente
       this.presentToast('Login Successful');
-      
-      // Navigate to home or dashboard after successful login
+
+      // Obtener los datos del usuario desde la base de datos
+      const usuarioLogueado = result.rows.item(0);
+
+      // Guardar el usuario en localStorage para mantener la sesión
+      const user = {
+        id_usuario: usuarioLogueado.id_usuario,
+        nombre_usuario: usuarioLogueado.nombre_usuario,
+        email: usuarioLogueado.email,
+        foto_perfil: usuarioLogueado.foto_perfil
+      };
+      localStorage.setItem('user', JSON.stringify(user));
+
+      // Redireccionar al home o dashboard
       this.router.navigate(['/home']);
     } else {
-      // Failed login
+      // Login fallido
       this.presentAlert('Invalid email or password.');
     }
-
   }
   cambiar(){
     this.router.navigate(['/olvide-pass']);

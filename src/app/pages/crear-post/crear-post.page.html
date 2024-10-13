@@ -9,30 +9,35 @@
 </ion-header>
 
 <ion-content class="ion-padding">
+  <!-- Campo para el título con el label en la parte superior -->
   <ion-card>
-    <ion-item>
-      <ion-label>Título</ion-label>
-      <ion-input [(ngModel)]="titulo" placeholder="Escriba un título para el post"></ion-input>
-    </ion-item>
+    <ion-card-content>
+      <ion-label class="ion-text-wrap">Título</ion-label>
+      <ion-input [(ngModel)]="titulo" maxlength="50" placeholder="  Escriba un título para el post"></ion-input>
+      <p class="char-counter">{{ titulo.length || 0 }} / 50 caracteres</p>
+    </ion-card-content>
   </ion-card>
 
+  <!-- Campo para el contenido con el label en la parte superior -->
   <ion-card>
-    <ion-item>
-      <ion-label>Post</ion-label>
-      <ion-textarea [(ngModel)]="contenido" placeholder="Escriba el contenido del post"></ion-textarea>
-    </ion-item>
+    <ion-card-content>
+      <ion-label class="ion-text-wrap">Post</ion-label>
+      <ion-textarea [(ngModel)]="contenido" maxlength="250" placeholder="Escriba el contenido del post"></ion-textarea>
+      <p class="char-counter">{{ contenido.length || 0 }} / 250 caracteres</p>
+    </ion-card-content>
   </ion-card>
 
+  <!-- Botón para subir imagen y la imagen centrada debajo del contenido -->
   <ion-card>
-    <ion-item>
-      <ion-label>Imagen</ion-label>
-      <ion-button expand="block" (click)="takePicture()">Subir Imagen</ion-button>
-      <img *ngIf="imagen" [src]="imagen" alt="Sin imagen" style="height: 250px;width: 250px;" />
-    </ion-item>
+    <ion-card-content>
+      <ion-label class="ion-text-wrap">Imagen</ion-label>
+      <ion-button expand="block" (click)="takePicture()" fill="clear">Subir Imagen</ion-button>
+      <div class="image-container" *ngIf="imagen">
+        <img [src]="imagen" alt="Sin imagen" />
+      </div>
+    </ion-card-content>
   </ion-card>
 
-  <div class="sign-btn-wrap">
-    <ion-button shape="round" expand="block" fill="solid" (click)="createPost()">Crear Post</ion-button>
-  </div>
+  <ion-button class="create-post-btn" shape="round" expand="block" fill="clear" (click)="createPost()">Crear Post</ion-button>
 </ion-content>
 

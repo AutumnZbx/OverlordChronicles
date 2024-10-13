@@ -11,16 +11,21 @@
 <ion-content class="ion-padding">
   <ion-list>
     <!-- Loop through posts and display them in ion-card -->
-    <ion-card *ngFor="let guias of guias">
+    <ion-card *ngFor="let guia of guias">
       <ion-card-header>
-        <ion-card-title>{{ guias.titulo }}</ion-card-title>
+        <ion-card-title>{{ guia.titulo }}</ion-card-title>
       </ion-card-header>
 
       <ion-card-content>
-        <img *ngIf="guias.imagen" [src]="guias.imagen" alt="guias Image" style="width: 100%; height: auto;" />
-      <p>{{ guias.contenido }}</p>
-        <p><small>Posted on: {{ guias.fecha_publicacion }}</small></p>
-        <ion-button (click)="goToGuide(guias)" fill="outline">Ver Guia</ion-button> 
+        <img *ngIf="guia.imagen" [src]="guia.imagen" alt="guia Image" style="width: 100%; height: auto;" />
+      <p>{{ guia.contenido }}</p>
+        <p><small>Posted on: {{ guia.fecha_publicacion }}{{ guia.id_guias }}</small></p>
+        <ion-button (click)="goToGuide(guia)" fill="outline">Ver Guia</ion-button> 
+        <ion-buttons slot="end">
+          <ion-button color="danger" (click)="deleteGuide(guia.id_guias)">
+            <ion-icon name="trash"></ion-icon>
+          </ion-button>
+        </ion-buttons>
       </ion-card-content>
     </ion-card>
 

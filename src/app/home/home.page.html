@@ -4,11 +4,11 @@
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
     <ion-title>
-      Home {{usuario}}
+      Home 
     </ion-title>
     <ion-button slot="end"fill="clear"id="click-trigger">
       <ion-avatar>
-      <img src="/src/assets/images/alain_thumb.png">
+        <img [src]="usuario.foto_perfil">
     </ion-avatar></ion-button>
     <ion-popover trigger="click-trigger" triggerAction="click">
     <ng-template>
@@ -18,26 +18,30 @@
   </ion-toolbar>
 </ion-header>
 
+
+<ion-button (click)="logout()" slot="end" >Logout</ion-button>
 <ion-content class="ion-padding">
-  <ion-card>
+  <ion-button (click)="logout()" slot="end" >Logout</ion-button>
+  <ion-card >
     <ion-card-header>
       <ion-card-title>Latest Posts</ion-card-title>
+      
     </ion-card-header>
 
-    <ion-card-content *ngIf="latestPosts.length === 0">
+    <ion-card-content *ngIf="latestPosts.length === 0" >
       <p>No posts available.</p>
     </ion-card-content>
 
-    <ion-list *ngIf="latestPosts.length > 0">
-      <ion-item *ngFor="let post of latestPosts">
+    <ion-list *ngIf="latestPosts.length > 0" >
+      <ion-item *ngFor="let post of latestPosts" >
         <ion-card>
           <ion-card-header>
-            <ion-card-title>{{ post.title }}</ion-card-title>
+            <ion-card-title>{{ post.titulo }}</ion-card-title>
           </ion-card-header>
           <ion-card-content>
             <img *ngIf="post.imagen" [src]="post.imagen" alt="Post Image" style="width: 100%; height: auto;" />
               <p>{{ post.contenido }}</p>
-              <ion-button (click)="goToPost(post)" fill="outline">Ver Post</ion-button> 
+              <ion-button (click)="goToPost(post)" fill="clear">Ver Post</ion-button> 
           </ion-card-content>
         </ion-card>
       </ion-item>
@@ -54,15 +58,15 @@
     </ion-card-content>
 
     <ion-list *ngIf="latestGuides.length > 0">
-      <ion-item *ngFor="let guide of latestGuides">
+      <ion-item *ngFor="let guias of latestGuides">
         <ion-card>
           <ion-card-header>
-            <ion-card-title>{{ guide.titulo }}</ion-card-title>
+            <ion-card-title>{{ guias.titulo }}</ion-card-title>
           </ion-card-header>
           <ion-card-content>
-            <img *ngIf="guide.imagen" [src]="guide.imagen" alt="guide Image" style="width: 100%; height: auto;" />
-              <p>{{ guide.contenido }}</p>
-              <ion-button (click)="goToGuide(guide)" fill="outline">Ver Guia</ion-button> 
+            <img *ngIf="guias.imagen" [src]="guias.imagen" alt="guias Image" style="width: 100%; height: 75%;" />
+              <p>{{ guias.contenido }}</p>
+              <ion-button (click)="goToGuide(guias)" fill="clear">Ver Guia</ion-button> 
           </ion-card-content>
         </ion-card>
       </ion-item>

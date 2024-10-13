@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { NavigationExtras,Router,ActivatedRoute } from '@angular/router';
 import { SevicebdService } from '../services/sevicebd.service';
+import { NativeStorage } from '@awesome-cordova-plugins/native-storage/ngx';
 
 @Component({
   selector: 'app-home',
@@ -14,11 +15,12 @@ export class HomePage {
   latestGuides: any[] = [];
 
 
-  usuario: string ="";
+  usuario: any = {}; 
 
 
-  constructor(private router: Router, private activedroute: ActivatedRoute, private bd:SevicebdService) { 
+  constructor(private router: Router, private activedroute: ActivatedRoute, private bd:SevicebdService, private storage: NativeStorage) { 
     this.loadLatestContent();
+    this.cargarDatosUsuario();
    }
 
    loadLatestContent() {
@@ -41,22 +43,49 @@ export class HomePage {
     
   }
 
-  goToPost(post: any) {
-    let navigationExtras: NavigationExtras = {
-      state: {
-        postseleccionado: post
-      }
+  // Cargar datos del usuario desde la base de datos o el almacenamiento
+  cargarDatosUsuario() {
+    // Verificar si hay un usuario guardado en localStorage
+    const storedUser = localStorage.getItem('user');
+    if (storedUser) {
+      // Parsear el usuario guardado
+      const user = JSON.parse(storedUser);
+      // Consultar por el estado de la base de datos
+      this.bd.dbReady().subscribe(data => {
+        if (data) {
+          // Obtener los datos del usuario de la base de datos
+          this.bd.getUsuarioById(user.id_usuario).then(res => {
+            this.usuario = res;
+          });
+        }
+      });
+    } else {
+      // Si no hay usuario guardado, redirigir al login o manejar el error
+      this.router.navigate(['/login']);
     }
-    this.router.navigate(['/postejemplo'], navigationExtras)
   }
 
-  goToGuide(guide: any) {
-    let navigationExtras: NavigationExtras = {
+  goToPost(post: any) {
+    const navigationExtras = {
       state: {
-        postseleccionado: guide
+        postId: post.id_post // Solo enviamos el id_post
       }
-    }
-    this.router.navigate(['/ejemplo-guias'], navigationExtras)
+    };
+    this.router.navigate(['/ejemplo-post'], navigationExtras);
+  }
+
+  goToGuide(guias: any) {
+    const navigationExtras = {
+      state: {
+        guiaId: guias.id_guia 
+      }
+    };
+    this.router.navigate(['/ejemplo-guias'], navigationExtras);
+  }
+
+  logout() {
+    localStorage.removeItem('user');
+    this.router.navigate(['/inicio']);
   }
  
   

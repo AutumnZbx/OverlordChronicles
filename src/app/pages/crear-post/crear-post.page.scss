@@ -1,47 +1,75 @@
-.content-centered {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 16px;
-    min-height: 100vh;
-    background-color: #141826; 
-  
-    ion-card {
-      width: 100%;
-      max-width: 500px;
-      margin-bottom: 16px;
-      background-color: #141826; 
-      border-radius: 8px;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-      padding: 16px;
-  
-      ion-label {
-        color: #bd955b; /* Color del texto */
-        margin-bottom: 8px;
-      }
-  
-      ion-input {
-        width: 100%;
-        --background: #141826; /* Color de fondo del campo de entrada */
-        --placeholder-color: #bd955b; /* Color del texto placeholder */
-        --padding-start: 16px;
-        --padding-end: 16px;
-      }
-    }
-
-  .sign-btn-wrap{
-    text-align: center;
-    padding-top: 45px;
-   .sign-btn{
-     --ion-primary-color:#bd955b;
-     --background:#bd955b;
-     --background-activated:#E1EAF9;
-     --background-focused:#E1EAF9;
-     --background-hover:#647B9D;
-     color:#F4F6FA;
-     background-color: #bd955b;
-     border-radius: 25px;
-   }
- }
+/* Cambiar el color de fondo general de la página */
+ion-content {
+  background-color: #141826; /* Color de fondo deseado */
+  --background: #323541;
 }
+
+ion-toolbar {
+  --background: #141826;
+  --color: #bd955b; 
+}
+
+
+ion-card-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+ion-label {
+  font-size: 1.1em;
+  margin-bottom: 8px;
+  color: #bd955b;
+}
+
+/* Estilo para los inputs */
+ion-input, ion-textarea {
+  width: 100%;
+  margin-bottom: 8px;
+  padding: 8px;
+  box-sizing: border-box;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
+
+/* Contador de caracteres */
+.char-counter {
+  font-size: 0.8em;
+  color: #888;
+  margin-top: -8px;
+  margin-bottom: 8px;
+}
+
+/* Estilo para la imagen */
+.image-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 16px;
+}
+
+.image-container img {
+  height: 250px;
+  width: 250px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+ion-button{
+  background-color: #141826; 
+  color: #bd955b;
+}
+
+/* Botón fijo para crear el post */
+.create-post-btn {
+  position: fixed;
+  background-color: #141826; 
+  color: #bd955b;
+  bottom: 16px; /* Espacio desde el borde inferior */
+  left: 50%; /* Alinear horizontalmente */
+  transform: translateX(-50%); /* Centrar el botón */
+  width: 90%; /* Ocupar el 90% del ancho de la pantalla */
+  max-width: 400px; /* Limitar el ancho máximo del botón */
+  z-index: 100; /* Asegurar que esté sobre otros elementos */
+}
+
+

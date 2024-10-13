@@ -1,13 +1,21 @@
-<ion-header [translucent]="true">
+<ion-header>
   <ion-toolbar>
-    <ion-title>ejemploGuias</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">ejemploGuias</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content class="ion-padding">
+  <ion-card *ngIf="guias">
+    <ion-card-header>
+      <ion-card-title>{{ guias.titulo }}</ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content>
+      <img *ngIf="guias.imagen" [src]="guias.imagen" alt="Guias Image" style="width: 100%; height: auto;" />
+      <p>{{ guias.contenido }}</p>
+    </ion-card-content>
+  </ion-card>
 </ion-content>

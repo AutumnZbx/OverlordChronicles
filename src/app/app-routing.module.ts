@@ -32,10 +32,6 @@ const routes: Routes = [
     loadChildren: () => import('./pages/personajes/personajes.module').then( m => m.PersonajesPageModule)
   },
   {
-    path: 'objetos',
-    loadChildren: () => import('./pages/objetos/objetos.module').then( m => m.ObjetosPageModule)
-  },
-  {
     path: 'guias',
     loadChildren: () => import('./pages/guias/guias.module').then( m => m.GuiasPageModule)
   },
@@ -72,20 +68,23 @@ const routes: Routes = [
     loadChildren: () => import('./pages/detalle/detalle.module').then( m => m.DetallePageModule)
   },
   {
-    path: 'postejemplo',
-    loadChildren: () => import('./pages/postejemplo/postejemplo.module').then( m => m.PostejemploPageModule)
-  },
-  {
     path: 'olvide-pass',
     loadChildren: () => import('./pages/olvide-pass/olvide-pass.module').then( m => m.OlvidePassPageModule)
   },
   {
-    path: '**',
-    loadChildren: () => import('./pages/notfound/notfound.module').then( m => m.NotfoundPageModule)
-  },  {
     path: 'ejemplo-guias',
     loadChildren: () => import('./pages/ejemplo-guias/ejemplo-guias.module').then( m => m.EjemploGuiasPageModule)
   },
+  {
+    path: 'ejemplo-post',
+    loadChildren: () => import('./pages/ejemplo-post/ejemplo-post.module').then( m => m.EjemploPostPageModule)
+  },
+  {
+    path: '**',
+    loadChildren: () => import('./pages/notfound/notfound.module').then( m => m.NotfoundPageModule)
+  },
+
+
 
 
 

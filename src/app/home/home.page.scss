@@ -1,33 +1,54 @@
-.home-page { 
-  background-image: url('../../assets/images/background-1.jpeg'); 
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  min-height: 100vh; 
-  
+/* Cambiar el color de fondo general de la página */
+ion-content {
+  background-color: #141826; /* Color de fondo deseado */
+  --background: #323541;
 }
 
 ion-toolbar {
   --background: #141826;
   --color: #bd955b; 
 }
-ion-card-title{
+
+ion-card-header{
   background-color: #141826;
   color: #bd955b;
 }
-
-ion-card-subtitle{
-  background-color: #141826; 
-  color: #bd955b;
+/* Estilo general para la lista de posts y guías */
+ion-list {
+  background-color: #060913;
+  padding: 0; /* Remover el padding por defecto si es necesario */
+  margin: 0;
 }
 
-ion-card {
-  background-color: #141826; 
-  color: #bd955b;
+/* Estilo para los ítems dentro de la lista */
+ion-item {
+  --background: transparent; /* Eliminar el color de fondo predeterminado de los items */
+  padding: 0;
+  margin-bottom: 16px; /* Separación entre los ítems */
+  border-radius: 10px; /* Bordes redondeados para cada item */
 }
-ion-card-content{
-  background-color: #141826; 
+
+/* Estilo para los ion-card dentro de cada ion-item */
+ion-item ion-card {
+  background-color: #141826; /* Color de fondo de los cards */
   color: #bd955b;
+  width: 100%; /* Ancho del card dentro de cada ítem */
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Sombra para los cards */
+  border-radius: 10px; /* Bordes redondeados */
+  margin: 0; /* Eliminar márgenes adicionales */
+}
+
+/* Ajustes para el contenido dentro de ion-item */
+ion-item ion-card-header, ion-item ion-card-content {
+  padding: 16px; /* Espaciado dentro del card */
+}
+
+/* Ajustes para que las imágenes no sean muy grandes */
+ion-item img {
+  width: 100%; /* Ocupa todo el ancho del card */
+  height: auto; /* Mantener la proporción de la imagen */
+  max-height: 200px; /* Limitar la altura máxima de las imágenes */
+  object-fit: cover; /* Ajuste para que las imágenes se recorten proporcionalmente */
 }
 
 ion-button{
@@ -35,16 +56,14 @@ ion-button{
   color: #bd955b;
 }
 
-ion-tab-bar {
-  --background: #141826; 
-  --color: #bd955b; 
-}
-ion-avatar {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-}
-
-ion-buttons {
-  margin-right: 10px;
+/* Ajustes específicos para pantallas móviles */
+@media (max-width: 768px) {
+  ion-item {
+    margin-bottom: 8px; /* Reducir la separación entre ítems en móviles */
+  }
+  
+  ion-item ion-card {
+    width: calc(100% - 32px); /* Ajustar el ancho de los cards en móviles */
+    margin: 8px; /* Márgenes más pequeños */
+  }
 }

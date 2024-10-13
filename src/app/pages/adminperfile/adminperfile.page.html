@@ -4,32 +4,47 @@
       <ion-back-button></ion-back-button>
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
-    <ion-title>administrar perfiles</ion-title>
+    <ion-title>Administrar Perfiles</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content class="ion-padding">
   <ion-list>
-    <!-- Loop through users and display them with ion-item-sliding -->
-    <ion-item-sliding *ngFor="let user of users">
-      <ion-item>
-        <ion-label>
-          <h2>{{ user.nombre_usuario }}</h2>
-          <p>{{ user.email }}</p>
-        </ion-label>
-      </ion-item>
+    <!-- Tarjeta por cada usuario -->
+    <ion-card *ngFor="let user of users" class="user-card">
+      <ion-card-header class="user-header">
+        <ion-avatar>
+          <ion-img [src]="user.foto_perfil" alt="User Profile"></ion-img>
+        </ion-avatar>
+      </ion-card-header>
 
-      <!-- Sliding options with delete button -->
-      <ion-item-options side="end">
-        <ion-item-option color="danger" (click)="confirmDeleteUser(user.id_usuario)">
-          Delete
-        </ion-item-option>
-      </ion-item-options>
-    </ion-item-sliding>
+      <ion-card-content class="user-content">
+        <div class="user-field">
+          <label class="field-label">User ID:</label>
+          <p>{{ user.id_usuario }}</p>
+        </div>
+
+        <div class="user-field">
+          <label class="field-label">Username:</label>
+          <p>{{ user.nombre_usuario }}</p>
+        </div>
+
+        <div class="user-field">
+          <label class="field-label">Email:</label>
+          <p>{{ user.email }}</p>
+        </div>
+      </ion-card-content>
+
+      <div class="action-buttons">
+        <ion-button class="custom-button admin-button" (click)="makeAdmin(user.id_usuario)">
+          Make Admin
+        </ion-button>
+        <ion-button class="custom-button delete-button" (click)="confirmDeleteUser(user.id_usuario)">
+          Delete User
+        </ion-button>
+      </div>
+    </ion-card>
   </ion-list>
 
-  <!-- Message if no users exist -->
-  <p *ngIf="users.length === 0">No users available.</p>
+  <p *ngIf="users.length === 0" class="no-users-message">No users available.</p>
 </ion-content>
-
-

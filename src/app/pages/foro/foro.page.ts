@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router,ActivatedRoute } from '@angular/router';
+import { NativeStorage } from '@awesome-cordova-plugins/native-storage/ngx';
+import { AlertController } from '@ionic/angular';
 import { SevicebdService } from 'src/app/services/sevicebd.service';
 
 @Component({
@@ -11,7 +13,7 @@ export class ForoPage implements OnInit {
 
   post: any[] = [];
 
-  constructor(private router: Router, private activedroute: ActivatedRoute, private bd:SevicebdService) { 
+  constructor(private router: Router, private activedroute: ActivatedRoute, private bd:SevicebdService,private storage: NativeStorage, private alertCtrl: AlertController) { 
    }
     ngOnInit() {
       this.loadPosts();
@@ -32,7 +34,37 @@ export class ForoPage implements OnInit {
     }
 
     goToPost(post: any) {
-      this.router.navigate(['/postejemplo', post]);
+      const navigationExtras = {
+        state: {
+          postId: post.id_post // Solo enviamos el id_post
+        }
+      };
+      this.router.navigate(['/ejemplo-post'], navigationExtras);
+    }
+
+    async deletePost(id_post: number) {
+      const alert = await this.alertCtrl.create({
+        header: 'Confirm Delete',
+        message: 'Are you sure you want to delete this post?',
+        buttons: [
+          {
+            text: 'Cancel',
+            role: 'cancel',
+            cssClass: 'secondary',
+          },
+          {
+            text: 'Delete',
+            handler: () => {
+              // Lógica para borrar el post de la base de datos
+              this.bd.deletePost(id_post).then(() => {
+                this.loadPosts(); // Recargar la lista de posts después de eliminar
+              });
+            },
+          },
+        ],
+      });
+  
+      await alert.present();
     }
   
   

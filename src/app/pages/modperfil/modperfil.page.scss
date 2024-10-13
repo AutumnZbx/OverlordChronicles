@@ -1,37 +1,47 @@
-ion-card {
-    width: 100%;
-    max-width: 500px;
-    margin-bottom: 16px;
-    background-color: #141826; 
-    border-radius: 8px;
-    padding: 16px;
-
-    ion-label {
-      color: #bd955b; 
-      margin-bottom: 8px;
-    }
-
-    ion-input {
-      width: 100%;
-      --background: #141826; 
-      --placeholder-color: #bd955b; 
-      --padding-start: 16px;
-      --padding-end: 16px;
-    }
-  }
-.card1{
-  background-color: #141826; 
+/* Cambiar el color de fondo general de la página */
+ion-content {
+  background-color: #141826; /* Color de fondo deseado */
+  --background: #323541;
 }
-.sign-btn-wrap{
+
+ion-toolbar {
+  --background: #141826;
+  --color: #bd955b; 
+}
+
+/* Contenedor del formulario */
+.form-container {
+  margin-top: 20px;
+}
+
+/* Texto de información debajo de los campos */
+.info-text {
+  margin-top: 10px;
+  font-size: 0.9em;
+  color: #888;
   text-align: center;
-  padding-top: 45px;
- .sign-btn{
-   --ion-primary-color:#bd955b;
-   --background:#bd955b;
-   --background-activated:#141826;
-   --background-focused:#141826;
-   --background-hover:#647B9D;
-   color:#141826;
-   background-color: #bd955b;
-   border-radius: 25px;
- }}
+}
+
+/* Botón para guardar cambios */
+.save-button {
+  margin-top: 20px;
+  --background: #bd955b;
+  --color: #141826;
+  --ion-button-hover-background: #e0bc86;
+  border-radius: 8px;
+}
+
+/* Estilo del botón para cambiar contraseña */
+.change-password-wrap {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+}
+
+.change-password-btn {
+  --background: #bd955b;
+  --color: #141826;
+  --ion-button-hover-background: #e0bc86;
+  border-radius: 8px;
+  width: 80%;
+}

@@ -1,0 +1,104 @@
+/* Cambiar el color de fondo general de la página */
+ion-content {
+  background-color: #141826;
+  --background: #323541;
+}
+
+ion-toolbar {
+  --background: #141826;
+  --color: #bd955b;
+}
+
+ion-card-header{
+  background-color: #141826;
+  color: #bd955b;
+}
+
+/* Cambiar el color de fondo del ion-card */
+.custom-card {
+  background-color: #141826;
+  --ion-card-background: #141826;
+  --ion-text-color: #bd955b;
+}
+
+/* Card de comentarios */
+.comment-card {
+  background-color: #141826;
+  --ion-card-background: #141826;
+  --ion-text-color: #bd955b;
+  margin-top: 16px;
+  border-radius: 8px;
+}
+
+/* Footer del comentario */
+.comment-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 16px;
+}
+
+/* Nombre de usuario alineado a la izquierda */
+.username {
+  font-size: 0.9em;
+  font-weight: bold;
+  color: #bd955b;
+}
+
+/* Icono de eliminar alineado a la derecha */
+.delete-icon {
+  font-size: 1.2em;
+  color: #ff3b30;
+  cursor: pointer;
+}
+
+/* Cambiar el color de fondo de los botones */
+.custom-button {
+  --background: #141826;
+  --color: #bd955b;
+  --border-radius: 8px;
+  --ion-button-hover-background: #384163;
+}
+
+/* Cambiar el color del FAB */
+.custom-fab {
+  --background: #bd955b;
+  --color: #141826;
+  --ion-fab-button-hover-background: #e0bc86;
+}
+
+/* Ajustar imagen del post */
+.post-image {
+  width: 100%;
+  height: 300px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+/* Caja de comentario como overlay */
+.comment-box-overlay {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: #141826;
+  padding: 16px;
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.2);
+  border-radius: 12px 12px 0 0;
+  z-index: 100; /* Asegura que esté sobre todo el contenido */
+  transform: translateY(100%); /* Oculta inicialmente */
+  transition: transform 0.3s ease-in-out;
+}
+
+/* Cuando se muestra, deslízalo hacia arriba */
+.comment-box-overlay.show {
+  transform: translateY(0);
+}
+
+/* Contador de caracteres */
+.char-counter {
+  text-align: right;
+  font-size: 0.8em;
+  color: #888;
+  margin-bottom: 8px;
+}

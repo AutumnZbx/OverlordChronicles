@@ -4,17 +4,17 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { ObjetosPageRoutingModule } from './objetos-routing.module';
+import { EjemploPostPageRoutingModule } from './ejemplo-post-routing.module';
 
-import { ObjetosPage } from './objetos.page';
+import { EjemploPostPage } from './ejemplo-post.page';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    ObjetosPageRoutingModule
+    EjemploPostPageRoutingModule
   ],
-  declarations: [ObjetosPage]
+  declarations: [EjemploPostPage]
 })
-export class ObjetosPageModule {}
+export class EjemploPostPageModule {}

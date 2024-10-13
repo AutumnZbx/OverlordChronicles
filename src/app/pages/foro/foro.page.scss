@@ -1,30 +1,84 @@
+/* Cambiar el color de fondo general de la página */
+ion-content {
+  background-color: #141826; /* Color de fondo deseado */
+  --background: #323541;
+}
+
+ion-toolbar {
+  --background: #141826;
+  --color: #bd955b; 
+}
 
 ion-card-title{
-    --background: #141826;
-    --color: #bd955b;
-  }
-  ion-toolbar {
-    --background: #141826; 
-    --color: #bd955b; 
-  }
-  
-  ion-card {
-    background-color:#141826;
-    color: #bd955b; 
-  }
-  
-  ion-button {
-    --background: #bd955b; 
-    --color: #141826; 
-  }
+  background-color: #141826;
+  color: #bd955b;
+}
 
-  ion-card-subtitle {
-    --background: #141826; 
-    --color: #bd955b;
+ion-list {
+  background-color: #060913;
+  padding: 0; /* Remover el padding por defecto si es necesario */
+  margin: 0;
+}
+
+ion-card {
+  position: relative; /* Para poder posicionar el botón eliminar dentro del card */
+  background-color: #141826; /* Color de fondo del card */
+  width: 100%; /* Ancho total del card */
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Sombra para los cards */
+  border-radius: 10px; /* Bordes redondeados */
+  margin: 16px 0; /* Espaciado entre los cards */
+}
+
+/* Estilo para el botón de eliminar */
+button[mat-icon-button] {
+  position: absolute; /* Posiciona el botón respecto al ion-card */
+  bottom: 10px; /* Posición desde la parte superior */
+  right: 10px; /* Posición desde la derecha */
+  background-color: transparent; /* Fondo transparente */
+  border: none; /* Sin borde */
+  cursor: pointer; /* Cambia el cursor a pointer */
+  padding: 8px;
+  z-index: 10; /* Asegura que el botón esté sobre el contenido */
+}
+
+button[mat-icon-button] mat-icon {
+  color: #ff4d4d; /* Color rojo para el icono de eliminar */
+  font-size: 24px; /* Tamaño del icono */
+}
+
+/* Ajustes para el contenido dentro del card */
+ion-card-content {
+  padding: 16px;
+}
+
+/* Ajustar las imágenes */
+ion-card img {
+  width: 100%;
+  height: auto;
+  max-height: 200px;
+  object-fit: cover;
+  margin-bottom: 8px; /* Separación entre la imagen y el contenido */
+}
+
+/* Estilo para el botón flotante (FAB) */
+ion-fab-button {
+  --background: #bd955b; /* Cambiar el color del ion-fab */
+  --color: #141826; /* Color del icono dentro del FAB */
+}
+
+ion-button{
+  background-color: #141826; 
+  color: #bd955b;
+}
+
+/* Media query para pantallas pequeñas */
+@media (max-width: 768px) {
+  ion-card {
+    margin: 8px 0;
   }
   
-  ion-footer {
-    --background: #bd955b; 
-    padding: 10px;
+  button[mat-icon-button] {
+    bottom: 8px;
+    right: 8px;
   }
-  
+}
