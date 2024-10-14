@@ -6,6 +6,7 @@ import { Rol } from './rol';
 import { Usuarios } from './usuarios';
 import { Post } from './post';
 import { Guias } from './guias';
+import { Comentarios } from './comentarios';
 
 @Injectable({
   providedIn: 'root'
@@ -27,7 +28,7 @@ export class SevicebdService {
 
   tablaObjetos: string = "CREATE TABLE IF NOT EXISTS objetos (id_objeto INTEGER PRIMARY KEY AUTOINCREMENT, nombre_objeto TEXT NOT NULL, descripcion TEXT);";
   
-  //tablaComentatios: string= "CREATE TABLE IF NOT EXISTS comentario (id_comentario INTEGER PRIMARY KEY AUTOINCREMENT,contenido TEXT NOT NULL,fecha_publicacion DATETIME,id_post INTEGER NOT NULL,FOREIGN KEY (id_post) REFERENCES post(id_post) ON DELETE CASCADE, id_usuario INTEGER NOT NULL, FOREIGN KEY (id_usuario) REFERENCES usuario(id_usuario) ON DELETE CASCADE);"
+  tablaComentatios: string= "CREATE TABLE IF NOT EXISTS comentario (id_comentario INTEGER PRIMARY KEY AUTOINCREMENT,id_post INTEGER NOT NULL,id_usuario INTEGER NOT NULL,mensaje TEXT NOT NULL,fecha DATETIME DEFAULT CURRENT_TIMESTAMP,FOREIGN KEY (id_post) REFERENCES post(id_post) ON DELETE CASCADE,FOREIGN KEY (id_usuario) REFERENCES usuario(id_usuario) ON DELETE CASCADE);"
 
   //variables de insert iniciales de las tablas
   //registroNoticia: string = "INSERT or IGNOREJ INTO noticia(idnoticia, titulo, texto) VALUES (1, 'Soy un titulo', 'Soy un texto co,mo contenido de la noticia recien creada');";
@@ -60,6 +61,10 @@ export class SevicebdService {
   fetchPost(): Observable<Post[]>{
     return this.listaApp.asObservable();
   }
+  fetchComentario(): Observable<Comentarios[]>{
+    return this.listaApp.asObservable();
+  }
+  
   getPostById(id_post: number) {
     const sql = 'SELECT * FROM post WHERE id_post = ?';
     return this.database.executeSql(sql, [id_post]).then(res => {
@@ -128,7 +133,7 @@ export class SevicebdService {
       await this.database.executeSql(this.tablaUsuarios,[]);
       await this.database.executeSql(this.tablaPost,[]);
       await this.database.executeSql(this.tablaGuias,[]);
-      //await this.database.executeSql(this.tablaComentatios,[]);
+      await this.database.executeSql(this.tablaComentatios,[]);
 
       //ejecutar los inserts en caso de que existan
       await this.database.executeSql(this.rolesApp,[]);
@@ -428,10 +433,7 @@ export class SevicebdService {
   
   updatePassword(id_usuario: number, nuevaContrasena: string): Promise<any> {
     return new Promise((resolve, reject) => {
-      // Lógica para realizar la actualización en la base de datos
       const query = `UPDATE usuario SET password = ? WHERE id_usuario = ?`;
-      
-      // Ejecutar el query para actualizar la contraseña
       this.database.executeSql(query, [nuevaContrasena, id_usuario])
         .then(res => {
           if (res.rowsAffected > 0) {
@@ -444,6 +446,46 @@ export class SevicebdService {
           console.error('Error al actualizar la contraseña:', err);
           reject(err);
         });
+    });
+  }
+
+ // Método para obtener comentarios de un post
+ async getComentariosByPost(id_post: number) {
+  const query = 'SELECT c.mensaje, u.nombre_usuario FROM comentario c INNER JOIN usuario u ON c.id_usuario = u.id_usuario WHERE c.id_post = ?';
+  try {
+    const result = await this.database.executeSql(query, [id_post]);
+    let comentarios = [];
+    for (let i = 0; i < result.rows.length; i++) {
+      comentarios.push({
+        mensaje: result.rows.item(i).mensaje,
+        usuario: result.rows.item(i).nombre_usuario
+      });
+    }
+    return comentarios;
+  } catch (error) {
+    console.error('Error al obtener los comentarios', error);
+    return [];
+  }
+}
+
+
+  // Método para guardar un comentario
+  async guardarComentario(id_post: number, id_usuario: number, mensaje: string) {
+    const query = 'INSERT INTO comentario (id_post, id_usuario, mensaje) VALUES (?, ?, ?)';
+    try {
+     await this.database.executeSql(query, [id_post, id_usuario, mensaje]);
+    } catch (error) {
+      console.error('Error al guardar el comentario', error);
+    }
+  }
+
+  // Método para eliminar un comentario
+  async eliminarComentario(id_comentario: number) {
+    const sql = 'DELETE FROM comentario WHERE id_comentario = ?';
+    return this.database.executeSql(sql, [id_comentario]).then(res => {
+      console.log('Comentario eliminado correctamente');
+    }).catch(e => {
+      console.log('Error al eliminar comentario:', JSON.stringify(e));
     });
   }
 

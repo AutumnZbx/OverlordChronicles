@@ -1,48 +1,63 @@
-<ion-header class="ion-no-border">
+<ion-header>
   <ion-toolbar>
-    <!-- <ion-title>signup</ion-title> -->
     <ion-buttons slot="start">
-      <ion-back-button defaulthref="login" text="">
-      </ion-back-button>
-      </ion-buttons>
+      <ion-back-button defaultHref="/profile"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Change Password</ion-title>
   </ion-toolbar>
-
 </ion-header>
 
-<ion-content class="bg-color">
+<ion-content class="ion-padding">
+  <div class="password-card">
+    <ion-card class="custom-card">
+      <form (submit)="changePassword()">
+        <!-- Input for the new password -->
+        <ion-item class="custom-item">
+          <ion-input
+            [type]="showPassword ? 'text' : 'password'"
+            placeholder="New Password"
+            [(ngModel)]="newPassword"
+            name="passwordInput"
+          ></ion-input>
+          <ion-icon
+            [name]="showPassword ? 'eye-outline' : 'eye-off-outline'"
+            slot="end"
+            (click)="togglePasswordVisibility()"
+          ></ion-icon>
+        </ion-item>
 
-    <ion-card class="ion-no-margin">
-      <ion-img src="../../../assets/images/logo.png"></ion-img>
+        <!-- Input for confirming the new password -->
+        <ion-item class="custom-item">
+          <ion-input
+            [type]="showConfirmPassword ? 'text' : 'password'"
+            placeholder="Confirm Password"
+            [(ngModel)]="confirmPassword"
+            name="passwordInput"
+          ></ion-input>
+          <ion-icon
+            [name]="showConfirmPassword ? 'eye-outline' : 'eye-off-outline'"
+            slot="end"
+            (click)="toggleConfirmPasswordVisibility()"
+          ></ion-icon>
+        </ion-item>
 
-        <ion-card-header>
-            <ion-card-title>
-              Change your password here
-            </ion-card-title>
-            <ion-card-subtitle>
-              Write your new password
-            </ion-card-subtitle>
-        </ion-card-header>
-        <ion-card-content>
-          <ion-item>
-            <ion-input label="password :"[type]="showPassword ? 'text' : 'password'" placeholder="password" [(ngModel)]="password" name="passwordInput" class="input"></ion-input>
-            <ion-icon [name]="showPassword ? 'eye-outline' : 'eye-off-outline'" slot="end" (click)="togglePasswordVisibility()"></ion-icon>
-          </ion-item>
-          <ion-item>
-            <ion-input label="password :"[type]="showPassword ? 'text' : 'password'" placeholder="write again your password" [(ngModel)]="password2" name="passwordInput" class="input"></ion-input>
-            <ion-icon [name]="showPassword ? 'eye-outline' : 'eye-off-outline'" slot="end" (click)="togglePasswordVisibility()"></ion-icon>
-          </ion-item>
-          <br />
-          <p *ngIf="password !== password2 && password2.length > 0" class="error-text">
-            Password don´t match. Try again
-          </p>
-        <p *ngIf="!validarPassword(password) && password.length > 0" class="error-text">
-          Password must have at least 8 character, a number, an uppercase and a special character
-        </p>
-        <br />
-        </ion-card-content>
-        <div class="sign-btn-wrap">
-            <ion-button  shape="round" type="submit"  fill="solid" class="sign-btn" (click)="cambiarPassword()">Change password</ion-button>
+        <!-- Password rules -->
+        <ion-text color="medium">
+          <p>Your new password must:</p>
+          <ul>
+            <li>Be different from your current password.</li>
+            <li>Contain at least one uppercase letter.</li>
+            <li>Contain at least one number.</li>
+            <li>Contain at least one special character.</li>
+            <li>Be at least 8 characters long.</li>
+          </ul>
+        </ion-text>
+
+        <!-- Button to submit the form -->
+        <div class="button-wrapper">
+          <ion-button type="submit" class="small-button">Change Password</ion-button>
         </div>
+      </form>
     </ion-card>
-
+  </div>
 </ion-content>

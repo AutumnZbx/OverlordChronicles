@@ -1,28 +1,33 @@
-/* Cambiar el color de fondo general de la página */
+/* Estilos del ion-content */
 ion-content {
-  background-color: #141826; /* Color de fondo deseado */
-  --background: #323541;
+  --background: none;
 }
 
+/* Estilos de la barra superior */
 ion-toolbar {
   --background: #141826;
-  --color: #bd955b; 
+  --color: #bd955b;
 }
 
-
-ion-card-content {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
+/* Estilo del ion-card */
+.custom-card {
+  background-color: #141826;
+  --ion-card-background: #141826;
+  --ion-text-color: #bd955b;
+  border: 2px solid #bd955b;
+  border-radius: 10px;
+  margin-top: 16px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
+/* Estilo para el label */
 ion-label {
   font-size: 1.1em;
   margin-bottom: 8px;
   color: #bd955b;
 }
 
-/* Estilo para los inputs */
+/* Estilos para los inputs y textareas */
 ion-input, ion-textarea {
   width: 100%;
   margin-bottom: 8px;
@@ -40,6 +45,13 @@ ion-input, ion-textarea {
   margin-bottom: 8px;
 }
 
+/* Mensaje de error */
+.error-message {
+  font-size: 0.9em;
+  color: #ff4d4d;
+  margin-top: 4px;
+}
+
 /* Estilo para la imagen */
 .image-container {
   display: flex;
@@ -52,24 +64,28 @@ ion-input, ion-textarea {
   width: 250px;
   object-fit: cover;
   border-radius: 8px;
+  border: 1px solid #bd955b;
 }
 
 ion-button{
-  background-color: #141826; 
-  color: #bd955b;
+  margin-top: 20px;
+  --background: #bd955b;
+  --color: #141826;
+  --ion-button-hover-background: #e0bc86;
+  border-radius: 8px;
 }
 
 /* Botón fijo para crear el post */
-.create-post-btn {
-  position: fixed;
-  background-color: #141826; 
-  color: #bd955b;
-  bottom: 16px; /* Espacio desde el borde inferior */
-  left: 50%; /* Alinear horizontalmente */
-  transform: translateX(-50%); /* Centrar el botón */
-  width: 90%; /* Ocupar el 90% del ancho de la pantalla */
-  max-width: 400px; /* Limitar el ancho máximo del botón */
-  z-index: 100; /* Asegurar que esté sobre otros elementos */
+.change-password-wrap {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
 }
 
-
+.change-password-btn {
+  --background: #bd955b;
+  --color: #141826;
+  --ion-button-hover-background: #e0bc86;
+  border-radius: 8px;
+  width: 80%;
+}

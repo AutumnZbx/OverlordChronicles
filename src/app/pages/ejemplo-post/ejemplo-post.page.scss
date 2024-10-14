@@ -1,33 +1,39 @@
-/* Cambiar el color de fondo general de la página */
+/* Fondo de la página */
 ion-content {
-  background-color: #141826;
-  --background: #323541;
+  --background: none;
 }
 
+/* Estilos de la barra superior */
 ion-toolbar {
   --background: #141826;
   --color: #bd955b;
 }
 
-ion-card-header{
+/* Estilo para el encabezado del card */
+ion-card-header {
   background-color: #141826;
   color: #bd955b;
 }
 
-/* Cambiar el color de fondo del ion-card */
+/* Estilo del card principal */
 .custom-card {
   background-color: #141826;
   --ion-card-background: #141826;
   --ion-text-color: #bd955b;
+  border: 2px solid #bd955b; /* Borde alrededor del card */
+  border-radius: 10px; /* Bordes redondeados */
+  margin-top: 16px; /* Espaciado superior */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra para el card */
 }
 
-/* Card de comentarios */
+/* Card de comentarios con bordes */
 .comment-card {
   background-color: #141826;
   --ion-card-background: #141826;
   --ion-text-color: #bd955b;
   margin-top: 16px;
   border-radius: 8px;
+  border: 1px solid #bd955b; /* Borde más delgado para comentarios */
 }
 
 /* Footer del comentario */
@@ -73,6 +79,7 @@ ion-card-header{
   height: 300px;
   object-fit: cover;
   border-radius: 8px;
+  border: 1px solid #bd955b; /* Agregar borde a la imagen */
 }
 
 /* Caja de comentario como overlay */

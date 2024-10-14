@@ -1,12 +1,26 @@
 /* Cambiar el color de fondo general de la página */
 ion-content {
-  background-color: #141826; /* Color de fondo deseado */
-  --background: #323541;
+  --background: none;
 }
-
 ion-toolbar {
   --background: #141826;
   --color: #bd955b; 
+}
+
+.password-card {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.custom-card {
+  background-color: #141826; /* Color de fondo del card */
+  border-radius: 20px; /* Bordes redondeados */
+  border: 2px solid #bd955b; /* Color del borde */
+  padding: 20px;
+  max-width: 400px;
+  width: 100%;
 }
 
 /* Contenedor del formulario */
@@ -14,12 +28,26 @@ ion-toolbar {
   margin-top: 20px;
 }
 
+
 /* Texto de información debajo de los campos */
 .info-text {
   margin-top: 10px;
   font-size: 0.9em;
   color: #888;
   text-align: center;
+}
+
+ion-item {
+  color:#bd955b;
+  --border-color: #bd955b;
+  --highlight-color-focused:#bd955b;
+  --background: #141826;
+  --padding-start:0;
+  --inner-padding-end:0;
+    font-size: 12px;
+     ion-input{
+       color:#bd955b;
+     }
 }
 
 /* Botón para guardar cambios */

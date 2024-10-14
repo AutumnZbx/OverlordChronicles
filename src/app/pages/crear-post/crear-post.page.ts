@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
-import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
+import { Camera, CameraResultType } from '@capacitor/camera';
 import { SevicebdService } from 'src/app/services/sevicebd.service';
 import { NativeStorage } from '@awesome-cordova-plugins/native-storage/ngx';
 
@@ -12,44 +12,59 @@ import { NativeStorage } from '@awesome-cordova-plugins/native-storage/ngx';
   styleUrls: ['./crear-post.page.scss'],
 })
 export class CrearPostPage implements OnInit {
-  // Variables para los campos del formulario
   titulo: string = '';
   contenido: string = '';
   imagen: any;
   currentUserId: number = 0;
 
-  constructor(private router: Router, private alertController: AlertController, private sanitizer: DomSanitizer, private bd:SevicebdService,private storage: NativeStorage) { }
+  // Variables de error para validar los campos
+  tituloError: boolean = false;
+  contenidoError: boolean = false;
+
+  constructor(private router: Router, private alertController: AlertController, private sanitizer: DomSanitizer, private bd: SevicebdService, private storage: NativeStorage) { }
 
   ngOnInit() {
-    // Recuperar el usuario logueado desde localStorage
     const storedUser = localStorage.getItem('user');
     if (storedUser) {
       const user = JSON.parse(storedUser);
-      this.currentUserId = user.id_usuario; // Asignar el ID del usuario logueado
+      this.currentUserId = user.id_usuario;
     } else {
-      // Si no hay usuario logueado, redirigir a la página de login
       this.router.navigate(['/login']);
     }
   }
 
-  takePicture = async () => {
+  // Validación para el título
+  validarTitulo() {
+    this.tituloError = this.titulo.length < 10 || this.titulo.length > 50;
+  }
+
+  // Validación para el contenido
+  validarContenido() {
+    this.contenidoError = this.contenido.length < 10 || this.contenido.length > 250;
+  }
+
+  // Subir imagen
+  async takePicture() {
     const image = await Camera.getPhoto({
       quality: 90,
       allowEditing: false,
       resultType: CameraResultType.Uri
     });
     this.imagen = image.webPath;
-  };
+  }
 
-  createPost() {
-    if (this.titulo === '' || this.contenido === '') {
-      this.presentAlert('All fields are required.');
+  // Crear el post después de validar
+  async createPost() {
+    this.validarTitulo();
+    this.validarContenido();
+
+    if (this.tituloError || this.contenidoError) {
+      this.presentAlert('Please ensure all fields meet the requirements.');
       return;
     }
 
-    // Guardar los datos del post, incluyendo la imagen y el ID del usuario
     this.bd.addPost(this.titulo, this.contenido, this.imagen, this.currentUserId).then(() => {
-      this.router.navigate(['/foro']);  // Redirigir al foro tras crear el post
+      this.router.navigate(['/foro']);
     });
   }
 

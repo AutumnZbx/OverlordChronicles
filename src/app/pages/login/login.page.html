@@ -1,49 +1,74 @@
-
 <ion-header class="ion-no-border">
-  <ion-toolbar>
-    <!-- <ion-title>loginscreen</ion-title> -->
-  </ion-toolbar>
+  <ion-toolbar></ion-toolbar>
   <ion-buttons slot="start">
-  <ion-back-button defaulthref="inicio" text=""></ion-back-button>
+    <ion-back-button defaultHref="inicio" text=""></ion-back-button>
   </ion-buttons>
 </ion-header>
 
 <ion-content>
-    <ion-card class="ion-no-margin">
-      <ion-img src="../../../assets/images/header2.png"></ion-img>
-      <ion-card-content>
+  <ion-card class="ion-no-margin">
+    <ion-img src="../../../assets/images/header2.png"></ion-img>
+    <ion-card-content>
+      <form (submit)="handleLogin()">
+        <div class="ion-padding">
+          <!-- Username or Email Input -->
+          <ion-item>
+            <ion-input 
+              placeholder="Enter username or email" 
+              [(ngModel)]="email" 
+              name="username" 
+              (focus)="emailTouched = true" 
+              (blur)="validateEmail()">
+            </ion-input>
+            <ion-icon name="person-outline"></ion-icon>
+          </ion-item>
+          <p *ngIf="emailTouched && showEmailError" class="error-text">
+            You can't leave this field empty.
+          </p>
 
-        <form>
-          <div class="ion-padding">
-            <ion-item>
-              <ion-input placeholder="usuario" [(ngModel)]="email"name="username"></ion-input>
-              <ion-icon name="person-outline"></ion-icon>
-            </ion-item>
-            <p *ngIf="email.trim() === ''" class="error-text">
-              You can´t leave this state blank
-            </p>
-            <ion-item>
-              <ion-input [type]="showPassword ? 'text' : 'password'" placeholder="contraseña" [(ngModel)]="password" name="passwordInput" ></ion-input>
-              <ion-icon [name]="showPassword ? 'eye-outline' : 'eye-off-outline'" slot="end" (click)="togglePasswordVisibility()"></ion-icon>
-            </ion-item>
-            <p *ngIf="password.trim() === ''" class="error-text">
-              El campo de usuario no puede estar vacío.
-            </p>
-      
-            <div class="cambiarcontra">
-              <a (click)="cambiar()">Forgot your password?</a>
-            </div>
-            <div class="sign-btn-wrap">
-              <ion-button  shape="round" type="submit"  fill="solid" class="sign-btn" (click)="login()">Log In</ion-button>
-             </div>
+          <!-- Password Input -->
+          <ion-item>
+            <ion-input 
+              [type]="showPassword ? 'text' : 'password'" 
+              placeholder="Password" 
+              [(ngModel)]="password" 
+              name="passwordInput" 
+              (focus)="passwordTouched = true" 
+              (blur)="validatePassword()">
+            </ion-input>
+            <ion-icon 
+              [name]="showPassword ? 'eye-outline' : 'eye-off-outline'" 
+              slot="end" 
+              (click)="togglePasswordVisibility()">
+            </ion-icon>
+          </ion-item>
+          <p *ngIf="passwordTouched && showPasswordError" class="error-text">
+            Password cannot be empty.
+          </p>
+
+          <!-- Forgot Password Link -->
+          <div class="forgot-password">
+            <a (click)="cambiar()">Forgot your password?</a>
           </div>
-        </form>
-      </ion-card-content>
-    </ion-card>
 
+          <!-- Login Button -->
+          <div class="sign-btn-wrap">
+            <ion-button 
+              shape="round" 
+              type="submit" 
+              fill="solid" 
+              class="sign-btn">
+              Log In
+            </ion-button>
+          </div>
+        </div>
+      </form>
+    </ion-card-content>
+  </ion-card>
 
-    <div class="ion-card-footer">
-     <span>You don´t have a account?</span><button class="ion-no-padding" (click)="registro()" >Register now!</button>
-      </div>
-
+  <!-- Register Footer -->
+  <div class="ion-card-footer">
+    <span>Don't have an account?</span>
+    <button class="ion-no-padding" (click)="registro()">Register now!</button>
+  </div>
 </ion-content>

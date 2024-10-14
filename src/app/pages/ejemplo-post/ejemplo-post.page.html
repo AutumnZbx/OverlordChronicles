@@ -16,6 +16,7 @@
     <ion-card-content>
       <img *ngIf="post.imagen" [src]="post.imagen" alt="Post Image" class="post-image" />
       <p>{{ post.contenido }}</p>
+      <ion-button (click)="copiarTexto()">Copiar Texto</ion-button>
     </ion-card-content>
   </ion-card>
 
@@ -33,9 +34,9 @@
 <!-- Caja de comentario flotante -->
 <div [class.show]="showCommentInput" class="comment-box-overlay">
   <ion-item>
-    <ion-textarea [(ngModel)]="comentario" maxlength="250" placeholder="Escribe tu comentario"></ion-textarea>
+    <ion-textarea [(ngModel)]="comentario" maxlength="100" placeholder="Escribe tu comentario (máx. 100 caracteres)"></ion-textarea>
   </ion-item>
-  <p class="char-counter">{{ comentario.length || 0 }} / 250 caracteres</p>
+  <p class="char-counter">{{ comentario.length || 0 }} / 100 caracteres</p>
   <ion-button expand="block" (click)="submitComment()">Subir comentario</ion-button>
 </div>
 

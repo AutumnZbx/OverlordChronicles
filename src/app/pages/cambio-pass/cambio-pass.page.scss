@@ -1,100 +1,74 @@
+/* Cambiar el color de fondo general de la página */
+ion-content {
+  --background: none;
+}
 
-ion-content{
-    --ion-background-color: transparent;
-    --ion-item-background: transparent !important;
-  }
-  
-  .bg-color{
-    background: #141826;
-  }
-  
-  ion-header{
-    position: absolute;
-  }
-  
-  ion-toolbar{
-    --ion-background-color:transparent;
-    --opacity:0;
-  }
-  
-  ion-card{
-    --ion-background-color:transparent;
-      box-shadow: none !important;
-      background-color: transparent !important;
-  }
-  
-   ion-card-title{
-     margin-top: 50px !important;
-     font-size: 25px;
-     color: #bd955b;
-     font-weight: 600;
-     text-align: center;
-  
-   }
-  
-   ion-card-subtitle{
-     text-align: center;
-     padding-top: 15px !important;
-     font-size: 13px;
-     color: #bd955b;
-     font-weight: 400;
-     text-transform: none;
-     padding: 0 30px;
-   }
-  
-  ion-card-content{
-    padding-top: 30px;
-  }
-   ion-item{
-     color:#bd955b;
-      --border-color:#bd955b;
-     --highlight-color-focused:#bd955b;
-     --padding-start:0;
-     --inner-padding-end:0;
-     --highlight-color-invalid: #bd955b;
-     --highlight-color-valid: ##bd955b;
+ion-toolbar {
+  --background: #141826;
+  --color: #bd955b; 
+}
 
-     font-size: 13px;
+
+
+.password-card {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.custom-card {
+  background-color: #141826; /* Color de fondo del card */
+  border-radius: 20px; /* Bordes redondeados */
+  border: 2px solid #bd955b; /* Color del borde */
+  padding: 20px;
+  max-width: 400px;
+  width: 100%;
+}
+
+.custom-item {
+  color:#bd955b;
+  --border-color: #bd955b;
+  --highlight-color-focused:#bd955b;
+  --background: #141826;
+  --padding-start:0;
+  --inner-padding-end:0;
+    font-size: 12px;
      ion-input{
-       color:#74787E;
-       font-size: 13px;
-       ion-icon{
-         padding-right: 6px;
-         font-size: 18px;
-       }
-     }
-     ion-input:hover{
        color:#bd955b;
      }
-   }
-  
-   .sign-btn-wrap{
-    text-align: center;
-    padding-top: 45px;
-   .sign-btn{
-     --ion-primary-color:#bd955b;
-     --background:#bd955b;
-     --background-activated:#E1EAF9;
-     --background-focused:#E1EAF9;
-     --background-hover:#647B9D;
-     color:#F4F6FA;
-     background-color: #bd955b;
-     border-radius: 25px;
-   }
- }
-  
-   .text-tag{
-     margin-top: 35px;
-     text-align: center;
-     span{
-       font-size: 13px;
-       font-weight: normal;
-       color:#bd955b;
-     }
-   }
-  
-   .error-text {
-    color: red;
-    font-size: 0.9em;
-    margin-top: 5px;
-  }
+    ion-icon{
+      padding-right: 6px;
+      font-size: 18px;
+    }
+    ion-input:hover{
+      color: #bd955b;
+    }
+}
+
+.icon-large {
+  font-size: 1.8rem; /* Tamaño del icono */
+}
+
+.button-wrapper {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.small-button {
+  --padding-start: 12px;
+  --padding-end: 12px;
+  --padding-top: 6px;
+  --padding-bottom: 6px;
+  --border-radius: 20px;
+  font-size: 0.9rem;
+  --ion-primary-color:#bd955b;
+       --background:#bd955b;
+       --background-activated:#E1EAF9;
+       --background-focused:#E1EAF9;
+       --background-hover:#647B9D;
+       color:#141826;
+       background-color: #bd955b;
+       border-radius: 25px;
+}

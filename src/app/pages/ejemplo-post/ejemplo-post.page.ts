@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { NativeStorage } from '@awesome-cordova-plugins/native-storage/ngx';
 import { SevicebdService } from 'src/app/services/sevicebd.service';
+import { Clipboard } from '@capacitor/clipboard';
+import { ToastController } from '@ionic/angular';
+
 
 @Component({
   selector: 'app-ejemplo-post',
@@ -12,20 +16,20 @@ export class EjemploPostPage implements OnInit {
   post: any;
   comentario: string = '';
   showCommentInput: boolean = false;
-  comentarios: any[] = [
-    { id: 1, mensaje: 'Gran post, muchas gracias!', usuario: 'Usuario1' },
-    { id: 2, mensaje: 'Me encantó esta publicación', usuario: 'Usuario2' },
-    // Agrega más comentarios
-  ];
+  comentarios: any[] = [];
+  usuario: any = {}; 
 
-  constructor(private router: Router, private activedrouter:ActivatedRoute, private bd: SevicebdService) { 
+
+  constructor(private router: Router, private activedrouter:ActivatedRoute, private bd: SevicebdService,  private storage: NativeStorage,private clipboard: Clipboard,private toastController: ToastController) { 
   }
 
   ngOnInit() {
+    this.cargarDatosUsuario();
     // Verificar si el postId fue pasado en el estado de navegación
     if (this.router.getCurrentNavigation()?.extras?.state?.['postId']) {
       const postId = this.router.getCurrentNavigation()?.extras?.state?.['postId'];
       this.cargarPost(postId); // Cargar el post con el id
+      this.cargarComentarios(postId);
     } else {
       // Si no se recibió el id, mostramos un mensaje de error
       this.post = {
@@ -34,6 +38,27 @@ export class EjemploPostPage implements OnInit {
         contenido: 'No hay contenido disponible para este post.',
         imagen: null
       };
+    }
+  }
+
+  cargarDatosUsuario() {
+    // Verificar si hay un usuario guardado en localStorage
+    const storedUser = localStorage.getItem('user');
+    if (storedUser) {
+      // Parsear el usuario guardado
+      const user = JSON.parse(storedUser);
+      // Consultar por el estado de la base de datos
+      this.bd.dbReady().subscribe(data => {
+        if (data) {
+          // Obtener los datos del usuario de la base de datos
+          this.bd.getUsuarioById(user.id_usuario).then(res => {
+            this.usuario = res;
+          });
+        }
+      });
+    } else {
+      // Si no hay usuario guardado, redirigir al login o manejar el error
+      this.router.navigate(['/login']);
     }
   }
 
@@ -62,37 +87,72 @@ export class EjemploPostPage implements OnInit {
     }
   }
 
+  async cargarComentarios(id_post: number) {
+    try {
+      this.comentarios = await this.bd.getComentariosByPost(id_post);
+    } catch (error) {
+      console.error('Error al cargar comentarios', error);
+    }
+  }
+
   toggleCommentInput() {
     this.showCommentInput = !this.showCommentInput;
   }
 
-  
-  submitComment() {
-    if (this.comentario.length > 0) {
-      // Lógica para enviar el comentario
-      console.log('Comentario enviado:', this.comentario);
-
-      // Añadir el nuevo comentario a la lista
-      this.comentarios.push({
-        id: this.comentarios.length + 1, // Generar un ID simple
-        mensaje: this.comentario,
-        usuario: 'UsuarioActual'  // Simula el nombre del usuario actual
+  async submitComment() {
+    // Verificar si el comentario no está vacío y no excede los 100 caracteres
+    if (this.comentario.trim().length > 0 && this.comentario.length <= 100 && this.usuario) {
+      try {
+        // Obtener el id del usuario logueado
+        const id_usuario = this.usuario.id_usuario;
+        await this.bd.guardarComentario(this.post.id_post, id_usuario, this.comentario);
+        this.comentario = '';  // Limpiar el campo de comentario
+        this.showCommentInput = false;  // Ocultar el campo de comentarios
+        this.cargarComentarios(this.post.id_post);  // Recargar los comentarios
+      } catch (error) {
+        console.error('Error al guardar el comentario', error);
+      }
+    } else if (this.comentario.length > 100) {
+      // Mensaje de advertencia si se excede el límite
+      const toast = await this.toastController.create({
+        message: 'El comentario no puede exceder los 100 caracteres.',
+        duration: 2000,
+        position: 'bottom'
       });
-
-      // Limpiar el comentario después de enviarlo
-      this.comentario = '';
-      this.showCommentInput = false; // Ocultar el input de nuevo
-    } else {
-      console.log('El comentario está vacío');
+      await toast.present();
     }
   }
 
-  deleteComment(id: number) {
-    // Lógica para eliminar el comentario
-    this.comentarios = this.comentarios.filter(comentario => comentario.id !== id);
-    console.log('Comentario eliminado:', id);
+  async deleteComment(id_comentario: number) {
+    try {
+      await this.bd.eliminarComentario(id_comentario);
+      this.cargarComentarios(this.post.id_post);  // Recargar los comentarios
+    } catch (error) {
+      console.error('Error al eliminar el comentario', error);
+    }
   }
 
+
+  async copiarTexto() {
+    if (this.post && this.post.contenido) {
+      try {
+        await Clipboard.write({
+          string: this.post.contenido
+        });
+        
+        // Mostrar el mensaje de "Texto copiado"
+        const toast = await this.toastController.create({
+          message: 'Texto copiado',
+          duration: 2000,  // 2 segundos
+          position: 'bottom'  // Aparecerá en la parte inferior
+        });
+        await toast.present();
   
+      } catch (error) {
+        console.error('Error al copiar el texto:', error);
+      }
+    }
+  }
+
 
 }

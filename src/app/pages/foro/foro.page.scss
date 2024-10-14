@@ -1,15 +1,13 @@
-/* Cambiar el color de fondo general de la página */
 ion-content {
-  background-color: #141826; /* Color de fondo deseado */
-  --background: #323541;
+  --background: none;
 }
 
 ion-toolbar {
   --background: #141826;
-  --color: #bd955b; 
+  --color: #bd955b;
 }
 
-ion-card-title{
+ion-card-title {
   background-color: #141826;
   color: #bd955b;
 }
@@ -20,30 +18,32 @@ ion-list {
   margin: 0;
 }
 
+/* Estilos para los cards con bordes */
 ion-card {
-  position: relative; /* Para poder posicionar el botón eliminar dentro del card */
-  background-color: #141826; /* Color de fondo del card */
-  width: 100%; /* Ancho total del card */
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Sombra para los cards */
+  position: relative;
+  background-color: #141826;
+  width: 100%;
+  border: 2px solid #bd955b; /* Borde personalizado de color */
   border-radius: 10px; /* Bordes redondeados */
-  margin: 16px 0; /* Espaciado entre los cards */
+  margin: 16px 0;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Sombra para los cards */
 }
 
 /* Estilo para el botón de eliminar */
 button[mat-icon-button] {
-  position: absolute; /* Posiciona el botón respecto al ion-card */
-  bottom: 10px; /* Posición desde la parte superior */
-  right: 10px; /* Posición desde la derecha */
-  background-color: transparent; /* Fondo transparente */
-  border: none; /* Sin borde */
-  cursor: pointer; /* Cambia el cursor a pointer */
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
   padding: 8px;
-  z-index: 10; /* Asegura que el botón esté sobre el contenido */
+  z-index: 10;
 }
 
 button[mat-icon-button] mat-icon {
-  color: #ff4d4d; /* Color rojo para el icono de eliminar */
-  font-size: 24px; /* Tamaño del icono */
+  color: #ff4d4d;
+  font-size: 24px;
 }
 
 /* Ajustes para el contenido dentro del card */
@@ -51,23 +51,24 @@ ion-card-content {
   padding: 16px;
 }
 
-/* Ajustar las imágenes */
+/* Ajustar las imágenes dentro de los cards */
 ion-card img {
   width: 100%;
   height: auto;
   max-height: 200px;
   object-fit: cover;
-  margin-bottom: 8px; /* Separación entre la imagen y el contenido */
+  margin-bottom: 8px;
 }
 
 /* Estilo para el botón flotante (FAB) */
 ion-fab-button {
-  --background: #bd955b; /* Cambiar el color del ion-fab */
-  --color: #141826; /* Color del icono dentro del FAB */
+  --background: #bd955b; /* Cambiar el color del FAB */
+  --color: #141826;
 }
 
-ion-button{
-  background-color: #141826; 
+/* Botón de ver post */
+ion-button {
+  background-color: #141826;
   color: #bd955b;
 }
 
@@ -76,7 +77,7 @@ ion-button{
   ion-card {
     margin: 8px 0;
   }
-  
+
   button[mat-icon-button] {
     bottom: 8px;
     right: 8px;

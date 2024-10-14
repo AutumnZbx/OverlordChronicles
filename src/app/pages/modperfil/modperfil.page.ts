@@ -31,7 +31,7 @@ export class ModperfilPage implements OnInit {
         userId: this.id_usuario  // Pasar el id_usuario al navegar
       }
     };
-    this.router.navigate(['/cambiar-contrasena'], navigationExtras);
+    this.router.navigate(['/cambio-pass'], navigationExtras);
   }
 
   
