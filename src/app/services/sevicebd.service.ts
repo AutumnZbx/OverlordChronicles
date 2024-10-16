@@ -15,6 +15,15 @@ export class SevicebdService {
   //creo mi variable de conexión a Base de Datos
   public database!: SQLiteObject;
 
+  // Variables de eliminación de tablas
+  borrarTablaComentarios: string = "DROP TABLE IF EXISTS comentario;";
+  borrarTablaObjetos: string = "DROP TABLE IF EXISTS objetos;";
+  borrarTablaPersonajes: string = "DROP TABLE IF EXISTS personajes;";
+  borrarTablaGuias: string = "DROP TABLE IF EXISTS guias;";
+  borrarTablaPost: string = "DROP TABLE IF EXISTS post;";
+  borrarTablaUsuarios: string = "DROP TABLE IF EXISTS usuario;";
+  borrarTablaRol: string = "DROP TABLE IF EXISTS rol;";
+
   //variables de creación de tablas
   tablaRol: string = "CREATE TABLE IF NOT EXISTS rol (id_rol INTEGER PRIMARY KEY AUTOINCREMENT, nombre_rol TEXT NOT NULL UNIQUE);";
 
@@ -24,15 +33,11 @@ export class SevicebdService {
 
   tablaGuias: string = "CREATE TABLE IF NOT EXISTS guias (id_guia INTEGER PRIMARY KEY AUTOINCREMENT,titulo TEXT NOT NULL, contenido TEXT NOT NULL, imagen BLOB , fecha_publicacion DATETIME DEFAULT CURRENT_TIMESTAMP, id_usuario INTEGER NOT NULL, FOREIGN KEY (id_usuario) REFERENCES usuario(id_usuario) ON DELETE CASCADE);";
 
-  tablaPersonajes: string = "CREATE TABLE IF NOT EXISTS personajes (id_personaje INTEGER PRIMARY KEY AUTOINCREMENT, nombre_personaje TEXT NOT NULL, descripcion TEXT);";
-
-  tablaObjetos: string = "CREATE TABLE IF NOT EXISTS objetos (id_objeto INTEGER PRIMARY KEY AUTOINCREMENT, nombre_objeto TEXT NOT NULL, descripcion TEXT);";
-  
-  tablaComentatios: string= "CREATE TABLE IF NOT EXISTS comentario (id_comentario INTEGER PRIMARY KEY AUTOINCREMENT,id_post INTEGER NOT NULL,id_usuario INTEGER NOT NULL,mensaje TEXT NOT NULL,fecha DATETIME DEFAULT CURRENT_TIMESTAMP,FOREIGN KEY (id_post) REFERENCES post(id_post) ON DELETE CASCADE,FOREIGN KEY (id_usuario) REFERENCES usuario(id_usuario) ON DELETE CASCADE);"
+  tablaComentatios: string= "CREATE TABLE IF NOT EXISTS comentario (id_comentario INTEGER PRIMARY KEY AUTOINCREMENT ,id_post INTEGER NOT NULL,id_usuario INTEGER NOT NULL,mensaje TEXT NOT NULL,fecha DATETIME DEFAULT CURRENT_TIMESTAMP,FOREIGN KEY (id_post) REFERENCES post(id_post) ON DELETE CASCADE,FOREIGN KEY (id_usuario) REFERENCES usuario(id_usuario) ON DELETE CASCADE);"
 
   //variables de insert iniciales de las tablas
   //registroNoticia: string = "INSERT or IGNOREJ INTO noticia(idnoticia, titulo, texto) VALUES (1, 'Soy un titulo', 'Soy un texto co,mo contenido de la noticia recien creada');";
-  rolesApp: string = "INSERT or IGNORE INTO rol (nombre_rol) VALUES ('Admin'); INSERT INTO roles (nombre_rol) VALUES ('Usuario');"
+  rolesApp: string = "INSERT OR IGNORE INTO rol (id_rol, nombre_rol) VALUES (1, 'Admin'); INSERT OR IGNORE INTO rol (id_rol, nombre_rol) VALUES (2, 'Usuario');"
 
   usuariosApp: string = "INSERT or IGNORE INTO usuario (nombre_usuario,email,password,foto_perfil,id_rol) VALUES ('Admin','chris.sellao@gmail.com','Kuki2024*','assets/images/alain_thumb.png','1');"
 
@@ -115,6 +120,8 @@ export class SevicebdService {
       }).then((db: SQLiteObject)=>{
         //guardar la conexion
         this.database = db;
+        //Eliminar las tablas para recetear la base de datos
+        //this.borrarTablas();
         //llamar a la funcion de creacion de tabla
         this.crearTablas();
         this.seleccionarUsuario();
@@ -143,6 +150,20 @@ export class SevicebdService {
       this.presentAlert('crear conexion','error en crear bd' + JSON.stringify(e));
     }
   }
+  async borrarTablas(){
+    try{
+      //ejecutar la creacion de la tabla
+      await this.database.executeSql(this.borrarTablaRol,[]);
+      await this.database.executeSql(this.borrarTablaUsuarios,[]);
+      await this.database.executeSql(this.borrarTablaPost,[]);
+      await this.database.executeSql(this.borrarTablaGuias,[]);
+      await this.database.executeSql(this.borrarTablaComentarios,[]);
+
+    }catch(e){
+      this.presentAlert('crear conexion','error en crear bd' + JSON.stringify(e));
+    }
+  }
+
 
   seleccionarUsuario(){
     return this.database.executeSql('SELECT * FROM usuario',[]).then(res=>{
@@ -262,6 +283,27 @@ export class SevicebdService {
     })
   }
 
+  seleccionarMensaje(){
+    return this.database.executeSql('SELECT * FROM comentario',[]).then(res=>{
+      //variable para guardar el resultado de la consulta
+      let items: Comentarios[] = [];
+      //verificar si la consulta trae registros
+      if(res.rows.length > 0){
+        //recorro el cursor
+        for(var i = 0; i < res.rows.length; i++){
+          items.push({
+            id_comentario: res.rows.item(i).id_comentario,
+            mensaje: res.rows.item(i).mensaje,
+          })
+        }
+      }
+      //actualizamos el observable de este select
+      this.listaApp.next(items as any);
+    }).catch(e=>{
+      this.presentAlert('Select', 'Error: ' + JSON.stringify(e));
+    })
+  }
+
   addGuia(titulo: string, contenido: string, imagen: any, id_usuario: number) {
     const createdAt = new Date().toISOString();  // Generar la fecha de creación
     return this.database.executeSql(
@@ -339,6 +381,15 @@ export class SevicebdService {
       console.log('Guia eliminada correctamente');
     }).catch(e => {
       console.log('Error al eliminar guia:', JSON.stringify(e));
+    });
+  }
+
+  eliminarComentario(id_comentario: number) {
+    const sql = 'DELETE FROM comentario WHERE id_comentario = ?';
+    return this.database.executeSql(sql, [id_comentario]).then(res => {
+      console.log('Comentario eliminado correctamente');
+    }).catch(e => {
+      console.log('Error al eliminar comentario:', JSON.stringify(e));
     });
   }
 
@@ -451,14 +502,15 @@ export class SevicebdService {
 
  // Método para obtener comentarios de un post
  async getComentariosByPost(id_post: number) {
-  const query = 'SELECT c.mensaje, u.nombre_usuario FROM comentario c INNER JOIN usuario u ON c.id_usuario = u.id_usuario WHERE c.id_post = ?';
+  const query = 'SELECT c.id_comentario,c.mensaje, u.nombre_usuario FROM comentario c INNER JOIN usuario u ON c.id_usuario = u.id_usuario WHERE c.id_post = ?';
   try {
     const result = await this.database.executeSql(query, [id_post]);
     let comentarios = [];
     for (let i = 0; i < result.rows.length; i++) {
       comentarios.push({
         mensaje: result.rows.item(i).mensaje,
-        usuario: result.rows.item(i).nombre_usuario
+        usuario: result.rows.item(i).nombre_usuario,
+        id: result.rows.item(i).id_comentario,
       });
     }
     return comentarios;
@@ -471,22 +523,16 @@ export class SevicebdService {
 
   // Método para guardar un comentario
   async guardarComentario(id_post: number, id_usuario: number, mensaje: string) {
-    const query = 'INSERT INTO comentario (id_post, id_usuario, mensaje) VALUES (?, ?, ?)';
-    try {
-     await this.database.executeSql(query, [id_post, id_usuario, mensaje]);
-    } catch (error) {
-      console.error('Error al guardar el comentario', error);
-    }
-  }
-
-  // Método para eliminar un comentario
-  async eliminarComentario(id_comentario: number) {
-    const sql = 'DELETE FROM comentario WHERE id_comentario = ?';
-    return this.database.executeSql(sql, [id_comentario]).then(res => {
-      console.log('Comentario eliminado correctamente');
+    const createdAt = new Date().toISOString(); 
+    return this.database.executeSql( 'INSERT INTO comentario (id_post, id_usuario, mensaje, fecha) VALUES (?, ?, ?, ?)',
+      [id_post, id_usuario, mensaje, createdAt]  )
+    .then(res => {
+      this.presentAlert("Agregar", "mensaje creado correctamente");
+      this.seleccionarMensaje();  
     }).catch(e => {
-      console.log('Error al eliminar comentario:', JSON.stringify(e));
+      this.presentAlert('Agregar', 'Error: ' + JSON.stringify(e));
     });
   }
+
 
 }

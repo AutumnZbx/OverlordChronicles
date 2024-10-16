@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { NavigationExtras,Router,ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
+import { ApiService } from 'src/app/services/api.service';
 
 @Component({
   selector: 'app-personajes',
@@ -9,24 +10,27 @@ import { NavigationExtras,Router,ActivatedRoute } from '@angular/router';
 export class PersonajesPage implements OnInit {
   
 
-  usuario: string ="";
-
-  constructor(private router: Router, private activedroute: ActivatedRoute) { 
-    this.activedroute.queryParams.subscribe(param =>{
-      //verificar si viene la variable de contexto
-      if(this.router.getCurrentNavigation()?.extras.state){
-        //recepcionar y guardar los datos
-        this.usuario = this.router.getCurrentNavigation()?.extras?.state?.['nombre'];
-      }
-    });
+  
+  characterList: any[] = [];  // Lista de personajes
+  constructor(private api : ApiService, private router: Router) { 
    }
     ngOnInit() {
+      this.loadCharacters();
+    }
+
+    loadCharacters() {
+      this.api.getAllCharacters().subscribe((res) => {
+        if (res.ok) {
+          this.characterList = res.personajes;
+        }
+      }, (error) => {
+        console.log('Error loading characters', error);
+      });
     }
   
-    detalle(){
-      this.router.navigate(['/detalle']);
+    // Navegar a la página de detalles
+    goToDetails(id: any) {
+      this.router.navigate(['/detalle', id]);
     }
-
-}
-
+  }
 

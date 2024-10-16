@@ -22,10 +22,10 @@
 
   <ion-card *ngFor="let comentario of comentarios" class="comment-card">
     <ion-card-content>
-      <p>{{ comentario.mensaje }}</p>
+      <p>{{ comentario.mensaje }} {{comentario.id_comentario}}</p>
       <div class="comment-footer">
         <span class="username">{{ comentario.usuario }}</span>
-        <ion-icon name="trash" class="delete-icon" (click)="deleteComment(comentario.id)"></ion-icon>
+        <ion-icon name="trash" class="delete-icon" (click)="deleteComment(comentario.id_comentario)"></ion-icon>
       </div>
     </ion-card-content>
   </ion-card>

@@ -4,50 +4,20 @@
       <ion-back-button></ion-back-button>
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
-    <ion-title>Characters</ion-title>
+    <ion-title>
+      Characters List
+    </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  
-
-  <ion-row>
-    <ion-col sizeLG="6" sizeMd="6" sizeXs="12">
-      <ion-card >
-        <img alt="Silhouette of mountains" src="../../../assets/images/alain_thumb.png" />
-          <ion-card-title><a (click)="detalle()">Alain</a></ion-card-title>
-    
-      </ion-card>
-      
-      <ion-card>
-        <img alt="Silhouette of mountains" src="../../../assets/images/scarlett_thumb.png" />
-        <ion-card-header>
-          <ion-card-title><a (click)="detalle()">Scarlett</a></ion-card-title>
-        </ion-card-header>
-      </ion-card>
-    
-      <ion-card>
-        <img alt="Silhouette of mountains" src="../../../assets/images/josef_thumb.png" />
-        <ion-card-header>
-          <ion-card-title><a (click)="detalle()">Josef</a></ion-card-title>
-        </ion-card-header>
-      </ion-card>
-    
-      <ion-card>
-        <img alt="Silhouette of mountains" src="../../../assets/images/chloe_thumb.png" />
-        <ion-card-header>
-          <ion-card-title><a (click)="detalle()">Chloe</a></ion-card-title>
-        </ion-card-header>
-      </ion-card>
-    
-      <ion-card>
-        <img alt="Silhouette of mountains" src="../../../assets/images/lex_thumb.png" />
-        <ion-card-header>
-          <ion-card-title><a (click)="detalle()">lex</a></ion-card-title>
-        </ion-card-header>
-      </ion-card>
-    </ion-col>
-  </ion-row>
-
-
+  <ion-list>
+    <!-- Mostrar cada personaje en un ion-card -->
+    <ion-card *ngFor="let character of characterList" (click)="goToDetails(character.id)">
+      <ion-img [src]="character.img" alt="Character image"></ion-img>
+      <ion-card-header>
+        <ion-card-title>{{ character.name }}</ion-card-title>
+      </ion-card-header>
+    </ion-card>
+  </ion-list>
 </ion-content>

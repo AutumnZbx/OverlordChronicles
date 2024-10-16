@@ -1,27 +1,38 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
+import { NativeStorage } from '@awesome-cordova-plugins/native-storage/ngx';
+import { ModalController } from '@ionic/angular';
 
 @Component({
   selector: 'app-perfil-usuario',
   templateUrl: './perfil-usuario.component.html',
   styleUrls: ['./perfil-usuario.component.scss'],
 })
-export class PerfilUsuarioComponent  implements OnInit {
-  userName = 'John Doe';
-  userBio = 'Gamer and guide creator';
+export class PerfilUsuarioComponent implements OnInit {
+  userName: string = '';
+  constructor(private router: Router,private storage: NativeStorage,private modalController: ModalController) {}
 
-  constructor(private router: Router, private activedroute: ActivatedRoute, ) { }
+  ngOnInit() {
+    this.cargarDatosUsuario();
+  }
 
-  ngOnInit() {}
+  cargarDatosUsuario() {
+    // Aquí puedes obtener los datos desde localStorage o un servicio
+    const usuario = JSON.parse(localStorage.getItem('user') || '{}');
+    this.userName = usuario.nombre_usuario ;
+  }
+
+  irPerfil() {
+    this.router.navigate(['/perfil']);
+    this.cerrarModal(); // Llama al método para cerrar el modal
+  }
 
   editarPerfil() {
-    this.router.navigate(['/perfil']);
+    this.router.navigate(['/modperfil']);
+    this.cerrarModal(); // Llama al método para cerrar el modal
   }
 
-  cerrarSesion() {
-    // Lógica para cerrar sesión
-    console.log("Sesión cerrada");
-    this.router.navigate(['/inicio']);
+  cerrarModal() {
+    this.modalController.dismiss(); // Cierra el modal
   }
-
 }

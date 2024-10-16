@@ -1,13 +1,10 @@
 <ion-card>
   <ion-item>
-    <ion-avatar slot="start">
-      <img src="/src/assets/images/alain_thumb.png">
-    </ion-avatar>
     <ion-label>
-      <h2>{{userName}}</h2>
-      <p>{{userBio}}</p>
+      <h2> Welcome {{userName}}</h2>
     </ion-label>
   </ion-item>
-  <ion-button expand="full" (click)="editarPerfil()">Editar Perfil</ion-button>
-  <ion-button color="danger" expand="full" (click)="cerrarSesion()">Cerrar Sesión</ion-button>
+  <ion-button expand="full" (click)="irPerfil()">Go to profile</ion-button>
+  <ion-button expand="full" (click)="editarPerfil()">Edit profile</ion-button>
+
 </ion-card>

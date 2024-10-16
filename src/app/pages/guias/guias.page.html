@@ -13,16 +13,16 @@
     <!-- Loop through posts and display them in ion-card -->
     <ion-card *ngFor="let guia of guias">
       <ion-card-header>
-        <ion-card-title>{{ guia.titulo }}</ion-card-title>
+        <ion-card-title>{{ guia.titulo }} {{ guia.id_guia}}</ion-card-title>
       </ion-card-header>
 
       <ion-card-content>
         <img *ngIf="guia.imagen" [src]="guia.imagen" alt="guia Image" style="width: 100%; height: auto;" />
       <p>{{ guia.contenido }}</p>
-        <p><small>Posted on: {{ guia.fecha_publicacion }}{{ guia.id_guias }}</small></p>
+        <p><small>Posted on: {{ guia.fecha_publicacion }}{{ guia.id_guia }}</small></p>
         <ion-button (click)="goToGuide(guia)" fill="outline">Ver Guia</ion-button> 
         <ion-buttons slot="end">
-          <ion-button color="danger" (click)="deleteGuide(guia.id_guias)">
+          <ion-button color="danger" (click)="deleteGuide(guia.id_guia)">
             <ion-icon name="trash"></ion-icon>
           </ion-button>
         </ion-buttons>

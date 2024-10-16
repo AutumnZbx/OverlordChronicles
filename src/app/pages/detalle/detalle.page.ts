@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
+import { ApiService } from 'src/app/services/api.service';
+
 
 @Component({
   selector: 'app-detalle',
@@ -7,14 +10,30 @@ import { Router } from '@angular/router';
   styleUrls: ['./detalle.page.scss'],
 })
 export class DetallePage implements OnInit {
+  character: any = null;
 
-  constructor(private router:Router) { }
+  constructor(private route: ActivatedRoute, private api: ApiService) { }
 
   ngOnInit() {
+    // Obtener el ID del personaje desde la URL
+    const characterId = this.route.snapshot.paramMap.get('id');
+    this.loadCharacterDetails(characterId);
   }
 
-  volver(){
-    this.router.navigate(['/personajes']);
+  // Cargar los detalles del personaje por ID
+  loadCharacterDetails(id: string | null) {
+    if (id) {
+      this.api.getCharacterById(id).subscribe((res) => {
+        console.log(res);  // Para asegurarte de que los datos están llegando correctamente
+        if (res.ok) {
+          this.character = res.personaje;  // Cambiar 'res.personajeFound' a 'res.personaje'
+        } else {
+          console.log('Character not found');
+        }
+      }, (error) => {
+        console.log('Error fetching character details', error);
+      });
+    }
   }
-
+  
 }

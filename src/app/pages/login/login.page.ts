@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { AlertController, ToastController } from '@ionic/angular';
 import { SevicebdService } from 'src/app/services/sevicebd.service';
 import { NativeStorage } from '@awesome-cordova-plugins/native-storage/ngx';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -25,7 +26,8 @@ export class LoginPage implements OnInit {
     private alertController: AlertController,
     private toastController: ToastController,
     private bd: SevicebdService,
-    private storage: NativeStorage
+    private storage: NativeStorage,
+    private authService: AuthService
   ) {}
 
   ngOnInit() {
@@ -50,11 +52,11 @@ export class LoginPage implements OnInit {
   async handleLogin() {
     this.validateEmail();
     this.validatePassword();
-
+  
     if (this.showEmailError || this.showPasswordError) {
-      return; // Evitar login si hay errores
+      return; // Stop login if there are errors
     }
-
+  
     const result = await this.bd.checkUserCredentials(this.email, this.password);
     if (result.rows.length > 0) {
       this.presentToast('Login Successful');
@@ -63,9 +65,10 @@ export class LoginPage implements OnInit {
         id_usuario: usuarioLogueado.id_usuario,
         nombre_usuario: usuarioLogueado.nombre_usuario,
         email: usuarioLogueado.email,
-        foto_perfil: usuarioLogueado.foto_perfil
+        foto_perfil: usuarioLogueado.foto_perfil,
+        id_rol: usuarioLogueado.id_rol
       };
-      localStorage.setItem('user', JSON.stringify(user));
+      this.authService.setUser(user); // Use AuthService to store the user and update the menu
       this.router.navigate(['/home']);
     } else {
       this.presentAlert('Invalid username/email or password.');

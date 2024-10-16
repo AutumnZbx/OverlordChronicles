@@ -43,8 +43,8 @@ export class GuiasPage implements OnInit {
       this.router.navigate(['/ejemplo-guias'], navigationExtras);
     }
 
-    async deleteGuide(id_guias: number) {
-      console.log('ID de la guía a eliminar:', id_guias);
+    async deleteGuide(id_guia: number) {
+      console.log('ID de la guía a eliminar:', id_guia);
       const alert = await this.alertCtrl.create({
         header: 'Confirm Delete',
         message: 'Are you sure you want to delete this guide?',
@@ -57,7 +57,7 @@ export class GuiasPage implements OnInit {
           {
             text: 'Delete',
             handler: () => {
-              this.bd.deleteGuide(id_guias).then(() => {
+              this.bd.deleteGuide(id_guia).then(() => {
                 console.log('Guía eliminada con éxito');
                 this.loadGuides(); // Recargar la lista de guías después de eliminar
               }).catch((err) => {

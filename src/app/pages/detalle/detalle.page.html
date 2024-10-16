@@ -1,34 +1,25 @@
-<ion-header>
+<ion-header [translucent]="true">
   <ion-toolbar>
     <ion-buttons slot="start">
       <ion-back-button></ion-back-button>
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
-    <ion-title>Detaills</ion-title>
+    <ion-title>
+      Character Details
+    </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-
-
-
-<ion-card>
-  <img alt="Silhouette of mountains" src="../../../assets/images/alain.png" />
-  <ion-card-header>
-    <ion-card-title>Alain</ion-card-title>
-    <ion-card-subtitle>Principe heredero del reino caido Cornia</ion-card-subtitle>
-  </ion-card-header>
-
-  <ion-card-content>
-    Príncipe heredero del reino caído de Cornia e hijo de su reina, Ilenia. Tras perder a su madre en la rebelión de Valmore, Josef lo llevó a la isla de Palevia, donde le enseñó espada y estrategia hasta los 17 años.
-  </ion-card-content>
-</ion-card>
-
-<ion-card>
-  <ion-card-header>
-    <ion-card-title>Clase</ion-card-title>
-    <ion-card-subtitle>Lord</ion-card-subtitle>
-  </ion-card-header>
-</ion-card>
-
+  <!-- Verificar si se ha cargado el personaje -->
+  <ion-card *ngIf="character">
+    <ion-img [src]="character.imgFull" alt="Full character image"></ion-img>
+    <ion-card-header>
+      <ion-card-title>{{ character.name }}</ion-card-title>
+      <ion-card-subtitle>{{ character.country }}</ion-card-subtitle>
+    </ion-card-header>
+    <ion-card-content>
+      <p>{{ character.desc }}</p>
+    </ion-card-content>
+  </ion-card>
 </ion-content>

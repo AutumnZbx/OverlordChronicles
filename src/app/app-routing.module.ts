@@ -64,7 +64,7 @@ const routes: Routes = [
     loadChildren: () => import('./pages/adminperfile/adminperfile.module').then( m => m.AdminperfilePageModule)
   },
   {
-    path: 'detalle',
+    path: 'detalle/:id',
     loadChildren: () => import('./pages/detalle/detalle.module').then( m => m.DetallePageModule)
   },
   {
