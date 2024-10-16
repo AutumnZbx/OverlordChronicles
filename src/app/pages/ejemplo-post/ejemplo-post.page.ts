@@ -103,12 +103,11 @@ export class EjemploPostPage implements OnInit {
     // Verificar si el comentario no está vacío y no excede los 100 caracteres
     if (this.comentario.trim().length > 0 && this.comentario.length <= 100 && this.usuario) {
       try {
-        // Obtener el id del usuario logueado
         const id_usuario = this.usuario.id_usuario;
         await this.bd.guardarComentario(this.post.id_post, id_usuario, this.comentario);
-        this.comentario = '';  // Limpiar el campo de comentario
-        this.showCommentInput = false;  // Ocultar el campo de comentarios
-        this.cargarComentarios(this.post.id_post);  // Recargar los comentarios
+        this.comentario = '';  // Clear the comment input field
+        this.showCommentInput = false;  // Hide the comment input field
+        this.cargarComentarios(this.post.id_post);  // Reload comments
       } catch (error) {
         console.error('Error al guardar el comentario', error);
       }

@@ -12,11 +12,14 @@
   <ion-list>
     <!-- Loop through posts and display them in ion-card -->
     <ion-card *ngFor="let post of post">
+      <button mat-icon-button class="example-icon" aria-label="Example delete icon" slot="end" (click)="deletePost(post.id_post)">
+        <mat-icon>delete</mat-icon>
+      </button>
       <ion-card-header>
-        <ion-card-title>{{ post.titulo }}</ion-card-title>
         <button mat-icon-button class="example-icon" aria-label="Example delete icon" slot="end" (click)="deletePost(post.id_post)">
           <mat-icon>delete</mat-icon>
         </button>
+        <ion-card-title>{{ post.titulo }}</ion-card-title>
       </ion-card-header>
 
       <ion-card-content>

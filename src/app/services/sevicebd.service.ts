@@ -524,12 +524,18 @@ export class SevicebdService {
   // Método para guardar un comentario
   async guardarComentario(id_post: number, id_usuario: number, mensaje: string) {
     const createdAt = new Date().toISOString(); 
-    return this.database.executeSql( 'INSERT INTO comentario (id_post, id_usuario, mensaje, fecha) VALUES (?, ?, ?, ?)',
-      [id_post, id_usuario, mensaje, createdAt]  )
-    .then(res => {
-      this.presentAlert("Agregar", "mensaje creado correctamente");
-      this.seleccionarMensaje();  
-    }).catch(e => {
+    return this.database.executeSql(
+      'INSERT INTO comentario (id_post, id_usuario, mensaje, fecha) VALUES (?, ?, ?, ?)',
+      [id_post, id_usuario, mensaje, createdAt]
+    )
+    .then(async res => {
+      if (res.insertId) {
+        const newCommentId = res.insertId;  // Fetch the generated id_comentario
+        this.presentAlert("Agregar", "Mensaje creado correctamente con ID: " + newCommentId);
+        this.seleccionarMensaje();  
+      }
+    })
+    .catch(e => {
       this.presentAlert('Agregar', 'Error: ' + JSON.stringify(e));
     });
   }
