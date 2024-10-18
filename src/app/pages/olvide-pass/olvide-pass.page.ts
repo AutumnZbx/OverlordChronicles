@@ -13,14 +13,29 @@ export class OlvidePassPage implements OnInit {
 
   email: string = '';
   codigo: string = '';
-  nuevaContrasena: string = '';
+  newPassword: string = '';
+  confirmPassword: string = '';
   codigoEnviado: boolean = false;
   codigoVerificado: boolean = false;
   codigoGenerado: string = '';
+  showPassword: boolean = false;
+  showConfirmPassword: boolean = false;
+  newPasswordVacia: boolean = false;
+  confirmPasswordVacia: boolean = false;
+  passwordLarga: boolean = false;
+  passwordsNoCoinciden: boolean = false;
 
   constructor(private router:Router, private alertController: AlertController,private toastController: ToastController,private bd : SevicebdService) { }
 
   ngOnInit() {
+  }
+
+  togglePasswordVisibility() {
+    this.showPassword = !this.showPassword;
+  }
+
+  toggleConfirmPasswordVisibility() {
+    this.showConfirmPassword = !this.showConfirmPassword;
   }
   
    // Enviar el código de recuperación al correo y activar la notificación local
@@ -63,12 +78,27 @@ export class OlvidePassPage implements OnInit {
       this.mostrarToast('The entered code is incorrect');
     }
   }
+  async mostrarAlerta(titulo: string, mensaje: string) {
+    const alert = await this.alertController.create({
+      header: titulo,
+      message: mensaje,
+      buttons: ['OK']
+    });
+    await alert.present();
+  }
+
 
   // Restablecer la contraseña
   async restablecerContrasena() {
-    if (this.nuevaContrasena.trim()) {
+    this.validarPasswords();
+
+    if (this.newPasswordVacia || this.confirmPasswordVacia || this.passwordLarga || this.passwordsNoCoinciden) {
+      // Si hay errores en las validaciones, no continuar
+      return;
+    }
+    if (this.newPassword.trim()) {
       try {
-        await this.bd.actualizarContrasena(this.email, this.nuevaContrasena); // Actualizar la contraseña en la base de datos
+        await this.bd.actualizarContrasena(this.email, this.newPassword); // Actualizar la contraseña en la base de datos
         this.mostrarToast('Password reset successfully');
         this.router.navigate(['/login']);
       } catch (error) {
@@ -89,6 +119,18 @@ export class OlvidePassPage implements OnInit {
       console.error('Error al verificar el correo', error);
       return false;
     }
+  }
+
+  validarPasswords() {
+    // Validación de si los campos están vacíos
+    this.newPasswordVacia = this.newPassword.trim() === '';
+    this.confirmPasswordVacia = this.confirmPassword.trim() === '';
+    
+    // Validación de que las contraseñas no excedan los 15 caracteres
+    this.passwordLarga = this.newPassword.length > 15 || this.confirmPassword.length > 15;
+
+    // Validación de que ambas contraseñas coincidan
+    this.passwordsNoCoinciden = this.newPassword !== this.confirmPassword;
   }
 
   // Generar un código aleatorio de 6 dígitos

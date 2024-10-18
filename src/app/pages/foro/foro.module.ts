@@ -19,6 +19,6 @@ import {MatToolbarModule} from '@angular/material/toolbar';
     ForoPageRoutingModule,
     MatToolbarModule, MatButtonModule, MatIconModule
   ],
-  declarations: [ForoPage]
+  declarations: [ForoPage,]
 })
 export class ForoPageModule {}

@@ -19,6 +19,6 @@ import {MatToolbarModule} from '@angular/material/toolbar';
     GuiasPageRoutingModule,
     MatToolbarModule, MatButtonModule, MatIconModule
   ],
-  declarations: [GuiasPage]
+  declarations: [GuiasPage,]
 })
 export class GuiasPageModule {}

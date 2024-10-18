@@ -14,12 +14,16 @@
 
   <!-- Card centrado -->
   <ion-card class="recover-card">
+
+    <ion-card-header>
+      <ion-card-title>Forgot your password?</ion-card-title>
+      <ion-card-subtitle>Type your email and we'll send you a code</ion-card-subtitle>
+    </ion-card-header>
     <ion-card-content>
       <!-- Formulario para enviar el código -->
       <form (ngSubmit)="enviarCodigo()">
         <ion-item>
-          <ion-label position="stacked">Email Address</ion-label>
-          <ion-input [(ngModel)]="email" name="email" type="email" required></ion-input>
+          <ion-input placeholder="email" [(ngModel)]="email" name="email" maxlength="50" type="email" required></ion-input>
         </ion-item>
         <div class="login-btn-wrap">
           <ion-button  shape="round" type="submit"  fill="solid" class="login-btn">
@@ -31,8 +35,7 @@
       <!-- Código de recuperación -->
       <form *ngIf="codigoEnviado" (ngSubmit)="verificarCodigo()">
         <ion-item>
-          <ion-label position="stacked">Recovery Code</ion-label>
-          <ion-input [(ngModel)]="codigo" name="codigo" type="text" required></ion-input>
+          <ion-input placeholder="Recovery Code" [(ngModel)]="codigo" name="codigo" maxlength="6"type="text" required></ion-input>
         </ion-item>
         <div class="login-btn-wrap">
           <ion-button  shape="round" type="submit"  fill="solid" class="login-btn">
@@ -42,17 +45,60 @@
       </form>
 
       <!-- Nueva contraseña -->
-      <form *ngIf="codigoVerificado" (ngSubmit)="restablecerContrasena()">
-        <ion-item>
-          <ion-label position="stacked">New Password</ion-label>
-          <ion-input [(ngModel)]="nuevaContrasena" name="nuevaContrasena" type="password" required></ion-input>
-        </ion-item>
-        <div class="login-btn-wrap">
-          <ion-button  shape="round" type="submit"  fill="solid" class="login-btn">
-            Reset Password
-          </ion-button>
-        </div>
-      </form>
+        <form *ngIf="codigoVerificado"(submit)="restablecerContrasena()">
+          <!-- Input para la nueva contraseña -->
+          <ion-item class="custom-item">
+            <ion-input
+              [type]="showPassword ? 'text' : 'password'"
+              placeholder="New Password"
+              [(ngModel)]="newPassword"
+              maxlength="15"
+              name="passwordInput"
+              required
+              (ngModelChange)="validarPasswords()"
+            ></ion-input>
+            <ion-icon
+              [name]="showPassword ? 'eye-outline' : 'eye-off-outline'"
+              slot="end"
+              (click)="togglePasswordVisibility()"
+            ></ion-icon>
+          </ion-item>
+          <ion-text color="danger" *ngIf="newPasswordVacia">Password cannot be empty</ion-text>
+          <ion-text color="danger" *ngIf="passwordLarga">Password cannot exceed 15 characters</ion-text>
+  
+          <!-- Input para confirmar la nueva contraseña -->
+          <ion-item class="custom-item">
+            <ion-input
+              [type]="showConfirmPassword ? 'text' : 'password'"
+              placeholder="Confirm Password"
+              [(ngModel)]="confirmPassword"
+              maxlength="15"
+              name="confirmPasswordInput"
+              required
+              (ngModelChange)="validarPasswords()"
+            ></ion-input>
+            <ion-icon
+              [name]="showConfirmPassword ? 'eye-outline' : 'eye-off-outline'"
+              slot="end"
+              (click)="toggleConfirmPasswordVisibility()"
+            ></ion-icon>
+          </ion-item>
+          <ion-text color="danger" *ngIf="confirmPasswordVacia">Password confirmation cannot be empty</ion-text>
+          <ion-text color="danger" *ngIf="passwordsNoCoinciden">Passwords do not match</ion-text>
+          <ion-text color="medium">
+            <p>Your new password must:</p>
+            <ul>
+              <li>Contain at least one uppercase letter.</li>
+              <li>Contain at least one number.</li>
+              <li>Contain at least one special character.</li>
+              <li>Be at least 8 characters long.</li>
+            </ul>
+          </ion-text>
+          <!-- Botón para cambiar la contraseña -->
+          <div class="button-wrapper">
+            <ion-button type="submit" expand="block" class="small-button">Change Password</ion-button>
+          </div>
+        </form>
     </ion-card-content>
   </ion-card>
 </ion-content>

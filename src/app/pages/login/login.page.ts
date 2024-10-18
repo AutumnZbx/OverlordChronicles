@@ -12,16 +12,17 @@ import { AuthService } from 'src/app/services/auth.service';
 export class LoginPage implements OnInit {
   email: string = '';
   password: string = '';
-  showPassword: boolean = false;
-
-  // Control de errores y validación
   emailTouched: boolean = false;
   passwordTouched: boolean = false;
   showEmailError: boolean = false;
   showPasswordError: boolean = false;
+  emailInvalid: boolean = false;
   emailTooLong: boolean = false;
   passwordTooLong: boolean = false;
+  passwordTooShort: boolean = false;
+  showPassword: boolean = false;
 
+  
   constructor(
     private router: Router,
     private alertController: AlertController,
@@ -43,47 +44,63 @@ export class LoginPage implements OnInit {
   }
 
   validateEmail() {
-    this.showEmailError = this.email.trim() === '';
-    this.emailTooLong = this.email.length > 30;
-    this.cd.detectChanges();
+    if (!this.email) {
+      this.showEmailError = true;
+    } else if (this.email.length > 30) {
+      this.emailTooLong = true;
+    } else {
+      this.showEmailError = false;
+      this.emailTooLong = false;
+    }
   }
-
+  
+  // Password validation
   validatePassword() {
-    this.showPasswordError = this.password.trim() === '';
-    this.passwordTooLong = this.password.length > 15;
-    this.cd.detectChanges();
+    if (!this.password) {
+      this.showPasswordError = true;
+    } else if (this.password.length > 15) {
+      this.passwordTooLong = true;
+    } else {
+      this.showPasswordError = false;
+      this.passwordTooLong = false;
+    }
   }
 
-  async presentAlert(titulo: string, msj: string) {
+  isFormValid(): boolean {
+    return !this.showEmailError && !this.emailTooLong && !this.showPasswordError && !this.passwordTooLong && !this.passwordTooShort;
+  }
+
+  async presentAlert(header: string, message: string) {
     const alert = await this.alertController.create({
-      header: titulo,
-      message: msj,
-      buttons: ['OK'],
+      header,
+      message,
+      buttons: ['OK']
     });
     await alert.present();
   }
-
+  
   async presentToast(message: string) {
     const toast = await this.toastController.create({
       message,
-      duration: 1500,
-      position: 'bottom',
+      duration: 1500
     });
     await toast.present();
   }
 
   async handleLogin(event: Event) {
     event.preventDefault();
-
-    // Validaciones
+  
+    // Trigger validation checks when submitting
     this.validateEmail();
     this.validatePassword();
-
-    if (this.showEmailError || this.emailTooLong || this.showPasswordError || this.passwordTooLong) {
+  
+    // Show an alert if any field has an error
+    if (this.showEmailError || this.emailTooLong || this.showPasswordError || this.passwordTooLong || !this.email || !this.password) {
       await this.presentAlert('Error', 'Please fill all fields correctly before logging in.');
       return;
     }
-
+  
+    // Call to database to check credentials
     const result = await this.bd.checkUserCredentials(this.email, this.password);
     if (result.rows.length > 0) {
       this.presentToast('Login Successful');
@@ -95,10 +112,10 @@ export class LoginPage implements OnInit {
         foto_perfil: usuarioLogueado.foto_perfil,
         id_rol: usuarioLogueado.id_rol,
       };
-      this.authService.setUser(user); // Use AuthService to store the user and update the menu
-      this.router.navigate(['/home']);
+      this.authService.setUser(user); // Store user data
+      this.router.navigate(['/home']); // Redirect to home page
     } else {
-      this.presentAlert('Login Failed', 'Invalid email or password.');
+      await this.presentAlert('Login Failed', 'Invalid email or password.');
     }
   }
 

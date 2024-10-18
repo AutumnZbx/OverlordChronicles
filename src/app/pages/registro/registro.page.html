@@ -20,16 +20,15 @@
         <!-- Campo de nombre de usuario -->
         <ion-item class="input">
           <ion-input
-            placeholder="nombre de usuario"
+            placeholder="Username"
             [(ngModel)]="nombre_usuario"
             name="username"
             maxlength="15"
-            (focus)="usernameTouched = true"
-            (blur)="validateUsername()">
+            (ionBlur)="validateUsername()">
           </ion-input>
           <ion-icon name="person-outline"></ion-icon>
         </ion-item>
-        <p *ngIf="usernameTouched && (showUsernameError || usernameTooLong)" class="error-text">
+        <p *ngIf="showUsernameError" class="error-text">
           {{ usernameTooLong ? 'Username cannot exceed 15 characters.' : "Username can't be left blank." }}
         </p>
 
@@ -40,12 +39,11 @@
             [(ngModel)]="email"
             name="email"
             maxlength="30"
-            (focus)="emailTouched = true"
-            (blur)="validateEmail()">
+            (ionBlur)="validateEmail()">
           </ion-input>
           <ion-icon name="mail-outline"></ion-icon>
         </ion-item>
-        <p *ngIf="emailTouched && (showEmailError || emailTooLong || !validEmail)" class="error-text">
+        <p *ngIf="showEmailError" class="error-text">
           {{ emailTooLong ? 'Email cannot exceed 30 characters.' : !validEmail ? 'Please use a valid email.' : "Email can't be left blank." }}
         </p>
 
@@ -53,35 +51,31 @@
         <ion-item>
           <ion-input
             [type]="showPassword ? 'text' : 'password'"
-            placeholder="contraseña"
+            placeholder="Password"
             [(ngModel)]="password"
             name="passwordInput"
             maxlength="15"
-            (focus)="passwordTouched = true"
-            (blur)="validatePassword()">
+            (ionBlur)="validatePassword()">
           </ion-input>
           <ion-icon [name]="showPassword ? 'eye-outline' : 'eye-off-outline'" slot="end" (click)="togglePasswordVisibility()"></ion-icon>
         </ion-item>
+        <p *ngIf="showPasswordError" class="error-text">
+          {{ passwordTooLong ? 'Password cannot exceed 15 characters.' : 'Password must have at least 8 characters, a number, an uppercase letter, and a special character.' }}
+        </p>
 
         <!-- Campo para repetir contraseña -->
         <ion-item>
           <ion-input
             [type]="showPassword ? 'text' : 'password'"
-            placeholder="escriba de nuevo la contraseña"
+            placeholder="Confirm password"
             [(ngModel)]="password2"
             name="passwordInput2"
             maxlength="15"
-            (focus)="password2Touched = true"
-            (blur)="validatePasswordMatch()">
+            (ionBlur)="validatePasswordMatch()">
           </ion-input>
-          <ion-icon [name]="showPassword ? 'eye-outline' : 'eye-off-outline'" slot="end" (click)="togglePasswordVisibility()"></ion-icon>
+          <ion-icon [name]="showPassword ? 'eye-outline' : 'eye-off-outline'" slot="end" (click)="toggleConfirmPasswordVisibility()"></ion-icon>
         </ion-item>
-
-        <p *ngIf="passwordTouched && (passwordTooLong || !validPassword)" class="error-text">
-          {{ passwordTooLong ? 'Password cannot exceed 15 characters.' : 'Password must have at least 8 characters, a number, an uppercase letter, and a special character.' }}
-        </p>
-
-        <p *ngIf="password2Touched && !passwordsMatch" class="error-text">
+        <p *ngIf="showPasswordMatchError" class="error-text">
           Passwords do not match. Try again.
         </p>
 

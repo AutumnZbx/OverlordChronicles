@@ -29,6 +29,25 @@ ion-toolbar {
   height: auto;
 }
 
+ion-card-title{
+  margin-top: 50px !important;
+  font-size: 25px;
+  color:#bd955b;
+  font-weight: 600;
+  text-align: center;
+
+}
+
+ion-card-subtitle{
+  text-align: center;
+  padding-top: 15px !important;
+  font-size: 13px;
+  color: #bd955b;
+  font-weight: 400;
+  text-transform: none;
+  padding: 0 30px;
+}
+
 
 /* Estilo para el card */
 .recover-card {

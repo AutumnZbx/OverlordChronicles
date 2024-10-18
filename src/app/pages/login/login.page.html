@@ -12,7 +12,7 @@
       <form (submit)="handleLogin($event)">
         <div class="ion-padding">
 
-          <!-- Campo de email -->
+          <!-- Email Field -->
           <ion-item>
             <ion-input
               placeholder="Enter email"
@@ -20,15 +20,17 @@
               name="email"
               maxlength="30"
               (focus)="emailTouched = true"
-              (blur)="validateEmail()">
+              (blur)="validateEmail()"
+              required>
             </ion-input>
-            <ion-icon name="person-outline"></ion-icon>
+            <ion-icon name="mail-outline"></ion-icon>
           </ion-item>
+          <!-- Show error if the field is empty after interaction -->
           <p *ngIf="emailTouched && (showEmailError || emailTooLong)" class="error-text">
-            {{ emailTooLong ? 'Email cannot exceed 15 characters.' : "You can't leave this field empty." }}
+            {{ emailTooLong ? 'Email cannot exceed 30 characters.' : 'You cannot leave this field empty.' }}
           </p>
 
-          <!-- Campo de contraseña -->
+          <!-- Password Field -->
           <ion-item>
             <ion-input
               [type]="showPassword ? 'text' : 'password'"
@@ -37,12 +39,14 @@
               name="passwordInput"
               maxlength="15"
               (focus)="passwordTouched = true"
-              (blur)="validatePassword()">
+              (blur)="validatePassword()"
+              required>
             </ion-input>
             <ion-icon [name]="showPassword ? 'eye-outline' : 'eye-off-outline'" slot="end" (click)="togglePasswordVisibility()"></ion-icon>
           </ion-item>
+          <!-- Show error if the field is empty after interaction -->
           <p *ngIf="passwordTouched && (showPasswordError || passwordTooLong)" class="error-text">
-            {{ passwordTooLong ? 'Password cannot exceed 15 characters.' : "Password cannot be empty." }}
+            {{ passwordTooLong ? 'Password cannot exceed 15 characters.' : 'Password cannot be empty.' }}
           </p>
 
           <!-- Forgot Password Link -->

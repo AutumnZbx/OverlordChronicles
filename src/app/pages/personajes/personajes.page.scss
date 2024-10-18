@@ -1,28 +1,44 @@
 ion-content {
   --background: none;
 }
+
 ion-toolbar {
   --background: #141826;
-  --color: #bd955b; 
+  --color: #bd955b;
 }
 
+/* Ajustes para los ion-cards */
 .character-card {
+  margin: 10px auto; /* Centrado con márgenes */
   text-align: center;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s ease;
-  background-color: #141826; /* Color de fondo del card */
-  border-radius: 20px; /* Bordes redondeados */
-  border: 2px solid #bd955b; /* Color del borde */
+  background-color: #141826;
+  border-radius: 15px;
+  border: 2px solid #bd955b;
   padding: 20px;
-  max-width: 400px;
   width: 100%;
+  max-width: 300px; /* Ajusta el ancho máximo */
 }
 
 .character-card:hover {
   transform: translateY(-5px);
 }
 
+/* Asegura el color de los títulos */
 ion-card-title {
   font-size: 1.2rem;
   color: #bd955b;
+}
+
+/* Espaciado para mantener margen igual a ambos lados */
+ion-col {
+  padding: 10px; /* Espaciado entre columnas */
+}
+
+/* Ajustes para pantallas pequeñas */
+@media (max-width: 768px) {
+  ion-col {
+    margin: 0; /* Asegura que los márgenes sean consistentes en dispositivos pequeños */
+  }
 }

@@ -19,6 +19,6 @@ import {MatCardModule} from '@angular/material/card';
     MatCardModule, 
     MatButtonModule
   ],
-  declarations: [PersonajesPage]
+  declarations: [PersonajesPage,]
 })
 export class PersonajesPageModule {}
