@@ -1,33 +1,85 @@
-ion-header {
-  --background: #141826; 
-  --color: #bd955b; 
+ion-content {
+  --background: none;
 }
-ion-card-title{
-    --background: #141826;
-    --color: #bd955b;
-  }
-  ion-toolbar {
-    --background: #141826; 
-    --color: #bd955b; 
-  }
-  
+
+ion-toolbar {
+  --background: #141826;
+  --color: #bd955b;
+}
+
+ion-card-title {
+  background-color: #141826;
+  color: #bd955b;
+}
+
+ion-list {
+  background-color: #060913;
+  padding: 0; /* Remover el padding por defecto si es necesario */
+  margin: 0;
+}
+
+/* Estilos para los cards con bordes */
+ion-card {
+  position: relative;
+  background-color: #141826;
+  width: 100%;
+  border: 2px solid #bd955b; /* Borde personalizado de color */
+  border-radius: 10px; /* Bordes redondeados */
+  margin: 16px 0;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Sombra para los cards */
+}
+
+/* Estilo para el botón de eliminar */
+button[mat-icon-button] {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  z-index: 10;
+}
+
+button[mat-icon-button] mat-icon {
+  color: #ff4d4d;
+  font-size: 24px;
+}
+
+/* Ajustes para el contenido dentro del card */
+ion-card-content {
+  padding: 16px;
+}
+
+/* Ajustar las imágenes dentro de los cards */
+ion-card img {
+  width: 100%;
+  height: auto;
+  max-height: 200px;
+  object-fit: cover;
+  margin-bottom: 8px;
+}
+
+/* Estilo para el botón flotante (FAB) */
+.custom-fab ion-fab-button {
+  --background: #bd955b; /* Cambiar el color de fondo del FAB */
+  --color: #141826; /* Cambiar el color del icono dentro del FAB */
+}
+
+/* Botón de ver post */
+ion-button {
+  background-color: #141826;
+  color: #bd955b;
+}
+
+/* Media query para pantallas pequeñas */
+@media (max-width: 768px) {
   ion-card {
-    background-color:#141826;
-    color: #bd955b; 
-  }
-  
-  ion-button {
-    --background: #bd955b; 
-    --color: #141826; 
+    margin: 8px 0;
   }
 
-  ion-card-subtitle {
-    --background: #141826; 
-    --color: #bd955b;
+  button[mat-icon-button] {
+    bottom: 8px;
+    right: 8px;
   }
-  
-  ion-footer {
-    --background: #bd955b; 
-    padding: 10px;
-  }
-  
+}

@@ -9,29 +9,41 @@
 </ion-header>
 
 <ion-content class="ion-padding">
-  <ion-card>
-    <ion-item>
-      <ion-label>Título</ion-label>
-      <ion-input [(ngModel)]="titulo" placeholder="Escriba un título para la guia"></ion-input>
-    </ion-item>
+  <!-- Reglas para el título -->
+  <ion-card class="custom-card">
+    <ion-card-content>
+      <ion-label class="ion-text-wrap">Title (minimum 10 characters, maximum 50)</ion-label>
+      <ion-input [(ngModel)]="titulo" maxlength="50" placeholder="Enter a title for the guide" (ionBlur)="validarTitulo()"></ion-input>
+      <p class="char-counter">{{ titulo.length || 0 }} / 50 characters</p>
+      <p *ngIf="tituloError" class="error-message">The title must be between 10 and 50 characters.</p>
+    </ion-card-content>
   </ion-card>
 
-  <ion-card>
-    <ion-item>
-      <ion-label>Post</ion-label>
-      <ion-textarea [(ngModel)]="contenido" placeholder="Escriba el contenido de la guia"></ion-textarea>
-    </ion-item>
+  <!-- Reglas para el contenido -->
+  <ion-card class="custom-card">
+    <ion-card-content>
+      <ion-label class="ion-text-wrap">Post content (minimum 10 characters, maximum 250)</ion-label>
+      <ion-textarea [(ngModel)]="contenido" maxlength="250" placeholder="Enter the guide content" (ionBlur)="validarContenido()"></ion-textarea>
+      <p class="char-counter">{{ contenido.length || 0 }} / 250 characters</p>
+      <p *ngIf="contenidoError" class="error-message">The content must be between 10 and 250 characters.</p>
+    </ion-card-content>
   </ion-card>
 
-  <ion-card>
-    <ion-item>
-      <ion-label>Imagen</ion-label>
-      <ion-button expand="block" (click)="takePicture()">Subir Imagen</ion-button>
-      <img *ngIf="imagen" [src]="imagen" alt="Sin imagen" style="height: 250px;width: 250px;" />
-    </ion-item>
+  <!-- Botón para subir imagen -->
+  <ion-card class="custom-card">
+    <ion-card-content>
+      <ion-label class="ion-text-wrap">Image (optional)</ion-label>
+      <ion-button expand="block" (click)="takePicture()" fill="clear">Upload Image</ion-button>
+      <div class="image-container" *ngIf="imagen">
+        <img [src]="imagen" alt="Sin imagen" />
+      </div>
+    </ion-card-content>
   </ion-card>
 
-  <div class="sign-btn-wrap">
-    <ion-button shape="round" expand="block" fill="solid" (click)="createGuide()">Crear guia</ion-button>
+  <!-- Botón para crear el post -->
+  <div class="change-password-wrap">
+    <ion-button shape="round" fill="solid" class="change-password-btn" (click)="createGuide()">
+      Create Guide
+    </ion-button>
   </div>
 </ion-content>

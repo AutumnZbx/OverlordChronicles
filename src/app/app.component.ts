@@ -25,6 +25,8 @@ export class AppComponent {
       this.esAdmin = user && user.id_rol === 1; // Check if the logged-in user is admin
     });
   }
+  ionViewWillEnter() {
+  }
 
   // Función para ocultar el menú en ciertas rutas y desactivar el swipe
   updateMenuVisibility(url: string) {

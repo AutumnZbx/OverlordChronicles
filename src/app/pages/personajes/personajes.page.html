@@ -10,14 +10,18 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-list>
-    <!-- Mostrar cada personaje en un ion-card -->
-    <ion-card *ngFor="let character of characterList" (click)="goToDetails(character.id)">
-      <ion-img [src]="character.img" alt="Character image"></ion-img>
-      <ion-card-header>
-        <ion-card-title>{{ character.name }}</ion-card-title>
-      </ion-card-header>
-    </ion-card>
-  </ion-list>
+<ion-content [fullscreen]="true" class="ion-padding">
+  <ion-grid>
+    <ion-row>
+      <!-- Mostrar cada personaje en un ion-card, distribuidos en filas de 3 -->
+      <ion-col size="12" size-md="4" *ngFor="let character of characterList">
+        <ion-card (click)="goToDetails(character.id)" class="character-card">
+          <ion-img [src]="character.img" alt="Character image"></ion-img>
+          <ion-card-header>
+            <ion-card-title (click)="goToDetails(character.id)">{{ character.name }}</ion-card-title>
+          </ion-card-header>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 </ion-content>

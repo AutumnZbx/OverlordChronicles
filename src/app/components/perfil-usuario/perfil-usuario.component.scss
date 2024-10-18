@@ -1,0 +1,22 @@
+.custom-card {
+  border-radius: 5px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 16px;
+  background: #141826;
+}
+
+.welcome-item h2 {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #bd955b;
+  background: #141826;
+  text-align: center;
+}
+
+.change-password-btn {
+  --background: #bd955b;
+  --color: #141826;
+  --ion-button-hover-background: #e0bc86;
+  border-radius: 8px;
+  width: 80%;
+}

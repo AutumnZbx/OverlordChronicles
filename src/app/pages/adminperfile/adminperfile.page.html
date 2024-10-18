@@ -10,7 +10,6 @@
 
 <ion-content class="ion-padding">
   <ion-list>
-    <!-- Tarjeta por cada usuario -->
     <ion-card *ngFor="let user of users" class="user-card">
       <ion-card-header class="user-header">
         <ion-avatar>
@@ -34,8 +33,8 @@
           <p>{{ user.email }}</p>
         </div>
         <div class="user-field">
-          <label class="field-label">Email:</label>
-          <p>{{ user.id_rol }}</p>
+          <label class="field-label">Role:</label>
+          <p>{{ user.id_rol === 1 ? 'Admin' : 'Usuario' }}</p> 
         </div>
       </ion-card-content>
 

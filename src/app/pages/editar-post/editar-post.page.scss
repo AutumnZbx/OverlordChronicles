@@ -1,0 +1,46 @@
+/* Cambiar el color de fondo general de la página */
+ion-content {
+  --background: none;
+}
+
+ion-toolbar {
+  --background: #141826;
+  --color: #bd955b; 
+}
+
+
+ion-content {
+    --background: #060913;
+  }
+  
+  .custom-card {
+    background-color: #141826;
+    border: 2px solid #bd955b;
+    border-radius: 10px;
+    margin-bottom: 16px;
+  }
+  
+  ion-item {
+    --background: transparent;
+    --color: #bd955b;
+  }
+  
+  ion-label {
+    color: #bd955b;
+  }
+  
+  ion-input, ion-textarea {
+    --background: #141826;
+    --color: #bd955b;
+  }
+  
+  ion-button.custom-button {
+    --background: #bd955b;
+    --color: #141826;
+  }
+  
+  ion-note {
+    font-size: 12px;
+    padding: 4px;
+  }
+  

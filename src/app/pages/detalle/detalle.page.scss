@@ -1,12 +1,18 @@
+ion-toolbar {
+  --background: #141826;
+  --color: #bd955b; 
+}
+
+
 ion-header {
   --background: #141826; 
   --color: #bd955b; 
 }
 ion-content {
-    --background: #141826; 
+  --background: none;
   
     ion-toolbar {
-      --background: #444444; 
+      --background: #141826; 
       --color: #bd955b; 
     }
   

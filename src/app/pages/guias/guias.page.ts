@@ -12,11 +12,16 @@ import { SevicebdService } from 'src/app/services/sevicebd.service';
 export class GuiasPage implements OnInit {
 
   guias: any[] = [];
-
+  usuario: any = {};
   constructor(private router: Router, private activedroute: ActivatedRoute, private bd:SevicebdService,private storage: NativeStorage, private alertCtrl: AlertController) { 
     
    }
     ngOnInit() {
+      this.cargarDatosUsuario();
+      this.loadGuides();
+    }
+
+    ionViewWillEnter() {
       this.loadGuides();
     }
 
@@ -28,10 +33,35 @@ export class GuiasPage implements OnInit {
         }
       });
     }
+
+    cargarDatosUsuario() {
+      // Verificar si hay un usuario guardado en localStorage
+      const storedUser = localStorage.getItem('user');
+      if (storedUser) {
+        // Parsear el usuario guardado
+        const user = JSON.parse(storedUser);
+        // Consultar por el estado de la base de datos
+        this.bd.dbReady().subscribe(data => {
+          if (data) {
+            // Obtener los datos del usuario de la base de datos
+            this.bd.getUsuarioById(user.id_usuario).then(res => {
+              this.usuario = res;
+            });
+          }
+        });
+      } else {
+        // Si no hay usuario guardado, redirigir al login o manejar el error
+        this.router.navigate(['/login']);
+      }
+    }
   
     // Navigate to the Create Post page
     createGuide() {
       this.router.navigate(['/crear-guia']);
+    }
+
+    canDeletePost(guia: any): boolean {
+      return guia.id_usuario === this.usuario.id_usuario || this.usuario.id_rol === 1;  // Si es el creador o admin (id_rol === 1)
     }
 
     goToGuide(guia: any) {

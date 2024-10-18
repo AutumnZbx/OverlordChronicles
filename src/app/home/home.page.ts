@@ -23,6 +23,11 @@ export class HomePage {
     this.cargarDatosUsuario();
    }
 
+   ionViewWillEnter() {
+    this.loadLatestContent();
+    this.cargarDatosUsuario();
+  }
+
    loadLatestContent() {
     this.bd.getLatestPosts().then(result => {
       this.latestPosts = [];

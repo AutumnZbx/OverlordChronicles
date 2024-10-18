@@ -1,51 +1,91 @@
-ion-header {
-  --background: #141826; 
-  --color: #bd955b; 
+/* Estilos del ion-content */
+ion-content {
+  --background: none;
 }
-.content-centered {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 16px;
-    min-height: 100vh;
-    background-color: #141826; 
-  
-    ion-card {
-      width: 100%;
-      max-width: 500px;
-      margin-bottom: 16px;
-      background-color: #141826; 
-      border-radius: 8px;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-      padding: 16px;
-  
-      ion-label {
-        color: #bd955b;
-        margin-bottom: 8px;
-      }
-  
-      ion-input {
-        width: 100%;
-        --background: #141826; 
-        --placeholder-color: #bd955b; 
-        --padding-start: 16px;
-        --padding-end: 16px;
-      }
-    }
 
-  .sign-btn-wrap{
-    text-align: center;
-    padding-top: 45px;
-   .sign-btn{
-     --ion-primary-color:#bd955b;
-     --background:#bd955b;
-     --background-activated:#E1EAF9;
-     --background-focused:#E1EAF9;
-     --background-hover:#647B9D;
-     color:#F4F6FA;
-     background-color: #bd955b;
-     border-radius: 25px;
-   }
- }
+/* Estilos de la barra superior */
+ion-toolbar {
+  --background: #141826;
+  --color: #bd955b;
+}
+
+/* Estilo del ion-card */
+.custom-card {
+  background-color: #141826;
+  --ion-card-background: #141826;
+  --ion-text-color: #bd955b;
+  border: 2px solid #bd955b;
+  border-radius: 10px;
+  margin-top: 16px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Estilo para el label */
+ion-label {
+  font-size: 1.1em;
+  margin-bottom: 8px;
+  color: #bd955b;
+}
+
+/* Estilos para los inputs y textareas */
+ion-input, ion-textarea {
+  width: 100%;
+  margin-bottom: 8px;
+  padding: 8px;
+  box-sizing: border-box;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
+
+/* Contador de caracteres */
+.char-counter {
+  font-size: 0.8em;
+  color: #888;
+  margin-top: -8px;
+  margin-bottom: 8px;
+}
+
+/* Mensaje de error */
+.error-message {
+  font-size: 0.9em;
+  color: #ff4d4d;
+  margin-top: 4px;
+}
+
+/* Estilo para la imagen */
+.image-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 16px;
+}
+
+.image-container img {
+  height: 250px;
+  width: 250px;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 1px solid #bd955b;
+}
+
+ion-button{
+  margin-top: 20px;
+  --background: #bd955b;
+  --color: #141826;
+  --ion-button-hover-background: #e0bc86;
+  border-radius: 8px;
+}
+
+/* Botón fijo para crear el post */
+.change-password-wrap {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+}
+
+.change-password-btn {
+  --background: #bd955b;
+  --color: #141826;
+  --ion-button-hover-background: #e0bc86;
+  border-radius: 8px;
+  width: 80%;
 }

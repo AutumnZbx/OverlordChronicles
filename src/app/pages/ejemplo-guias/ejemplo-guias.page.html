@@ -8,14 +8,50 @@
 </ion-header>
 
 <ion-content class="ion-padding">
-  <ion-card *ngIf="guias">
+  <ion-card class="custom-card" *ngIf="guias">
     <ion-card-header>
       <ion-card-title>{{ guias.titulo }}</ion-card-title>
     </ion-card-header>
 
     <ion-card-content>
-      <img *ngIf="guias.imagen" [src]="guias.imagen" alt="Guias Image" style="width: 100%; height: auto;" />
+      <img *ngIf="guias.imagen" [src]="guias.imagen" alt="Guias Image" class="post-image" />
+      <ion-icon name="copy-outline" class="copy-icon" (click)="copiarTexto()"></ion-icon>
       <p>{{ guias.contenido }}</p>
+      <ion-buttons slot="end" *ngIf="usuarioEsAutorOAdmin()">
+        <ion-button (click)="irAEditarPost()">
+          <ion-icon slot="icon-only" name="create-outline"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+    </ion-card-content>
+  </ion-card>
+
+  <hr class="post-comment-separator">
+
+  
+  <ion-card *ngFor="let comentario of comentarios" class="comment-card">
+    <ion-card-content>
+      <div class="comment-footer">
+        <span class="username">{{ comentario.usuario }}</span>
+        <ion-icon name="trash" class="delete-icon" (click)="deleteComment(comentario.id)"></ion-icon>
+      </div>
+      <p>{{ comentario.mensaje }} {{comentario.id}}</p>
     </ion-card-content>
   </ion-card>
 </ion-content>
+
+<!-- Floating comment box -->
+<div [class.show]="showCommentInput" class="comment-box-overlay">
+  <ion-item>
+    <ion-textarea [(ngModel)]="comentario" maxlength="100" placeholder="Write your comment (max. 100 characters)"></ion-textarea>
+  </ion-item>
+  <p class="char-counter">{{ comentario.length || 0 }} / 100 characters</p>
+  <ion-button expand="block" (click)="submitComment()">Submit Comment</ion-button>
+</div>
+
+<!-- FAB to open the comment box -->
+<ion-fab vertical="bottom" horizontal="end" slot="fixed" class="custom-fab">
+  <ion-fab-button (click)="toggleCommentInput()">
+    <ion-icon name="chatbubbles"></ion-icon>
+  </ion-fab-button>
+</ion-fab>
+

@@ -1,36 +1,58 @@
 <ion-header class="ion-no-border">
   <ion-toolbar>
-    <!-- <ion-title>signup</ion-title> -->
     <ion-buttons slot="start">
-      <ion-back-button defaulthref="login" text="">
-      </ion-back-button>
-      </ion-buttons>
+      <ion-back-button defaulthref="login" text=""></ion-back-button>
+    </ion-buttons>
   </ion-toolbar>
-
 </ion-header>
 
-<ion-content class="bg-color">
+<ion-content class="ion-padding bg-color">
+  <!-- Logo de la aplicación -->
+  <div class="logo-container">
+    <img src="../../../assets/images/logo.png" alt="App Logo" class="app-logo" />
+  </div>
 
-    <ion-card class="ion-no-margin">
-      <ion-img src="../../../assets/images/logo.png"></ion-img>
-
-        <ion-card-header>
-            <ion-card-title>
-              Forgot your password?
-            </ion-card-title>
-            <ion-card-subtitle>
-              Enter your email and we will send you a message.
-            </ion-card-subtitle>
-        </ion-card-header>
-        <ion-card-content>
+  <!-- Card centrado -->
+  <ion-card class="recover-card">
+    <ion-card-content>
+      <!-- Formulario para enviar el código -->
+      <form (ngSubmit)="enviarCodigo()">
         <ion-item>
-          <ion-input placeholder="email" class="input"></ion-input>
-          <ion-icon name="mail-outline"></ion-icon>
+          <ion-label position="stacked">Email Address</ion-label>
+          <ion-input [(ngModel)]="email" name="email" type="email" required></ion-input>
         </ion-item>
-        </ion-card-content>
-        <div class="sign-btn-wrap">
-            <ion-button  shape="round" type="submit"  fill="solid" class="sign-btn" (click)="cambiarPassword()">Send email</ion-button>
+        <div class="login-btn-wrap">
+          <ion-button  shape="round" type="submit"  fill="solid" class="login-btn">
+            Send Code
+          </ion-button>
         </div>
-    </ion-card>
+      </form>
 
+      <!-- Código de recuperación -->
+      <form *ngIf="codigoEnviado" (ngSubmit)="verificarCodigo()">
+        <ion-item>
+          <ion-label position="stacked">Recovery Code</ion-label>
+          <ion-input [(ngModel)]="codigo" name="codigo" type="text" required></ion-input>
+        </ion-item>
+        <div class="login-btn-wrap">
+          <ion-button  shape="round" type="submit"  fill="solid" class="login-btn">
+            Verify Code
+          </ion-button>
+        </div>
+      </form>
+
+      <!-- Nueva contraseña -->
+      <form *ngIf="codigoVerificado" (ngSubmit)="restablecerContrasena()">
+        <ion-item>
+          <ion-label position="stacked">New Password</ion-label>
+          <ion-input [(ngModel)]="nuevaContrasena" name="nuevaContrasena" type="password" required></ion-input>
+        </ion-item>
+        <div class="login-btn-wrap">
+          <ion-button  shape="round" type="submit"  fill="solid" class="login-btn">
+            Reset Password
+          </ion-button>
+        </div>
+      </form>
+    </ion-card-content>
+  </ion-card>
 </ion-content>

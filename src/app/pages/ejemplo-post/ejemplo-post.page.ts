@@ -25,17 +25,15 @@ export class EjemploPostPage implements OnInit {
 
   ngOnInit() {
     this.cargarDatosUsuario();
-    // Verificar si el postId fue pasado en el estado de navegación
     if (this.router.getCurrentNavigation()?.extras?.state?.['postId']) {
       const postId = this.router.getCurrentNavigation()?.extras?.state?.['postId'];
-      this.cargarPost(postId); // Cargar el post con el id
+      this.cargarPost(postId); 
       this.cargarComentarios(postId);
     } else {
-      // Si no se recibió el id, mostramos un mensaje de error
       this.post = {
         id_post: 0,
-        titulo: 'Post no encontrado',
-        contenido: 'No hay contenido disponible para este post.',
+        titulo: 'Post not found',
+        contenido: 'No content available for this post.',
         imagen: null
       };
     }
@@ -64,28 +62,42 @@ export class EjemploPostPage implements OnInit {
 
   async cargarPost(id_post: number) {
     try {
-      // Llamamos a la función del servicio para obtener el post por su id
       const postCargado = await this.bd.getPostById(id_post);
       if (postCargado) {
-        this.post = postCargado; // Guardamos el post en la variable
+        this.post = postCargado; 
       } else {
         this.post = {
           id_post: 0,
-          titulo: 'Post no encontrado',
-          contenido: 'Este post no existe o ha sido eliminado.',
+          titulo: 'Post not found',
+          contenido: 'This post does not exist or has been deleted.',
           imagen: null
         };
       }
     } catch (error) {
-      console.error('Error al cargar el post: ', error);
+      console.error('Error loading the post: ', error);
       this.post = {
         id_post: 0,
         titulo: 'Error',
-        contenido: 'Hubo un error al intentar cargar el post.',
+        contenido: 'There was an error trying to load the post.',
         imagen: null
       };
     }
   }
+
+  usuarioEsAutorOAdmin(): boolean {
+    return (
+      this.usuario.id_usuario === this.post.id_usuario || // Si es el creador
+      this.usuario.id_rol === 1 // O si es administrador (depende de cómo guardes el rol)
+    );
+  }
+
+  irAEditarPost() {
+    // Redireccionar a la página de edición del post
+    this.router.navigate(['/editar-post'], {
+      state: { postId: this.post.id_post }  // Pasar el ID del post
+    });
+  }
+
 
   async cargarComentarios(id_post: number) {
     try {
@@ -100,34 +112,39 @@ export class EjemploPostPage implements OnInit {
   }
 
   async submitComment() {
-    // Verificar si el comentario no está vacío y no excede los 100 caracteres
     if (this.comentario.trim().length > 0 && this.comentario.length <= 100 && this.usuario) {
       try {
         const id_usuario = this.usuario.id_usuario;
         await this.bd.guardarComentario(this.post.id_post, id_usuario, this.comentario);
-        this.comentario = '';  // Clear the comment input field
-        this.showCommentInput = false;  // Hide the comment input field
-        this.cargarComentarios(this.post.id_post);  // Reload comments
+        this.comentario = '';  
+        this.showCommentInput = false; 
+        this.cargarComentarios(this.post.id_post);  
       } catch (error) {
-        console.error('Error al guardar el comentario', error);
+        console.error('Error saving the comment', error);
       }
     } else if (this.comentario.length > 100) {
-      // Mensaje de advertencia si se excede el límite
       const toast = await this.toastController.create({
-        message: 'El comentario no puede exceder los 100 caracteres.',
+        message: 'The comment cannot exceed 100 characters.',
         duration: 2000,
         position: 'bottom'
       });
       await toast.present();
     }
   }
+  
 
   async deleteComment(id_comentario: number) {
     try {
       await this.bd.eliminarComentario(id_comentario);
-      this.cargarComentarios(this.post.id_post);  // Recargar los comentarios
+      this.cargarComentarios(this.post.id_post);  
+      const toast = await this.toastController.create({
+        message: 'Comment deleted',
+        duration: 2000,  
+        position: 'bottom'  
+      });
+      await toast.present();
     } catch (error) {
-      console.error('Error al eliminar el comentario', error);
+      console.error('Error deleting the comment', error);
     }
   }
 
@@ -137,18 +154,9 @@ export class EjemploPostPage implements OnInit {
       try {
         await Clipboard.write({
           string: this.post.contenido
-        });
-        
-        // Mostrar el mensaje de "Texto copiado"
-        const toast = await this.toastController.create({
-          message: 'Texto copiado',
-          duration: 2000,  // 2 segundos
-          position: 'bottom'  // Aparecerá en la parte inferior
-        });
-        await toast.present();
-  
+        }); 
       } catch (error) {
-        console.error('Error al copiar el texto:', error);
+        console.error('Error :', error);
       }
     }
   }

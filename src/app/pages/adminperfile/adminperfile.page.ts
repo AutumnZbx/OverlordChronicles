@@ -39,27 +39,38 @@ export class AdminperfilePage implements OnInit {
 
   // Function to make the user an admin
   async makeAdmin(id_usuario: number) {
-    const alert = await this.alertController.create({
-      header: 'Confirm Make Admin',
-      message: 'Are you sure you want to make this user an admin?',
-      buttons: [
-        {
-          text: 'Cancel',
-          role: 'cancel',
-        },
-        {
-          text: 'Make Admin',
-          handler: () => {
-            this.bd.updateUserRole(id_usuario, 1).then(() => {
-              this.presentToast('User has been made an admin.');
-              this.loadUsers(); // Reload users after the update
-            });
+    const user = this.users.find(u => u.id_usuario === id_usuario);
+  
+    if (user && user.id_rol === 1) { // Si el usuario ya es admin
+      const alert = await this.alertController.create({
+        header: 'Error',
+        message: 'Este usuario ya es administrador.',
+        buttons: ['OK'],
+      });
+      await alert.present();
+    } else {
+      const alert = await this.alertController.create({
+        header: 'Confirmar',
+        message: '¿Estás seguro de que quieres convertir a este usuario en administrador?',
+        buttons: [
+          {
+            text: 'Cancelar',
+            role: 'cancel',
           },
-        },
-      ],
-    });
-
-    await alert.present();
+          {
+            text: 'Convertir en Admin',
+            handler: () => {
+              this.bd.updateUserRole(id_usuario, 1).then(() => {
+                this.presentToast('El usuario ha sido convertido en administrador.');
+                this.loadUsers(); // Recargar usuarios después de la actualización
+              });
+            },
+          },
+        ],
+      });
+  
+      await alert.present();
+    }
   }
 
   // Confirm deletion of the user

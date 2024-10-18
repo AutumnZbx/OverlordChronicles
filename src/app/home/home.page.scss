@@ -8,13 +8,20 @@ ion-toolbar {
   --color: #bd955b; 
 }
 
-ion-card-header{
+/* Color de los títulos dentro de los ion-cards */
+ion-card-header ion-card-title {
+  color: #bd955b; /* Mismo color que el contenido */
+}
+
+ion-card-header {
   background-color: #141826;
   color: #bd955b;
 }
+
 /* Estilo general para la lista de posts y guías */
 ion-list {
   background-color: #060913;
+  color: #bd955b;
   padding: 0; /* Remover el padding por defecto si es necesario */
   margin: 0;
 }
@@ -23,6 +30,7 @@ ion-list {
 ion-item {
   --background: transparent; /* Eliminar el color de fondo predeterminado de los items */
   padding: 0;
+  color: #bd955b;
   margin-bottom: 16px; /* Separación entre los ítems */
   border-radius: 10px; /* Bordes redondeados para cada item */
 }
@@ -50,7 +58,7 @@ ion-item img {
   object-fit: cover; /* Ajuste para que las imágenes se recorten proporcionalmente */
 }
 
-ion-button{
+ion-button {
   background-color: #141826; 
   color: #bd955b;
 }

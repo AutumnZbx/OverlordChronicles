@@ -7,6 +7,7 @@ import { Usuarios } from './usuarios';
 import { Post } from './post';
 import { Guias } from './guias';
 import { Comentarios } from './comentarios';
+import { Comentario2 } from './comentario2';
 
 @Injectable({
   providedIn: 'root'
@@ -16,6 +17,7 @@ export class SevicebdService {
   public database!: SQLiteObject;
 
   // Variables de eliminación de tablas
+  borrarTablaComentario2: string = "DROP TABLE IF EXISTS comentario2;";
   borrarTablaComentarios: string = "DROP TABLE IF EXISTS comentario;";
   borrarTablaObjetos: string = "DROP TABLE IF EXISTS objetos;";
   borrarTablaPersonajes: string = "DROP TABLE IF EXISTS personajes;";
@@ -35,8 +37,8 @@ export class SevicebdService {
 
   tablaComentatios: string= "CREATE TABLE IF NOT EXISTS comentario (id_comentario INTEGER PRIMARY KEY AUTOINCREMENT ,id_post INTEGER NOT NULL,id_usuario INTEGER NOT NULL,mensaje TEXT NOT NULL,fecha DATETIME DEFAULT CURRENT_TIMESTAMP,FOREIGN KEY (id_post) REFERENCES post(id_post) ON DELETE CASCADE,FOREIGN KEY (id_usuario) REFERENCES usuario(id_usuario) ON DELETE CASCADE);"
 
-  //variables de insert iniciales de las tablas
-  //registroNoticia: string = "INSERT or IGNOREJ INTO noticia(idnoticia, titulo, texto) VALUES (1, 'Soy un titulo', 'Soy un texto co,mo contenido de la noticia recien creada');";
+  tablaComentarios: string= "CREATE TABLE IF NOT EXISTS comentario2 (id_comentario INTEGER PRIMARY KEY AUTOINCREMENT ,id_guia INTEGER NOT NULL,id_usuario INTEGER NOT NULL,mensaje TEXT NOT NULL,fecha DATETIME DEFAULT CURRENT_TIMESTAMP,FOREIGN KEY (id_guia) REFERENCES guias(id_guias) ON DELETE CASCADE,FOREIGN KEY (id_usuario) REFERENCES usuario(id_usuario) ON DELETE CASCADE);"
+
   rolesApp: string = "INSERT OR IGNORE INTO rol (id_rol, nombre_rol) VALUES (1, 'Admin'); INSERT OR IGNORE INTO rol (id_rol, nombre_rol) VALUES (2, 'Usuario');"
 
   usuariosApp: string = "INSERT or IGNORE INTO usuario (nombre_usuario,email,password,foto_perfil,id_rol) VALUES ('Admin','chris.sellao@gmail.com','Kuki2024*','assets/images/alain_thumb.png','1');"
@@ -67,6 +69,9 @@ export class SevicebdService {
     return this.listaApp.asObservable();
   }
   fetchComentario(): Observable<Comentarios[]>{
+    return this.listaApp.asObservable();
+  }
+  fetchComentario2(): Observable<Comentarios[]>{
     return this.listaApp.asObservable();
   }
   
@@ -120,7 +125,7 @@ export class SevicebdService {
       }).then((db: SQLiteObject)=>{
         //guardar la conexion
         this.database = db;
-        //Eliminar las tablas para recetear la base de datos
+        //Eliminar las tablas para resetear la base de datos
         //this.borrarTablas();
         //llamar a la funcion de creacion de tabla
         this.crearTablas();
@@ -141,7 +146,7 @@ export class SevicebdService {
       await this.database.executeSql(this.tablaPost,[]);
       await this.database.executeSql(this.tablaGuias,[]);
       await this.database.executeSql(this.tablaComentatios,[]);
-
+      await this.database.executeSql(this.tablaComentarios,[]);
       //ejecutar los inserts en caso de que existan
       await this.database.executeSql(this.rolesApp,[]);
       await this.database.executeSql(this.usuariosApp,[]);
@@ -158,9 +163,10 @@ export class SevicebdService {
       await this.database.executeSql(this.borrarTablaPost,[]);
       await this.database.executeSql(this.borrarTablaGuias,[]);
       await this.database.executeSql(this.borrarTablaComentarios,[]);
+      await this.database.executeSql(this.borrarTablaComentario2,[]);
 
     }catch(e){
-      this.presentAlert('crear conexion','error en crear bd' + JSON.stringify(e));
+      this.presentAlert('crear conexion','error en resetear bd' + JSON.stringify(e));
     }
   }
 
@@ -304,6 +310,27 @@ export class SevicebdService {
     })
   }
 
+  seleccionarMensaje2(){
+    return this.database.executeSql('SELECT * FROM comentario2',[]).then(res=>{
+      //variable para guardar el resultado de la consulta
+      let items: Comentario2[] = [];
+      //verificar si la consulta trae registros
+      if(res.rows.length > 0){
+        //recorro el cursor
+        for(var i = 0; i < res.rows.length; i++){
+          items.push({
+            id_comentario: res.rows.item(i).id_comentario,
+            mensaje: res.rows.item(i).mensaje,
+          })
+        }
+      }
+      //actualizamos el observable de este select
+      this.listaApp.next(items as any);
+    }).catch(e=>{
+      this.presentAlert('Select', 'Error: ' + JSON.stringify(e));
+    })
+  }
+
   addGuia(titulo: string, contenido: string, imagen: any, id_usuario: number) {
     const createdAt = new Date().toISOString();  // Generar la fecha de creación
     return this.database.executeSql(
@@ -393,6 +420,15 @@ export class SevicebdService {
     });
   }
 
+  eliminarComentario2(id_comentario: number) {
+    const sql = 'DELETE FROM comentario2 WHERE id_comentario = ?';
+    return this.database.executeSql(sql, [id_comentario]).then(res => {
+      console.log('Comentario eliminado correctamente');
+    }).catch(e => {
+      console.log('Error al eliminar comentario:', JSON.stringify(e));
+    });
+  }
+
   changeProfilePicture(newImage: string, userId: number) {
     const sql = 'UPDATE usuarios SET foto_perfil = ? WHERE id_usuario = ?';
     return this.database.executeSql(sql, [newImage, userId]).then(res => {
@@ -434,6 +470,20 @@ export class SevicebdService {
   getUsuarioById(id_usuario: number) {
     const sql = 'SELECT * FROM usuario WHERE id_usuario = ?';
     return this.database.executeSql(sql, [id_usuario]).then(res => {
+      if (res.rows.length > 0) {
+        return res.rows.item(0); // Retorna el primer resultado, que será el usuario con el ID dado
+      } else {
+        return null; // Si no se encuentra el usuario, retorna null
+      }
+    }).catch(e => {
+      console.error('Error al obtener el usuario:', e);
+      return null; // Manejo de errores
+    });
+  }
+
+  getUsuarioByEmail(email: string) {
+    const sql = 'SELECT * FROM usuario WHERE email = ?';
+    return this.database.executeSql(sql, [email]).then(res => {
       if (res.rows.length > 0) {
         return res.rows.item(0); // Retorna el primer resultado, que será el usuario con el ID dado
       } else {
@@ -500,11 +550,48 @@ export class SevicebdService {
     });
   }
 
+  actualizarContrasena(email: string, nuevaContrasena: string): Promise<any> {
+    return new Promise((resolve, reject) => {
+      const query = `UPDATE usuario SET password = ? WHERE email = ?`;
+      this.database.executeSql(query, [nuevaContrasena, email])
+        .then(res => {
+          if (res.rowsAffected > 0) {
+            resolve('Contraseña actualizada con éxito');
+          } else {
+            reject('No se pudo actualizar la contraseña');
+          }
+        })
+        .catch(err => {
+          console.error('Error al actualizar la contraseña:', err);
+          reject(err);
+        });
+    });
+  }
+
  // Método para obtener comentarios de un post
  async getComentariosByPost(id_post: number) {
   const query = 'SELECT c.id_comentario,c.mensaje, u.nombre_usuario FROM comentario c INNER JOIN usuario u ON c.id_usuario = u.id_usuario WHERE c.id_post = ?';
   try {
     const result = await this.database.executeSql(query, [id_post]);
+    let comentarios = [];
+    for (let i = 0; i < result.rows.length; i++) {
+      comentarios.push({
+        mensaje: result.rows.item(i).mensaje,
+        usuario: result.rows.item(i).nombre_usuario,
+        id: result.rows.item(i).id_comentario,
+      });
+    }
+    return comentarios;
+  } catch (error) {
+    console.error('Error al obtener los comentarios', error);
+    return [];
+  }
+}
+
+async getComentariosByPGuide(id_guia: number) {
+  const query = 'SELECT c.id_comentario,c.mensaje, u.nombre_usuario FROM comentario2 c INNER JOIN usuario u ON c.id_usuario = u.id_usuario WHERE c.id_guia = ?';
+  try {
+    const result = await this.database.executeSql(query, [id_guia]);
     let comentarios = [];
     for (let i = 0; i < result.rows.length; i++) {
       comentarios.push({
@@ -530,8 +617,6 @@ export class SevicebdService {
     )
     .then(async res => {
       if (res.insertId) {
-        const newCommentId = res.insertId;  // Fetch the generated id_comentario
-        this.presentAlert("Agregar", "Mensaje creado correctamente con ID: " + newCommentId);
         this.seleccionarMensaje();  
       }
     })
@@ -540,5 +625,30 @@ export class SevicebdService {
     });
   }
 
+  async guardarComentario2(id_guia: number, id_usuario: number, mensaje: string) {
+    const createdAt = new Date().toISOString(); 
+    return this.database.executeSql(
+      'INSERT INTO comentario2 (id_guia, id_usuario, mensaje, fecha) VALUES (?, ?, ?, ?)',
+      [id_guia, id_usuario, mensaje, createdAt]
+    )
+    .then(async res => {
+      if (res.insertId) {
+        this.seleccionarMensaje2();  
+      }
+    })
+    .catch(e => {
+      this.presentAlert('Agregar', 'Error: ' + JSON.stringify(e));
+    });
+  }
+
+  actualizarPost(id_post: number, titulo: string, contenido: string, imagen: string): Promise<any> {
+    const query = 'UPDATE post SET titulo = ?, contenido = ?, imagen = ? WHERE id_post = ?';
+    return this.database.executeSql(query, [titulo, contenido, imagen, id_post]);
+  }
+
+  actualizarGuia(id_guia: number, titulo: string, contenido: string, imagen: string): Promise<any> {
+    const query = 'UPDATE guias SET titulo = ?, contenido = ?, imagen = ? WHERE id_guia = ?';
+    return this.database.executeSql(query, [titulo, contenido, imagen, id_guia]);
+  }
 
 }

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
 import { ApiService } from 'src/app/services/api.service';
+import { Clipboard } from '@capacitor/clipboard';
 
 
 @Component({
@@ -12,7 +13,7 @@ import { ApiService } from 'src/app/services/api.service';
 export class DetallePage implements OnInit {
   character: any = null;
 
-  constructor(private route: ActivatedRoute, private api: ApiService) { }
+  constructor(private route: ActivatedRoute, private api: ApiService,private clipboard: Clipboard) { }
 
   ngOnInit() {
     // Obtener el ID del personaje desde la URL
@@ -33,6 +34,18 @@ export class DetallePage implements OnInit {
       }, (error) => {
         console.log('Error fetching character details', error);
       });
+    }
+  }
+
+  async copiarTexto() {
+    if (this.character && this.character.desc) {
+      try {
+        await Clipboard.write({
+          string: this.character.desc
+        }); 
+      } catch (error) {
+        console.error('Error :', error);
+      }
     }
   }
   

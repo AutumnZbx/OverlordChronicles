@@ -1,24 +1,28 @@
 ion-content {
   --background: none;
 }
-
-ion-header {
-  --background: #141826; 
+ion-toolbar {
+  --background: #141826;
   --color: #bd955b; 
 }
 
-
-ion-card {
-  position: center;
+.character-card {
   text-align: center;
-  background-color: #141826; 
-  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+  background-color: #141826; /* Color de fondo del card */
+  border-radius: 20px; /* Bordes redondeados */
+  border: 2px solid #bd955b; /* Color del borde */
+  padding: 20px;
+  max-width: 400px;
+  width: 100%;
+}
 
-  
+.character-card:hover {
+  transform: translateY(-5px);
+}
 
-  ion-card-title{
-    color: #bd955b; 
-  }
-
-  
+ion-card-title {
+  font-size: 1.2rem;
+  color: #bd955b;
 }

@@ -1,0 +1,79 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Edit Post</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button defaulthref="foro" text=""></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-card class="custom-card">
+    <ion-card-content>
+      <form (ngSubmit)="guardarCambios()" #editPostForm="ngForm">
+        <!-- Título -->
+        <ion-item>
+          <ion-label position="stacked">Title</ion-label>
+          <ion-input
+            [(ngModel)]="post.titulo"
+            name="titulo"
+            required
+            minlength="10"
+            maxlength="50"
+            #titulo="ngModel"
+          ></ion-input>
+        </ion-item>
+        <ion-note *ngIf="titulo.invalid && titulo.touched" color="danger">
+          Title is required and should be between 10 and 50 characters.
+        </ion-note>
+
+        <!-- Contenido -->
+        <ion-item>
+          <ion-label position="stacked">Content</ion-label>
+          <ion-textarea
+            [(ngModel)]="post.contenido"
+            name="contenido"
+            required
+            minlength="10"
+            maxlength="250"
+            #contenido="ngModel"
+          ></ion-textarea>
+        </ion-item>
+        <ion-note *ngIf="contenido.invalid && contenido.touched" color="danger">
+          Content is required and should be between 10 and 250 characters.
+        </ion-note>
+
+        <!-- Mostrar la imagen original si existe -->
+        <ion-card class="custom-card" *ngIf="post.imagen">
+          <ion-card-content>
+            <ion-label class="ion-text-wrap">Current Image</ion-label>
+            <div class="image-container">
+              <img [src]="post.imagen" alt="Post Image" />
+            </div>
+            <ion-button expand="block" color="danger" (click)="borrarImagen()" fill="clear">
+              Delete Image
+            </ion-button>
+          </ion-card-content>
+        </ion-card>
+
+        <!-- Botón para agregar nueva imagen -->
+        <ion-card class="custom-card">
+          <ion-card-content>
+            <ion-label class="ion-text-wrap">New Image (optional)</ion-label>
+            <ion-button expand="block" (click)="takePicture()" fill="clear">Upload New Image</ion-button>
+          </ion-card-content>
+        </ion-card>
+
+        <!-- Botón de guardar cambios -->
+        <ion-button
+          expand="block"
+          type="submit"
+          [disabled]="editPostForm.invalid"
+          class="custom-button"
+        >
+          Save Changes
+        </ion-button>
+      </form>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

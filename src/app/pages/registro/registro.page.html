@@ -1,66 +1,95 @@
 <ion-header class="ion-no-border">
   <ion-toolbar>
-    <!-- <ion-title>signup</ion-title> -->
     <ion-buttons slot="start">
-      <ion-back-button defaulthref="login" text="">
-      </ion-back-button>
-      </ion-buttons>
+      <ion-back-button defaulthref="login" text=""></ion-back-button>
+    </ion-buttons>
   </ion-toolbar>
-
 </ion-header>
 
 <ion-content class="bg-color">
+  <ion-card class="ion-no-margin">
+    <ion-img src="../../../assets/images/logo.png"></ion-img>
 
-    <ion-card class="ion-no-margin">
-      <ion-img src="../../../assets/images/logo.png"></ion-img>
+    <ion-card-header>
+      <ion-card-title>Create a new account</ion-card-title>
+      <ion-card-subtitle>Fill this form to create your account</ion-card-subtitle>
+    </ion-card-header>
 
-        <ion-card-header>
-            <ion-card-title>
-              Create a new account
-            </ion-card-title>
-            <ion-card-subtitle>
-              Fill this form to create your account
-              </ion-card-subtitle>
-        </ion-card-header>
-       <ion-card-content>
+    <ion-card-content>
+      <form (submit)="register($event)">
+        <!-- Campo de nombre de usuario -->
         <ion-item class="input">
-          <ion-input label="username :" placeholder="nombre de usuario"[(ngModel)]="nombre_usuario"  name="username"></ion-input>
+          <ion-input
+            placeholder="nombre de usuario"
+            [(ngModel)]="nombre_usuario"
+            name="username"
+            maxlength="15"
+            (focus)="usernameTouched = true"
+            (blur)="validateUsername()">
+          </ion-input>
           <ion-icon name="person-outline"></ion-icon>
         </ion-item>
-        <p *ngIf="nombre_usuario.trim() === ''" class="error-text">
-          Username can´t be left blank
+        <p *ngIf="usernameTouched && (showUsernameError || usernameTooLong)" class="error-text">
+          {{ usernameTooLong ? 'Username cannot exceed 15 characters.' : "Username can't be left blank." }}
         </p>
+
+        <!-- Campo de email -->
         <ion-item>
-          <ion-input label="email :" placeholder="email@mail.com" class="input"[(ngModel)]="email" name="email"></ion-input>
+          <ion-input
+            placeholder="email@mail.com"
+            [(ngModel)]="email"
+            name="email"
+            maxlength="30"
+            (focus)="emailTouched = true"
+            (blur)="validateEmail()">
+          </ion-input>
           <ion-icon name="mail-outline"></ion-icon>
         </ion-item>
-        <p *ngIf="email.trim() === ''" class="error-text">
-          Email cannot be left blank
+        <p *ngIf="emailTouched && (showEmailError || emailTooLong || !validEmail)" class="error-text">
+          {{ emailTooLong ? 'Email cannot exceed 30 characters.' : !validEmail ? 'Please use a valid email.' : "Email can't be left blank." }}
         </p>
-        <p *ngIf="!validarEmail(email) && email.trim() !== ''" class="error-text">
-          Please use a valid email
-        </p>
-        <ion-item>
-          <ion-input label="password :"[type]="showPassword ? 'text' : 'password'" placeholder="contraseña" [(ngModel)]="password" name="passwordInput" class="input"></ion-input>
-          <ion-icon [name]="showPassword ? 'eye-outline' : 'eye-off-outline'" slot="end" (click)="togglePasswordVisibility()"></ion-icon>
-        </ion-item>
-        <ion-item>
-          <ion-input label="password :"[type]="showPassword ? 'text' : 'password'" placeholder="escriba de nuevo la contraseña" [(ngModel)]="password2" name="passwordInput" class="input"></ion-input>
-          <ion-icon [name]="showPassword ? 'eye-outline' : 'eye-off-outline'" slot="end" (click)="togglePasswordVisibility()"></ion-icon>
-        </ion-item>
-        <br />
-        <p *ngIf="password !== password2 && password2.length > 0" class="error-text">
-          Password don´t match. Try again
-        </p>
-      <p *ngIf="!validarPassword(password) && password.length > 0" class="error-text">
-        Password must have at least 8 character, a number, an uppercase and a special character
-      </p>
-      <br />
-      
-        <div class="sign-btn-wrap">
-            <ion-button  shape="round" type="submit"  fill="solid" class="sign-btn" (click)="login()">Sign Up</ion-button>
-        </div>
-       </ion-card-content>
-    </ion-card>
 
+        <!-- Campo de contraseña -->
+        <ion-item>
+          <ion-input
+            [type]="showPassword ? 'text' : 'password'"
+            placeholder="contraseña"
+            [(ngModel)]="password"
+            name="passwordInput"
+            maxlength="15"
+            (focus)="passwordTouched = true"
+            (blur)="validatePassword()">
+          </ion-input>
+          <ion-icon [name]="showPassword ? 'eye-outline' : 'eye-off-outline'" slot="end" (click)="togglePasswordVisibility()"></ion-icon>
+        </ion-item>
+
+        <!-- Campo para repetir contraseña -->
+        <ion-item>
+          <ion-input
+            [type]="showPassword ? 'text' : 'password'"
+            placeholder="escriba de nuevo la contraseña"
+            [(ngModel)]="password2"
+            name="passwordInput2"
+            maxlength="15"
+            (focus)="password2Touched = true"
+            (blur)="validatePasswordMatch()">
+          </ion-input>
+          <ion-icon [name]="showPassword ? 'eye-outline' : 'eye-off-outline'" slot="end" (click)="togglePasswordVisibility()"></ion-icon>
+        </ion-item>
+
+        <p *ngIf="passwordTouched && (passwordTooLong || !validPassword)" class="error-text">
+          {{ passwordTooLong ? 'Password cannot exceed 15 characters.' : 'Password must have at least 8 characters, a number, an uppercase letter, and a special character.' }}
+        </p>
+
+        <p *ngIf="password2Touched && !passwordsMatch" class="error-text">
+          Passwords do not match. Try again.
+        </p>
+
+        <!-- Botón para registrarse -->
+        <div class="sign-btn-wrap">
+          <ion-button shape="round" type="submit" fill="solid" class="sign-btn">Sign Up</ion-button>
+        </div>
+      </form>
+    </ion-card-content>
+  </ion-card>
 </ion-content>

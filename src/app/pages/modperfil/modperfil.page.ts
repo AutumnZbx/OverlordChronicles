@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { AlertController,ToastController } from '@ionic/angular';
+import { AlertController } from '@ionic/angular';
 import { SevicebdService } from 'src/app/services/sevicebd.service';
 
 @Component({
@@ -13,7 +13,19 @@ export class ModperfilPage implements OnInit {
   nombre_usuario: string = '';
   email: string = '';
   password: string = '';
+  
+  currentUser: any;  // Almacena los datos actuales del usuario
+  
+  // Variables para las validaciones
+  nombreVacio: boolean = false;
+  nombreInvalido: boolean = false;
+  nombreIgual: boolean = false;
 
+  emailVacio: boolean = false;
+  emailInvalido: boolean = false;
+
+  passwordVacia: boolean = false;
+  passwordIncorrecta: boolean = false;
 
   constructor(private router: Router, private bd: SevicebdService, private alertCtrl: AlertController) {
     const navData = this.router.getCurrentNavigation()?.extras.state;
@@ -34,10 +46,10 @@ export class ModperfilPage implements OnInit {
     this.router.navigate(['/cambio-pass'], navigationExtras);
   }
 
-  
   cargarDatosUsuario() {
     this.bd.getUsuarioById(this.id_usuario).then(usuario => {
       if (usuario) {
+        this.currentUser = usuario;
         this.nombre_usuario = usuario.nombre_usuario;
         this.email = usuario.email;
       }
@@ -46,34 +58,60 @@ export class ModperfilPage implements OnInit {
     });
   }
 
+  validarNombreUsuario() {
+    this.nombreVacio = this.nombre_usuario.trim() === '';
+    this.nombreInvalido = this.nombre_usuario.length < 5 || this.nombre_usuario.length > 15;
+    this.nombreIgual = this.nombre_usuario === this.currentUser.nombre_usuario;
+  }
+
+  validarEmail() {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    this.emailVacio = this.email.trim() === '';
+    this.emailInvalido = !emailRegex.test(this.email);
+  }
+
+  validarPassword() {
+    this.passwordVacia = this.password.trim() === '';
+  }
+
   async guardarCambios() {
+    this.validarNombreUsuario();
+    this.validarEmail();
+    this.validarPassword();
+
+    if (this.nombreVacio || this.nombreInvalido || this.nombreIgual || this.emailVacio || this.emailInvalido || this.passwordVacia) {
+      // Si hay algún error en las validaciones, no proceder
+      return;
+    }
+
     // Verificar que la contraseña sea correcta
     const usuarioActual = await this.bd.getUsuarioById(this.id_usuario);
     
     if (usuarioActual && usuarioActual.password === this.password) {
+      this.passwordIncorrecta = false;
       // Contraseña correcta, proceder a actualizar nombre_usuario y/o email
       const cambios: any = {};
 
-      if (this.nombre_usuario && this.nombre_usuario !== usuarioActual.nombre_usuario) {
+      if (this.nombre_usuario !== usuarioActual.nombre_usuario) {
         cambios.nombre_usuario = this.nombre_usuario;
       }
-      if (this.email && this.email !== usuarioActual.email) {
+      if (this.email !== usuarioActual.email) {
         cambios.email = this.email;
       }
 
       if (Object.keys(cambios).length > 0) {
         this.bd.updateUsuario(this.id_usuario, cambios).then(() => {
-          this.mostrarAlerta('Éxito', 'Perfil actualizado correctamente');
+          this.mostrarAlerta('Success', 'Profile updated successfully');
+          this.router.navigate(['/perfil']);
         }).catch(err => {
-          console.error('Error al actualizar perfil:', err);
-          this.mostrarAlerta('Error', 'No se pudo actualizar el perfil');
+          console.error('Error updating profile:', err);
+          this.mostrarAlerta('Error', 'Unable to update profile');
         });
       } else {
-        this.mostrarAlerta('Sin cambios', 'No hay cambios en los datos');
+        this.mostrarAlerta('No changes', 'No changes detected in your profile');
       }
     } else {
-      // Contraseña incorrecta
-      this.mostrarAlerta('Error', 'Password incorrect');
+      this.passwordIncorrecta = true;
     }
   }
 

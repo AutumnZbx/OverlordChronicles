@@ -19,6 +19,7 @@
       <ion-card-subtitle>{{ character.country }}</ion-card-subtitle>
     </ion-card-header>
     <ion-card-content>
+      <ion-icon name="copy-outline" class="copy-icon" (click)="copiarTexto()"></ion-icon>
       <p>{{ character.desc }}</p>
     </ion-card-content>
   </ion-card>

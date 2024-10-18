@@ -64,7 +64,7 @@ export class CrearPostPage implements OnInit {
     }
 
     this.bd.addPost(this.titulo, this.contenido, this.imagen, this.currentUserId).then(() => {
-      this.router.navigate(['/foro']);
+      this.router.navigate(['/foro'], { state: { refresh: true } });
     });
   }
 

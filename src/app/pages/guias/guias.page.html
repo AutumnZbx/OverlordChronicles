@@ -1,7 +1,7 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-back-button></ion-back-button>
+      <ion-back-button defaulthref="home" text=""></ion-back-button>
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
     <ion-title>Guides</ion-title>
@@ -13,19 +13,17 @@
     <!-- Loop through posts and display them in ion-card -->
     <ion-card *ngFor="let guia of guias">
       <ion-card-header>
-        <ion-card-title>{{ guia.titulo }} {{ guia.id_guia}}</ion-card-title>
+        <ion-card-title>{{ guia.titulo }} </ion-card-title>
       </ion-card-header>
 
       <ion-card-content>
         <img *ngIf="guia.imagen" [src]="guia.imagen" alt="guia Image" style="width: 100%; height: auto;" />
       <p>{{ guia.contenido }}</p>
         <p><small>Posted on: {{ guia.fecha_publicacion }}{{ guia.id_guia }}</small></p>
-        <ion-button (click)="goToGuide(guia)" fill="outline">Ver Guia</ion-button> 
-        <ion-buttons slot="end">
-          <ion-button color="danger" (click)="deleteGuide(guia.id_guia)">
-            <ion-icon name="trash"></ion-icon>
-          </ion-button>
-        </ion-buttons>
+        <ion-button (click)="goToGuide(guia)" fill="clear">Ver Guia</ion-button> 
+        <button *ngIf="canDeletePost(guia)" mat-icon-button class="example-icon" aria-label="Example delete icon" slot="end" (click)="deleteGuide(guia.id_guia)">
+          <mat-icon>delete</mat-icon>
+        </button>
       </ion-card-content>
     </ion-card>
 
@@ -34,7 +32,7 @@
   </ion-list>
 
   <!-- Floating action button to create a new post -->
-  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+  <ion-fab vertical="bottom" horizontal="start" slot="fixed" class="custom-fab">
     <ion-fab-button (click)="createGuide()">
       <ion-icon name="add"></ion-icon>
     </ion-fab-button>

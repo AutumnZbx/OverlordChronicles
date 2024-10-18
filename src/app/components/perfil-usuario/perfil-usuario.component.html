@@ -1,10 +1,9 @@
-<ion-card>
-  <ion-item>
+<ion-card class="custom-card">
+  <ion-item lines="none" class="welcome-item">
     <ion-label>
-      <h2> Welcome {{userName}}</h2>
+      <h2>Welcome, {{userName}}</h2>
     </ion-label>
   </ion-item>
-  <ion-button expand="full" (click)="irPerfil()">Go to profile</ion-button>
-  <ion-button expand="full" (click)="editarPerfil()">Edit profile</ion-button>
 
+  <ion-button shape="round" fill="solid" class="change-password-btn" (click)="irPerfil()">Go to profile</ion-button>
 </ion-card>

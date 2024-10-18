@@ -10,40 +10,47 @@
 
 <ion-content class="ion-padding">
   <div class="password-card">
-  <ion-card class="custom-card">
-  <!-- Formulario para modificar perfil -->
-  <form (submit)="guardarCambios()" class="form-container">
-    <!-- Campo de nombre de usuario -->
-    <ion-item>
-      <ion-label position="stacked">Current Username: {{ nombre_usuario }}</ion-label>
-      <ion-input placeholder="Enter new username" [(ngModel)]="nombre_usuario" name="nombre_usuario"></ion-input>
-    </ion-item>
+    <ion-card class="custom-card">
+      <!-- Formulario para modificar perfil -->
+      <form (submit)="guardarCambios()" class="form-container">
+        <!-- Campo de nombre de usuario -->
+        <ion-item>
+          <ion-label position="stacked">Current Username: {{ currentUser.nombre_usuario }}</ion-label>
+          <ion-input placeholder="Enter new username" [(ngModel)]="nombre_usuario" name="nombre_usuario" (ngModelChange)="validarNombreUsuario()"></ion-input>
+        </ion-item>
+        <ion-text color="danger" *ngIf="nombreVacio">Username cannot be empty</ion-text>
+        <ion-text color="danger" *ngIf="nombreInvalido">Username must be between 5 and 15 characters</ion-text>
+        <ion-text color="danger" *ngIf="nombreIgual">The new username cannot be the same as the current one</ion-text>
 
-    <!-- Campo de email -->
-    <ion-item>
-      <ion-label position="stacked">Current Email: {{ email }}</ion-label>
-      <ion-input placeholder="Enter new email" [(ngModel)]="email" name="email" type="email"></ion-input>
-    </ion-item>
+        <!-- Campo de email -->
+        <ion-item>
+          <ion-label position="stacked">Current Email: {{ currentUser.email }}</ion-label>
+          <ion-input placeholder="Enter new email" [(ngModel)]="email" name="email" type="email" (ngModelChange)="validarEmail()"></ion-input>
+        </ion-item>
+        <ion-text color="danger" *ngIf="emailVacio">Email cannot be empty</ion-text>
+        <ion-text color="danger" *ngIf="emailInvalido">Please enter a valid email address</ion-text>
 
-    <!-- Mensaje para ingresar contraseña -->
-    <p class="info-text">To save any changes, please enter your current password:</p>
+        <!-- Mensaje para ingresar contraseña -->
+        <p class="info-text">To save any changes, please enter your current password:</p>
 
-    <!-- Campo de contraseña actual -->
-    <ion-item>
-      <ion-input placeholder="Enter current password" [(ngModel)]="password" name="password" type="password" required></ion-input>
-    </ion-item>
+        <!-- Campo de contraseña actual -->
+        <ion-item>
+          <ion-input placeholder="Enter current password" [(ngModel)]="password" name="password" type="password" (ngModelChange)="validarPassword()" required></ion-input>
+        </ion-item>
+        <ion-text color="danger" *ngIf="passwordVacia">Password cannot be empty</ion-text>
+        <ion-text color="danger" *ngIf="passwordIncorrecta">Incorrect password</ion-text>
 
-    <!-- Botón para guardar cambios -->
-    <ion-button expand="block" type="submit" class="save-button">Save Changes</ion-button>
-  </form>
+        <!-- Botón para guardar cambios -->
+        <ion-button expand="block" type="submit" class="save-button">Save Changes</ion-button>
+      </form>
 
-  <!-- Botón para cambiar contraseña -->
-  <div class="change-password-wrap">
-    <ion-button shape="round" fill="solid" class="change-password-btn" (click)="cambiarpass()">
-      Change Password
-    </ion-button>
+      <!-- Botón para cambiar contraseña -->
+      <div class="change-password-wrap">
+        <ion-button shape="round" fill="solid" class="change-password-btn" (click)="cambiarpass()">
+          Change Password
+        </ion-button>
+      </div>
+    </ion-card>
   </div>
-</ion-card>
-</div>
 </ion-content>
 

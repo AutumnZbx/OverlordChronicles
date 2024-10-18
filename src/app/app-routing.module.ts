@@ -80,9 +80,18 @@ const routes: Routes = [
     loadChildren: () => import('./pages/ejemplo-post/ejemplo-post.module').then( m => m.EjemploPostPageModule)
   },
   {
+    path: 'editar-post',
+    loadChildren: () => import('./pages/editar-post/editar-post.module').then( m => m.EditarPostPageModule)
+  },
+  {
+    path: 'editar-guia',
+    loadChildren: () => import('./pages/editar-guia/editar-guia.module').then( m => m.EditarGuiaPageModule)
+  },
+  {
     path: '**',
     loadChildren: () => import('./pages/notfound/notfound.module').then( m => m.NotfoundPageModule)
   },
+
 
 
 

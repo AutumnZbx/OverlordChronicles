@@ -23,6 +23,11 @@ export class PerfilPage implements OnInit {
     this.cargarDatosUsuario();
   }
 
+  ionViewWillEnter() {
+    this.cargarDatosUsuario();
+  }
+
+
   // Cargar datos del usuario desde la base de datos o el almacenamiento
   cargarDatosUsuario() {
     // Verificar si hay un usuario guardado en localStorage

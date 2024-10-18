@@ -14,7 +14,7 @@ ion-card-title {
 
 ion-list {
   background-color: #060913;
-  padding: 0; /* Remover el padding por defecto si es necesario */
+  padding: 0;
   margin: 0;
 }
 
@@ -24,9 +24,9 @@ ion-card {
   background-color: #141826;
   width: 100%;
   border: 2px solid #bd955b; /* Borde personalizado de color */
-  border-radius: 10px; /* Bordes redondeados */
+  border-radius: 10px;
   margin: 16px 0;
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Sombra para los cards */
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 /* Estilo para el botón de eliminar */
@@ -46,12 +46,10 @@ button[mat-icon-button] mat-icon {
   font-size: 24px;
 }
 
-/* Ajustes para el contenido dentro del card */
 ion-card-content {
   padding: 16px;
 }
 
-/* Ajustar las imágenes dentro de los cards */
 ion-card img {
   width: 100%;
   height: auto;
@@ -60,13 +58,12 @@ ion-card img {
   margin-bottom: 8px;
 }
 
-/* Estilo para el botón flotante (FAB) */
-ion-fab-button {
-  --background: #bd955b; /* Cambiar el color del FAB */
-  --color: #141826;
+/* Custom floating action button (FAB) */
+.custom-fab ion-fab-button {
+  --background: #bd955b; /* Cambiar el color de fondo del FAB */
+  --color: #141826; /* Cambiar el color del icono dentro del FAB */
 }
 
-/* Botón de ver post */
 ion-button {
   background-color: #141826;
   color: #bd955b;

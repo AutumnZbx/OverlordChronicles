@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NativeStorage } from '@awesome-cordova-plugins/native-storage/ngx';
 import { SevicebdService } from 'src/app/services/sevicebd.service';
-
+import { LocalNotifications } from '@capacitor/local-notifications';
 
 @Component({
   selector: 'app-inicio',
@@ -12,7 +12,9 @@ import { SevicebdService } from 'src/app/services/sevicebd.service';
 export class InicioPage implements OnInit {
 
   constructor(private router:Router, private storage: NativeStorage,
-    private bd:SevicebdService) { }
+    private bd:SevicebdService) {
+      LocalNotifications.requestPermissions();
+     }
 
   async ngOnInit() {
     this.bd.dbReady();
