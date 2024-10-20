@@ -128,7 +128,7 @@ export class SevicebdService {
         //guardar la conexion
         this.database = db;
         //Eliminar las tablas para resetear la base de datos
-        this.borrarTablas();
+        //this.borrarTablas();
         //llamar a la funcion de creacion de tabla
         this.crearTablas();
         this.seleccionarUsuario();
@@ -202,10 +202,10 @@ export class SevicebdService {
   registrarUsuario(nombre_usuario: string, email: string, password:string, id_rol:number) {
     const foto_perfil = 'assets/images/alain_thumb.png'; 
     return this.database.executeSql('INSERT INTO usuario(nombre_usuario, email, password, foto_perfil, id_rol) VALUES(?,?,?,?,?)',[nombre_usuario,email,password,foto_perfil,id_rol]).then(res=>{
-      this.presentAlert("Registro","Usuario agregado correctamente");
+      this.presentAlert("Sign Up","Account created");
       this.seleccionarUsuario();
     }).catch(e=>{
-      this.presentAlert('Registro', 'Error: ' + JSON.stringify(e));
+      this.presentAlert('Sign Up', 'Error: ' + JSON.stringify(e));
     })
 
   }
@@ -263,10 +263,10 @@ export class SevicebdService {
       'INSERT INTO post (titulo, contenido, imagen, fecha_publicacion, id_usuario) VALUES (?, ?, ?, ?, ?)',  // Asegúrate de que sean 5 placeholders
       [titulo, contenido, imagen, createdAt, id_usuario]  // Proveer los 5 valores en el mismo orden
     ).then(res => {
-      this.presentAlert("Agregar", "Post creado correctamente");
+      this.presentAlert("Add", "Post created");
       this.seleccionarPost();  // Actualiza la lista de posts después de agregar el nuevo
     }).catch(e => {
-      this.presentAlert('Agregar', 'Error: ' + JSON.stringify(e));
+      this.presentAlert('Add', 'Error: ' + JSON.stringify(e));
     });
 }
 
@@ -341,10 +341,10 @@ export class SevicebdService {
       'INSERT INTO guias (titulo, contenido, imagen, fecha_publicacion, id_usuario) VALUES (?, ?, ?, ?, ?)',  
       [titulo, contenido, imagen, createdAt, id_usuario]  
     ).then(res => {
-      this.presentAlert("Agregar", "Post creado correctamente");
+      this.presentAlert("Add", "Guide created");
       this.seleccionarGuia();  
     }).catch(e => {
-      this.presentAlert('Agregar', 'Error: ' + JSON.stringify(e));
+      this.presentAlert('Add', 'Error: ' + JSON.stringify(e));
     });
 }
 
@@ -365,9 +365,9 @@ export class SevicebdService {
 
   eliminarUsuario(id_usuario: string){
     return this.database.executeSql('DELETE FROM usuario WHERE id_usuario = ?',[id_usuario]).then(res=>{
-      this.presentAlert("Eliminar","Usuario eliminado correctamente");
+      this.presentAlert("Delete"," User deleted");
     }).catch(e=>{
-      this.presentAlert('Eliminar', 'Error: ' + JSON.stringify(e));
+      this.presentAlert('Delete', 'Error: ' + JSON.stringify(e));
     })
 
   }
@@ -542,13 +542,13 @@ export class SevicebdService {
       this.database.executeSql(query, [nuevaContrasena, id_usuario])
         .then(res => {
           if (res.rowsAffected > 0) {
-            resolve('Contraseña actualizada con éxito');
+            resolve('Password changed');
           } else {
-            reject('No se pudo actualizar la contraseña');
+            reject('Can´t change password');
           }
         })
         .catch(err => {
-          console.error('Error al actualizar la contraseña:', err);
+          console.error('Error changing password:', err);
           reject(err);
         });
     });
@@ -560,13 +560,13 @@ export class SevicebdService {
       this.database.executeSql(query, [nuevaContrasena, email])
         .then(res => {
           if (res.rowsAffected > 0) {
-            resolve('Contraseña actualizada con éxito');
+            resolve('Password changed');
           } else {
-            reject('No se pudo actualizar la contraseña');
+            reject('Can´t change password');
           }
         })
         .catch(err => {
-          console.error('Error al actualizar la contraseña:', err);
+          console.error('Error changing password:', err);
           reject(err);
         });
     });
@@ -625,7 +625,7 @@ async getComentariosByPGuide(id_guia: number) {
       }
     })
     .catch(e => {
-      this.presentAlert('Agregar', 'Error: ' + JSON.stringify(e));
+      this.presentAlert('Add', 'Error: ' + JSON.stringify(e));
     });
   }
 
@@ -641,7 +641,7 @@ async getComentariosByPGuide(id_guia: number) {
       }
     })
     .catch(e => {
-      this.presentAlert('Agregar', 'Error: ' + JSON.stringify(e));
+      this.presentAlert('Add', 'Error: ' + JSON.stringify(e));
     });
   }
 
