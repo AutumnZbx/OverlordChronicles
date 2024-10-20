@@ -66,14 +66,14 @@
         <!-- Campo para repetir contraseña -->
         <ion-item>
           <ion-input
-            [type]="showPassword ? 'text' : 'password'"
+            [type]="showConfirmPassword ? 'text' : 'password'"
             placeholder="Confirm password"
             [(ngModel)]="password2"
             name="passwordInput2"
             maxlength="15"
             (ionBlur)="validatePasswordMatch()">
           </ion-input>
-          <ion-icon [name]="showPassword ? 'eye-outline' : 'eye-off-outline'" slot="end" (click)="toggleConfirmPasswordVisibility()"></ion-icon>
+          <ion-icon [name]="showConfirmPassword ? 'eye-outline' : 'eye-off-outline'" slot="end" (click)="toggleConfirmPasswordVisibility()"></ion-icon>
         </ion-item>
         <p *ngIf="showPasswordMatchError" class="error-text">
           Passwords do not match. Try again.

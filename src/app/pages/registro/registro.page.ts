@@ -50,21 +50,25 @@ export class RegistroPage implements OnInit {
   validateUsername() {
     this.showUsernameError = this.nombre_usuario.trim() === '' || this.nombre_usuario.length > 15;
     this.usernameTooLong = this.nombre_usuario.length > 15;
+    return !this.showUsernameError && !this.usernameTooLong; // Retornar si es válido
   }
 
   validateEmail() {
     this.showEmailError = this.email.trim() === '' || !this.validarEmail(this.email) || this.email.length > 30;
     this.emailTooLong = this.email.length > 30;
     this.validEmail = this.validarEmail(this.email);
+    return !this.showEmailError && this.validEmail && !this.emailTooLong; // Retornar si es válido
   }
 
   validatePassword() {
     this.showPasswordError = !this.validarPassword(this.password) || this.password.length > 15;
     this.passwordTooLong = this.password.length > 15;
+    return !this.showPasswordError && !this.passwordTooLong; // Retornar si es válido
   }
 
   validatePasswordMatch() {
     this.showPasswordMatchError = this.password !== this.password2;
+    return !this.showPasswordMatchError; // Retornar si las contraseñas coinciden
   }
 
   validarEmail(email: string): boolean {
@@ -88,33 +92,32 @@ export class RegistroPage implements OnInit {
 
   async register(event: Event) {
     event.preventDefault();
-
+  
     // Validaciones
-    this.validateUsername();
-    this.validateEmail();
-    this.validatePassword();
-    this.validatePasswordMatch();
-
-    if (
-      this.showUsernameError ||
-      this.usernameTooLong ||
-      this.showEmailError ||
-      this.emailTooLong ||
-      !this.validEmail ||
-      this.passwordTooLong ||
-      !this.validPassword ||
-      this.showPasswordMatchError
-    ) {
+    const isUsernameValid = this.validateUsername();
+    const isEmailValid = this.validateEmail();
+    const isPasswordValid = this.validatePassword();
+    const isPasswordMatch = this.validatePasswordMatch();
+  
+    console.log("Username valid:", isUsernameValid);
+    console.log("Email valid:", isEmailValid);
+    console.log("Password valid:", isPasswordValid);
+    console.log("Passwords match:", isPasswordMatch);
+  
+    if (!isUsernameValid || !isEmailValid || !isPasswordValid || !isPasswordMatch) {
       await this.presentAlert('Error', 'Please fill all fields correctly before signing up.');
       return;
     }
-
+  
+    // Verificar si el usuario ya existe
     const result = await this.bd.checkUserExists(this.nombre_usuario, this.email);
     if (result.rows.length > 0) {
-      this.presentAlert('Error', 'User with this username or email already exists.');
+      await this.presentAlert('Error', 'User with this username or email already exists.');
       return;
     }
-
+  
+    // Registrar usuario
+    console.log("Registering user:", this.nombre_usuario);
     this.bd.registrarUsuario(this.nombre_usuario, this.email, this.password, 2);
     this.router.navigate(['/login']);
   }
