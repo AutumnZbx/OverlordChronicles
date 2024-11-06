@@ -152,8 +152,8 @@ export class SevicebdService {
       //ejecutar los inserts en caso de que existan
       await this.database.executeSql(this.rolesApp,[]);
       await this.database.executeSql(this.usuariosApp,[]);
-      await this.database.executeSql(this.postApp,[]);
-      await this.database.executeSql(this.guiaApp,[]);
+      //await this.database.executeSql(this.postApp,[]);
+      //await this.database.executeSql(this.guiaApp,[]);
 
     }catch(e){
       this.presentAlert('crear conexion','error en crear bd' + JSON.stringify(e));

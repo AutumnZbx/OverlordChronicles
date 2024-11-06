@@ -53,6 +53,10 @@ export class AppComponent {
     }
   }
 
+  closeMenu() {
+    this.menuCtrl.close(); // Cierra el menú desplegable
+  }
+
 
   cerrarSesion() {
     localStorage.removeItem('user');
