@@ -9,6 +9,7 @@ import { AdminperfilePageRoutingModule } from './adminperfile-routing.module';
 import { AdminperfilePage } from './adminperfile.page';
 import {MatDividerModule} from '@angular/material/divider';
 import {MatListModule} from '@angular/material/list';
+import { MatTabsModule } from '@angular/material/tabs';
 
 
 @NgModule({
@@ -17,7 +18,8 @@ import {MatListModule} from '@angular/material/list';
     FormsModule,
     IonicModule,
     AdminperfilePageRoutingModule,
-    MatListModule, MatDividerModule
+    MatListModule, MatDividerModule,
+    MatTabsModule
   ],
   declarations: [AdminperfilePage]
 })

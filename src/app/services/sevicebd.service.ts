@@ -39,13 +39,15 @@ export class SevicebdService {
 
   tablaComentarios: string= "CREATE TABLE IF NOT EXISTS comentario2 (id_comentario INTEGER PRIMARY KEY AUTOINCREMENT ,id_guia INTEGER NOT NULL,id_usuario INTEGER NOT NULL,mensaje TEXT NOT NULL,fecha DATETIME DEFAULT CURRENT_TIMESTAMP,FOREIGN KEY (id_guia) REFERENCES guias(id_guias) ON DELETE CASCADE,FOREIGN KEY (id_usuario) REFERENCES usuario(id_usuario) ON DELETE CASCADE);"
 
-  rolesApp: string = "INSERT OR IGNORE INTO rol (id_rol, nombre_rol) VALUES (1, 'Admin'); INSERT OR IGNORE INTO rol (id_rol, nombre_rol) VALUES (2, 'Usuario');"
+  rolesApp: string = "INSERT OR IGNORE INTO rol (id_rol, nombre_rol) VALUES (1, 'Admin'); INSERT OR IGNORE INTO rol (id_rol, nombre_rol) VALUES (2, 'Usuario');  INSERT OR IGNORE INTO rol (id_rol, nombre_rol) VALUES (3, 'bloqueado');"
 
   usuariosApp: string = "INSERT or IGNORE INTO usuario (nombre_usuario,email,password,foto_perfil,id_rol) VALUES ('Admin','admin','admin','assets/images/alain_thumb.png','1');"
 
   postApp: string = "INSERT or IGNORE INTO post (titulo,contenido,imagen,id_usuario)VALUES ('Welcome to Overlord Chronicles','Hello and welcome to the community! We are excited to have you here! In this app, you’ll find a wide variety of content created to enhance your experience and help you stay informed and engaged with everything that’s happening.  Welcome aboard, and enjoy the adventure!','assets/images/header2.png','1');"
 
   guiaApp: string = "INSERT or IGNORE INTO guias (titulo,contenido,imagen,id_usuario)VALUES ('Forum Guidelines: Respect and Community Standards','To ensure our community remains a friendly and welcoming space for everyone, we’ve established some important guidelines for interacting with others and sharing content in the forum. Please read through these rules carefully and help us maintain a positive environment! Respect Others  No Explicit or Inappropriate Content  Stay On Topic  Contribute Positively ','assets/images/welcome.png','1');"
+
+
 
   //observables para guardar las consultas de las tablas
   listaApp = new BehaviorSubject([]);
@@ -128,7 +130,7 @@ export class SevicebdService {
         //guardar la conexion
         this.database = db;
         //Eliminar las tablas para resetear la base de datos
-        //this.borrarTablas();
+        this.borrarTablas();
         //llamar a la funcion de creacion de tabla
         this.crearTablas();
         this.seleccionarUsuario();

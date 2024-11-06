@@ -60,6 +60,8 @@ export class AppComponent {
 
   cerrarSesion() {
     localStorage.removeItem('user');
-    this.router.navigate(['/inicio']);
+    this.router.navigate(['/inicio']).then(() => {
+      window.location.reload();  // Force a reload to clear all lingering state
+    });
   }
 }

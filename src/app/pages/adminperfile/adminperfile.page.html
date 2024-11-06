@@ -4,50 +4,86 @@
       <ion-back-button></ion-back-button>
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
-    <ion-title>Administrar Perfiles</ion-title>
+    <ion-title> Welcome</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content class="ion-padding">
-  <ion-list>
-    <ion-card *ngFor="let user of users" class="user-card">
-      <ion-card-header class="user-header">
-        <ion-avatar>
-          <ion-img [src]="user.foto_perfil" alt="User Profile"></ion-img>
-        </ion-avatar>
-      </ion-card-header>
+  <mat-tab-group>
+    <!-- Administradores -->
+    <mat-tab label="Administradores">
+      <ion-list>
+        <ion-card *ngFor="let admin of admins" class="user-card">
+          <ion-card-header class="user-header">
+            <ion-avatar>
+              <ion-img [src]="admin.foto_perfil" alt="User Profile"></ion-img>
+            </ion-avatar>
+          </ion-card-header>
+          <ion-card-content>
+            <p>ID: {{ admin.id_usuario }}</p>
+            <p>Username: {{ admin.nombre_usuario }}</p>
+            <p>Email: {{ admin.email }}</p>
+          </ion-card-content>
+          <div class="action-buttons">
+            <!-- Botón para quitar admin -->
+            <ion-button class="custom-button remove-admin-button" (click)="removeAdmin(admin.id_usuario)">
+              Drop admin
+            </ion-button>
+          </div>
+        </ion-card>
+      </ion-list>
+    </mat-tab>
 
-      <ion-card-content class="user-content">
-        <div class="user-field">
-          <label class="field-label">User ID:</label>
-          <p>{{ user.id_usuario }}</p>
-        </div>
+    <!-- Usuarios Normales -->
+    <mat-tab label="Usuarios Normales">
+      <ion-list>
+        <ion-card *ngFor="let user of normalUsers" class="user-card">
+          <ion-card-header class="user-header">
+            <ion-avatar>
+              <ion-img [src]="user.foto_perfil" alt="User Profile"></ion-img>
+            </ion-avatar>
+          </ion-card-header>
+          <ion-card-content>
+            <p>ID: {{ user.id_usuario }}</p>
+            <p>Username: {{ user.nombre_usuario }}</p>
+            <p>Email: {{ user.email }}</p>
+          </ion-card-content>
+          <div class="action-buttons">
+            <!-- Botón para hacer admin -->
+            <ion-button class="custom-button admin-button" (click)="makeAdmin(user.id_usuario)">
+              Make admin
+            </ion-button>
+            <!-- Botón para bloquear usuario -->
+            <ion-button class="custom-button block-button" (click)="confirmBlockUser(user.id_usuario)">
+              Ban user
+            </ion-button>
+          </div>
+        </ion-card>
+      </ion-list>
+    </mat-tab>
 
-        <div class="user-field">
-          <label class="field-label">Username:</label>
-          <p>{{ user.nombre_usuario }}</p>
-        </div>
-
-        <div class="user-field">
-          <label class="field-label">Email:</label>
-          <p>{{ user.email }}</p>
-        </div>
-        <div class="user-field">
-          <label class="field-label">Role:</label>
-          <p>{{ user.id_rol === 1 ? 'Admin' : 'Usuario' }}</p> 
-        </div>
-      </ion-card-content>
-
-      <div class="action-buttons">
-        <ion-button class="custom-button admin-button" (click)="makeAdmin(user.id_usuario)">
-          Make Admin
-        </ion-button>
-        <ion-button class="custom-button delete-button" (click)="confirmDeleteUser(user.id_usuario)">
-          Delete User
-        </ion-button>
-      </div>
-    </ion-card>
-  </ion-list>
-
-  <p *ngIf="users.length === 0" class="no-users-message">No users available.</p>
+    <!-- Usuarios Bloqueados -->
+    <mat-tab label="Usuarios Bloqueados">
+      <ion-list>
+        <ion-card *ngFor="let blockedUser of blockedUsers" class="user-card">
+          <ion-card-header class="user-header">
+            <ion-avatar>
+              <ion-img [src]="blockedUser.foto_perfil" alt="User Profile"></ion-img>
+            </ion-avatar>
+          </ion-card-header>
+          <ion-card-content>
+            <p>ID: {{ blockedUser.id_usuario }}</p>
+            <p>Username: {{ blockedUser.nombre_usuario }}</p>
+            <p>Email: {{ blockedUser.email }}</p>
+          </ion-card-content>
+          <div class="action-buttons">
+            <!-- Botón para desbloquear usuario -->
+            <ion-button class="custom-button unblock-button" (click)="unblockUser(blockedUser.id_usuario)">
+              Unban user
+            </ion-button>
+          </div>
+        </ion-card>
+      </ion-list>
+    </mat-tab>
+  </mat-tab-group>
 </ion-content>

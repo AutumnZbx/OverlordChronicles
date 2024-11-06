@@ -32,7 +32,7 @@
   </ion-list>
 
   <!-- Floating action button to create a new post -->
-  <ion-fab vertical="bottom" horizontal="start" slot="fixed" class="custom-fab">
+  <ion-fab vertical="bottom" horizontal="start" slot="fixed" class="custom-fab" *ngIf="usuario.id_rol !== 3">
     <ion-fab-button (click)="createGuide()">
       <ion-icon name="add"></ion-icon>
     </ion-fab-button>

@@ -24,7 +24,7 @@
         <ion-item [routerDirection]="'root'" [routerLink]="'/guias'" (click)="closeMenu()">
           <ion-icon name="person-circle-outline"></ion-icon>
           <ion-label>Guides</ion-label>
-          </ion-item>
+        </ion-item>
         <ion-item *ngIf="esAdmin" [routerDirection]="'root'" (click)="goToAdminPage(); closeMenu()">
           <ion-icon name="person-circle-outline"></ion-icon>
           <ion-label>Admin</ion-label>
@@ -33,7 +33,7 @@
         <ion-item [routerDirection]="'root'" [routerLink]="'/inicio'" slot="end" (click)="cerrarSesion(); closeMenu()">
           <ion-icon name="log-out-outline"></ion-icon>
           <ion-label>Close session</ion-label>
-          </ion-item>
+        </ion-item>
       </ion-list>
     </ion-content>
   </ion-menu>

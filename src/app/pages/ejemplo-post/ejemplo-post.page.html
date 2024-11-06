@@ -49,7 +49,7 @@
 </div>
 
 <!-- FAB to open the comment box -->
-<ion-fab vertical="bottom" horizontal="end" slot="fixed" class="custom-fab">
+<ion-fab vertical="bottom" horizontal="end" slot="fixed" class="custom-fab" *ngIf="usuario.id_rol !== 3">
   <ion-fab-button (click)="toggleCommentInput()">
     <ion-icon name="chatbubbles"></ion-icon>
   </ion-fab-button>
