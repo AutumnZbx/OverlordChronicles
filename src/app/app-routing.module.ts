@@ -88,9 +88,14 @@ const routes: Routes = [
     loadChildren: () => import('./pages/editar-guia/editar-guia.module').then( m => m.EditarGuiaPageModule)
   },
   {
+    path: 'notificaciones',
+    loadChildren: () => import('./pages/notificaciones/notificaciones.module').then( m => m.NotificacionesPageModule)
+  },
+  {
     path: '**',
     loadChildren: () => import('./pages/notfound/notfound.module').then( m => m.NotfoundPageModule)
   },
+
 
 
 

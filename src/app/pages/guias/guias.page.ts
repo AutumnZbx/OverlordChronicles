@@ -61,7 +61,7 @@ export class GuiasPage implements OnInit {
     }
 
     canDeletePost(guia: any): boolean {
-      return guia.id_usuario === this.usuario.id_usuario || this.usuario.id_rol === 1;  // Si es el creador o admin (id_rol === 1)
+      return guia.id_usuario === this.usuario.id_usuario; 
     }
 
     goToGuide(guia: any) {

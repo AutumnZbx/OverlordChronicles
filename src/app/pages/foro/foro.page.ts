@@ -58,14 +58,71 @@ export class ForoPage implements OnInit {
     this.bd.getAllPosts().then(result => {
       this.post = [];
       for (let i = 0; i < result.rows.length; i++) {
-        this.post.push(result.rows.item(i));
+        let currentPost = result.rows.item(i);
+        if (currentPost.categoria === 1) {  // Only add posts with categoria = 1
+          this.post.push(currentPost);
+        }
       }
+      console.log(this.post);  // Check the loaded posts data
     });
   }
+  
+
+   // Function to determine if the user can view the post
+   shouldDisplayPost(post: any): boolean {
+    return post.estado === 1 || (this.isAdmin() && post.estado === 2);
+  }
+
+
+  // Function to check if the user is an admin
+  isAdmin(): boolean {
+    return this.usuario.id_rol === 1;
+  }
+  
+
+  async blockPost(id_post: number, id_usuario: number, titulo: string) {
+    const alert = await this.alertCtrl.create({
+        header: 'Block Post',
+        message: 'Please provide the reason for blocking this post.',
+        inputs: [
+            {
+                name: 'reason',
+                type: 'textarea',
+                placeholder: 'Reason for blocking',
+            },
+        ],
+        buttons: [
+            {
+                text: 'Cancel',
+                role: 'cancel',
+                cssClass: 'secondary',
+            },
+            {
+                text: 'Block',
+                handler: (data) => {
+                    if (data.reason) {
+                        // Call the updatePostStatus method to update the post status and create the notification
+                        this.bd.updatePostStatus(id_post, 2, id_usuario, data.reason).then(() => {
+                            this.loadPosts(); // Reload posts after blocking
+                            this.presentAlert("Blocked", "Post has been successfully blocked and user notified.");
+                        });
+                    } else {
+                        this.presentAlert("Error", "Reason for blocking is required.");
+                    }
+                },
+            },
+        ],
+    });
+
+    await alert.present();
+}
+
+  
+
 
   // Función para verificar si el usuario puede eliminar un post
   canDeletePost(post: any): boolean {
-    return post.id_usuario === this.usuario.id_usuario || this.usuario.id_rol === 1;  // Si es el creador o admin (id_rol === 1)
+    return post.id_usuario === this.usuario.id_usuario;  // Si es el creador o admin (id_rol === 1)
   }
 
   // Navegar a la página de creación de post
@@ -105,6 +162,15 @@ export class ForoPage implements OnInit {
       ],
     });
 
+    await alert.present();
+  }
+
+  async presentAlert(header: string, message: string) {
+    const alert = await this.alertCtrl.create({
+      header,
+      message,
+      buttons: ['OK']
+    });
     await alert.present();
   }
 

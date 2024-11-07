@@ -1,0 +1,35 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Notificaciones</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="marcarTodasComoLeidas()">
+        Marcar todas como leídas
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <ion-item *ngFor="let notificacion of notificaciones">
+      <ion-label>
+        <h2>{{ notificacion.contenido }}</h2>
+        <p>{{ notificacion.fecha_publicacion | date: 'short' }}</p>
+      </ion-label>
+      <ion-button 
+        *ngIf="notificacion.estado === 0" 
+        color="primary" 
+        (click)="marcarComoLeida(notificacion.id_notificacion)"
+      >
+        Marcar como leída
+      </ion-button>
+      <ion-button color="danger" (click)="eliminarNotificacion(notificacion.id_notificacion)">
+        Eliminar
+      </ion-button>
+    </ion-item>
+  </ion-list>
+</ion-content>

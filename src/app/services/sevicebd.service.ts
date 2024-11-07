@@ -25,19 +25,22 @@ export class SevicebdService {
   borrarTablaPost: string = "DROP TABLE IF EXISTS post;";
   borrarTablaUsuarios: string = "DROP TABLE IF EXISTS usuario;";
   borrarTablaRol: string = "DROP TABLE IF EXISTS rol;";
+  borrarTablaNotificacion: string = "DROP TABLE IF EXISTS notificacion;";
 
   //variables de creación de tablas
   tablaRol: string = "CREATE TABLE IF NOT EXISTS rol (id_rol INTEGER PRIMARY KEY AUTOINCREMENT, nombre_rol TEXT NOT NULL UNIQUE);";
 
   tablaUsuarios: string = "CREATE TABLE IF NOT EXISTS usuario (id_usuario INTEGER PRIMARY KEY AUTOINCREMENT,nombre_usuario VARCHAR(15) UNIQUE NOT NULL, email VARCHAR(50) UNIQUE NOT NULL, password VARCHAR(100) NOT NULL, foto_perfil BLOB, id_rol INTEGER NOT NULL, FOREIGN KEY(id_rol) REFERENCES rol(id_rol));";
 
-  tablaPost: string = "CREATE TABLE IF NOT EXISTS post (id_post INTEGER PRIMARY KEY AUTOINCREMENT, titulo TEXT NOT NULL, contenido TEXT NOT NULL, imagen BLOB , fecha_publicacion DATETIME DEFAULT CURRENT_TIMESTAMP, id_usuario INTEGER NOT NULL, FOREIGN KEY (id_usuario) REFERENCES usuario(id_usuario) ON DELETE CASCADE);";
+  tablaPost: string = "CREATE TABLE IF NOT EXISTS post (id_post INTEGER PRIMARY KEY AUTOINCREMENT,categoria INTEGER NOT NULL, titulo TEXT NOT NULL, contenido TEXT NOT NULL, imagen BLOB , fecha_publicacion DATETIME DEFAULT CURRENT_TIMESTAMP, estado INTEGER NOT NULL, id_usuario INTEGER NOT NULL, FOREIGN KEY (id_usuario) REFERENCES usuario(id_usuario) ON DELETE CASCADE);";
 
   tablaGuias: string = "CREATE TABLE IF NOT EXISTS guias (id_guia INTEGER PRIMARY KEY AUTOINCREMENT,titulo TEXT NOT NULL, contenido TEXT NOT NULL, imagen BLOB , fecha_publicacion DATETIME DEFAULT CURRENT_TIMESTAMP, id_usuario INTEGER NOT NULL, FOREIGN KEY (id_usuario) REFERENCES usuario(id_usuario) ON DELETE CASCADE);";
 
   tablaComentatios: string= "CREATE TABLE IF NOT EXISTS comentario (id_comentario INTEGER PRIMARY KEY AUTOINCREMENT ,id_post INTEGER NOT NULL,id_usuario INTEGER NOT NULL,mensaje TEXT NOT NULL,fecha DATETIME DEFAULT CURRENT_TIMESTAMP,FOREIGN KEY (id_post) REFERENCES post(id_post) ON DELETE CASCADE,FOREIGN KEY (id_usuario) REFERENCES usuario(id_usuario) ON DELETE CASCADE);"
 
   tablaComentarios: string= "CREATE TABLE IF NOT EXISTS comentario2 (id_comentario INTEGER PRIMARY KEY AUTOINCREMENT ,id_guia INTEGER NOT NULL,id_usuario INTEGER NOT NULL,mensaje TEXT NOT NULL,fecha DATETIME DEFAULT CURRENT_TIMESTAMP,FOREIGN KEY (id_guia) REFERENCES guias(id_guias) ON DELETE CASCADE,FOREIGN KEY (id_usuario) REFERENCES usuario(id_usuario) ON DELETE CASCADE);"
+
+  tablaNotificacion: string = "CREATE TABLE IF NOT EXISTS notificacion (id_notificacion INTEGER PRIMARY KEY AUTOINCREMENT, tipo INTEGER NOT NULL, titulo TEXT NOT NULL, contenido TEXT NOT NULL, estado INTEGER NOT NULL, fecha_publicacion DATETIME DEFAULT CURRENT_TIMESTAMP, id_usuario INTEGER NOT NULL, FOREIGN KEY (id_usuario) REFERENCES usuario(id_usuario) ON DELETE CASCADE);";
 
   rolesApp: string = "INSERT OR IGNORE INTO rol (id_rol, nombre_rol) VALUES (1, 'Admin'); INSERT OR IGNORE INTO rol (id_rol, nombre_rol) VALUES (2, 'Usuario');  INSERT OR IGNORE INTO rol (id_rol, nombre_rol) VALUES (3, 'bloqueado');"
 
@@ -151,6 +154,7 @@ export class SevicebdService {
       await this.database.executeSql(this.tablaGuias,[]);
       await this.database.executeSql(this.tablaComentatios,[]);
       await this.database.executeSql(this.tablaComentarios,[]);
+      await this.database.executeSql(this.tablaNotificacion,[]);
       //ejecutar los inserts en caso de que existan
       await this.database.executeSql(this.rolesApp,[]);
       await this.database.executeSql(this.usuariosApp,[]);
@@ -170,6 +174,7 @@ export class SevicebdService {
       await this.database.executeSql(this.borrarTablaGuias,[]);
       await this.database.executeSql(this.borrarTablaComentarios,[]);
       await this.database.executeSql(this.borrarTablaComentario2,[]);
+      await this.database.executeSql(this.borrarTablaNotificacion,[]);
 
     }catch(e){
       this.presentAlert('crear conexion','error en resetear bd' + JSON.stringify(e));
@@ -260,17 +265,61 @@ export class SevicebdService {
   }
 
   addPost(titulo: string, contenido: string, imagen: any, id_usuario: number) {
-    const createdAt = new Date().toISOString();  // Generar la fecha de creación
+    const createdAt = new Date().toISOString();  // Generate the creation date
+    const estado = 1;  // Default value for estado to make the post visible
+    const categoria = 1;  // Set the category as 1 for posts
+  
     return this.database.executeSql(
-      'INSERT INTO post (titulo, contenido, imagen, fecha_publicacion, id_usuario) VALUES (?, ?, ?, ?, ?)',  // Asegúrate de que sean 5 placeholders
-      [titulo, contenido, imagen, createdAt, id_usuario]  // Proveer los 5 valores en el mismo orden
+      'INSERT INTO post (titulo, contenido, imagen, fecha_publicacion, id_usuario, estado, categoria) VALUES (?, ?, ?, ?, ?, ?, ?)',
+      [titulo, contenido, imagen, createdAt, id_usuario, estado, categoria]  // Provide all 7 values in the correct order
     ).then(res => {
       this.presentAlert("Add", "Post created");
-      this.seleccionarPost();  // Actualiza la lista de posts después de agregar el nuevo
+      this.seleccionarPost();  // Refresh the post list after adding the new post
     }).catch(e => {
       this.presentAlert('Add', 'Error: ' + JSON.stringify(e));
     });
+  }
+  
+
+  async updatePostStatus(id_post: number, estado: number, id_usuario: number, reason: string) {
+    // Update the post's status
+    await this.database.executeSql(
+        'UPDATE post SET estado = ? WHERE id_post = ?',
+        [estado, id_post]
+    );
+
+    // If the post is being blocked, retrieve the post title and insert a single notification
+    if (estado === 2) {
+        // Retrieve the post title
+        const result = await this.database.executeSql(
+            'SELECT titulo FROM post WHERE id_post = ?',
+            [id_post]
+        );
+
+        const postTitle = result.rows.length > 0 ? result.rows.item(0).titulo : 'Publicación';
+
+        const tipo = 1; // Type 1 for blocked post
+        const titulo = `Publicación bloqueada: ${postTitle}`; // Title of notification
+        const contenido = `Tu publicación "${postTitle}" ha sido bloqueada por un administrador. Razón: ${reason}`;
+        const estadoNotificacion = 0; // 0 for unread
+
+        await this.database.executeSql(
+            `INSERT INTO notificacion (tipo, titulo, contenido, estado, id_usuario) 
+             VALUES (?, ?, ?, ?, ?)`,
+            [tipo, titulo, contenido, estadoNotificacion, id_usuario]
+        );
+    }
 }
+
+  
+
+  // Method in SevicebdService to get only visible posts
+  getVisiblePosts() {
+    const sql = 'SELECT * FROM post WHERE estado = 1 AND categoria = 1';
+    return this.database.executeSql(sql, []);
+  }
+  
+
 
   seleccionarGuia(){
     return this.database.executeSql('SELECT * FROM guias',[]).then(res=>{
@@ -391,11 +440,15 @@ export class SevicebdService {
   }
 
   getAllPosts() {
-    return this.database.executeSql(`SELECT * FROM post ORDER BY fecha_publicacion DESC`, []);
+    return this.database.executeSql('SELECT * FROM post WHERE categoria = 1', []).then((result) => {
+      return result;
+    });
   }
 
   getAllGuides() {
-    return this.database.executeSql(`SELECT * FROM guias ORDER BY fecha_publicacion DESC`, []);
+    return this.database.executeSql('SELECT * FROM post WHERE categoria = 2', []).then((result) => {
+      return result;
+    });
   }
 
 
@@ -656,5 +709,67 @@ async getComentariosByPGuide(id_guia: number) {
     const query = 'UPDATE guias SET titulo = ?, contenido = ?, imagen = ? WHERE id_guia = ?';
     return this.database.executeSql(query, [titulo, contenido, imagen, id_guia]);
   }
+
+ // En SevicebdService
+obtenerNotificaciones(id_usuario: number) {
+  return this.database.executeSql(
+    `SELECT * FROM notificacion WHERE id_usuario = ? ORDER BY fecha_publicacion DESC`,
+    [id_usuario]
+  ).then(res => {
+    let notificaciones = [];
+    for (let i = 0; i < res.rows.length; i++) {
+      notificaciones.push(res.rows.item(i));
+    }
+    return notificaciones;
+  });
+}
+
+addNotification(notification: { tipo: number; titulo: string; contenido: string; estado: number; id_usuario: number }) {
+  const query = `INSERT INTO notificacion (tipo, titulo, contenido, estado, id_usuario) VALUES (?, ?, ?, ?, ?)`;
+  return this.database.executeSql(query, [
+    notification.tipo, 
+    notification.titulo, 
+    notification.contenido, 
+    notification.estado, 
+    notification.id_usuario
+  ]);
+}
+
+
+
+// Método para marcar una notificación como leída
+async marcarComoLeida(id_notificacion: number) {
+  const query = 'UPDATE notificacion SET estado = 1 WHERE id_notificacion = ?';
+  await this.database.executeSql(query, [id_notificacion]);
+}
+
+// Método para marcar todas las notificaciones como leídas
+async marcarTodasComoLeidas(id_usuario: number) {
+  const query = 'UPDATE notificacion SET estado = 1 WHERE id_usuario = ?';
+  await this.database.executeSql(query, [id_usuario]);
+}
+
+// Método para eliminar una notificación
+async eliminarNotificacion(id_notificacion: number) {
+  const query = 'DELETE FROM notificacion WHERE id_notificacion = ?';
+  await this.database.executeSql(query, [id_notificacion]);
+}
+
+getUnreadNotifications(userId: number): Promise<any[]> {
+  const sql = 'SELECT * FROM notificacion WHERE estado = 0 AND id_usuario = ?';
+  return this.database.executeSql(sql, [userId])
+    .then((result) => {
+      let notifications = [];
+      for (let i = 0; i < result.rows.length; i++) {
+        notifications.push(result.rows.item(i));
+      }
+      return notifications;
+    })
+    .catch((error) => {
+      console.error('Error fetching unread notifications', error);
+      return [];
+    });
+}
+
 
 }

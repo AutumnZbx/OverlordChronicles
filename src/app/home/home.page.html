@@ -4,19 +4,27 @@
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
     <ion-title>
-      Home 
+      Home
     </ion-title>
-    <ion-button slot="end"fill="clear"id="click-trigger">
+    <!-- Bell Icon for Notifications -->
+    <ion-button *ngIf="unreadNotifications" slot="end" fill="clear" (click)="goToNotifications()">
+      <ion-icon name="notifications" color="danger"></ion-icon> <!-- Red color if unread -->
+    </ion-button>
+    <!-- Profile Avatar -->
+    <ion-button slot="end" fill="clear" id="click-trigger">
       <ion-avatar>
-        <img [src]="usuario.foto_perfil">
-    </ion-avatar></ion-button>
+        <img [src]="usuario.foto_perfil" />
+      </ion-avatar>
+    </ion-button>
     <ion-popover trigger="click-trigger" triggerAction="click">
-    <ng-template>
-      <app-perfil-usuario></app-perfil-usuario>
-    </ng-template>
+      <ng-template>
+        <app-perfil-usuario></app-perfil-usuario>
+      </ng-template>
     </ion-popover>
   </ion-toolbar>
 </ion-header>
+
+
 
 <ion-content class="ion-padding">
   <ion-card >
