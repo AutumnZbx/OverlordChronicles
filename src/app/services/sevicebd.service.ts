@@ -129,7 +129,7 @@ export class SevicebdService {
         //guardar la conexion
         this.database = db;
         //Eliminar las tablas para resetear la base de datos
-        this.borrarTablas();
+        //this.borrarTablas();
         //llamar a la funcion de creacion de tabla
         this.crearTablas();
         this.seleccionarUsuario();
@@ -311,8 +311,8 @@ export class SevicebdService {
         const postTitle = result.rows.length > 0 ? result.rows.item(0).titulo : 'Publicación';
 
         const tipo = 1; // Type 1 for blocked post
-        const titulo = `Publicación bloqueada: ${postTitle}`; // Title of notification
-        const contenido = `Tu publicación "${postTitle}" ha sido bloqueada por un administrador. Razón: ${reason}`;
+        const titulo = `Post bloqued: ${postTitle}`; // Title of notification
+        const contenido = `Your post named "${postTitle}" has been bloqued. Because: ${reason}`;
         const estadoNotificacion = 0; // 0 for unread
 
         await this.database.executeSql(
@@ -787,6 +787,15 @@ getUnreadNotifications(userId: number): Promise<any[]> {
       return [];
     });
 }
+// En el archivo sevicebd.service.ts
+async createNotification(tipo: number, titulo: string, contenido: string, estado: number, userId: number) {
+  const query = `
+    INSERT INTO notificacion (tipo, titulo, contenido, estado, id_usuario) 
+    VALUES (?, ?, ?, ?, ?)
+  `;
+  return this.database.executeSql(query, [tipo, titulo, contenido, estado, userId]);
+}
+
 
 
 }

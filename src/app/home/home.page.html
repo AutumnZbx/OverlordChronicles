@@ -1,15 +1,20 @@
 <ion-header [translucent]="true">
-  <ion-toolbar> 
+  <ion-toolbar>
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
     <ion-title>
       Home
     </ion-title>
+    
     <!-- Bell Icon for Notifications -->
-    <ion-button *ngIf="unreadNotifications" slot="end" fill="clear" (click)="goToNotifications()">
-      <ion-icon name="notifications" color="danger"></ion-icon> <!-- Red color if unread -->
+    <ion-button slot="end" fill="clear" (click)="goToNotifications()">
+      <ion-icon
+        name="notifications"
+        [color]="unreadNotifications ? 'danger' : 'medium'">
+      </ion-icon>
     </ion-button>
+    
     <!-- Profile Avatar -->
     <ion-button slot="end" fill="clear" id="click-trigger">
       <ion-avatar>
@@ -23,6 +28,7 @@
     </ion-popover>
   </ion-toolbar>
 </ion-header>
+
 
 
 
