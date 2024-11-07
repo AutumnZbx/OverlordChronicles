@@ -25,9 +25,10 @@ export class EjemploPostPage implements OnInit {
 
   ngOnInit() {
     this.cargarDatosUsuario();
-    if (this.router.getCurrentNavigation()?.extras?.state?.['postId']) {
-      const postId = this.router.getCurrentNavigation()?.extras?.state?.['postId'];
-      this.cargarPost(postId); 
+    const state = this.router.getCurrentNavigation()?.extras.state;
+    if (state && state['postId']) {
+      const postId = state['postId'];
+      this.loadPost(postId); 
       this.cargarComentarios(postId);
     } else {
       this.post = {
@@ -82,6 +83,15 @@ export class EjemploPostPage implements OnInit {
         imagen: null
       };
     }
+  }
+
+  loadPost(postId: number) {
+    this.bd.getPostById(postId).then((res) => {
+      this.post = res;
+      // Handle displaying the content based on the category, if necessary
+    }).catch((err) => {
+      console.error('Error loading post:', err);
+    });
   }
 
   usuarioEsAutorOAdmin(): boolean {

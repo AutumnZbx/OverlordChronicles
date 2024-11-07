@@ -82,16 +82,12 @@ export class SevicebdService {
     return this.listaApp.asObservable();
   }
   
-  getPostById(id_post: number) {
+  getPostById(postId: number): Promise<any> {
     const sql = 'SELECT * FROM post WHERE id_post = ?';
-    return this.database.executeSql(sql, [id_post]).then(res => {
-      if (res.rows.length > 0) {
-        return res.rows.item(0); // Retorna el primer resultado si lo hay
-      } else {
-        return null; // Retorna null si no hay resultados
+    return this.database.executeSql(sql, [postId]).then((result) => {
+      if (result.rows.length > 0) {
+        return result.rows.item(0);
       }
-    }).catch(e => {
-      console.error('Error al obtener el post:', e);
       return null;
     });
   }
@@ -279,6 +275,22 @@ export class SevicebdService {
       this.presentAlert('Add', 'Error: ' + JSON.stringify(e));
     });
   }
+
+  addGuide(titulo: string, contenido: string, imagen: any, id_usuario: number) {
+    const createdAt = new Date().toISOString();  // Generate the creation date
+    const estado = 1;  // Default value for estado to make the post visible
+    const categoria = 2;  
+  
+    return this.database.executeSql(
+      'INSERT INTO post (titulo, contenido, imagen, fecha_publicacion, id_usuario, estado, categoria) VALUES (?, ?, ?, ?, ?, ?, ?)',
+      [titulo, contenido, imagen, createdAt, id_usuario, estado, categoria]  // Provide all 7 values in the correct order
+    ).then(res => {
+      this.presentAlert("Add", "Guide created");
+      this.seleccionarPost();  // Refresh the post list after adding the new post
+    }).catch(e => {
+      this.presentAlert('Add', 'Error: ' + JSON.stringify(e));
+    });
+  }
   
 
   async updatePostStatus(id_post: number, estado: number, id_usuario: number, reason: string) {
@@ -316,6 +328,11 @@ export class SevicebdService {
   // Method in SevicebdService to get only visible posts
   getVisiblePosts() {
     const sql = 'SELECT * FROM post WHERE estado = 1 AND categoria = 1';
+    return this.database.executeSql(sql, []);
+  }
+
+  getVisibleGuides() {
+    const sql = 'SELECT * FROM post WHERE estado = 1 AND categoria = 2';
     return this.database.executeSql(sql, []);
   }
   

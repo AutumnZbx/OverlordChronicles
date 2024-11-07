@@ -39,7 +39,7 @@ export class HomePage {
       }
     });
 
-    this.bd.getLatestGuides().then(result => {
+    this.bd.getVisibleGuides().then(result => {
       this.latestGuides = [];
       for (let i = 0; i < result.rows.length; i++) {
         this.latestGuides.push(result.rows.item(i));
@@ -95,9 +95,9 @@ export class HomePage {
   // Navigate to the guide details page
   goToGuide(guias: any) {
     const navigationExtras = {
-      state: { guiaId: guias.id_guia } 
+      state: { postId: guias.id_post } 
     };
-    this.router.navigate(['/ejemplo-guias'], navigationExtras);
+    this.router.navigate(['/ejemplo-post'], navigationExtras); // Same route as goToPost
   }
 
   // Log out the user

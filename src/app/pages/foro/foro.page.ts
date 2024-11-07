@@ -70,7 +70,7 @@ export class ForoPage implements OnInit {
 
    // Function to determine if the user can view the post
    shouldDisplayPost(post: any): boolean {
-    return post.estado === 1 || (this.isAdmin() && post.estado === 2);
+    return post.estado === 1 && post.categoria === 1 || (this.isAdmin() && post.estado === 2  && post.categoria === 1);
   }
 
 

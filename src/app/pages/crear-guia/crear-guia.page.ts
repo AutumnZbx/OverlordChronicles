@@ -56,7 +56,7 @@ export class CrearGuiaPage implements OnInit {
     
   };
 
-  async createGuide() {
+  async createPost() {
     this.validarTitulo();
     this.validarContenido();
 
@@ -65,13 +65,11 @@ export class CrearGuiaPage implements OnInit {
       return;
     }
 
-    // Guardar los datos del post, incluyendo la imagen y el ID del usuario
-    this.bd.addGuia(this.titulo, this.contenido, this.imagen, this.currentUserId).then(() => {
+    this.bd.addGuide(this.titulo, this.contenido, this.imagen, this.currentUserId).then(() => {
       this.router.navigate(['/guias'], { state: { refresh: true } });
     });
-
   }
-  
+
   async presentAlert(message: string) {
     const alert = await this.alertController.create({
       header: 'Error',
@@ -80,4 +78,5 @@ export class CrearGuiaPage implements OnInit {
     });
     await alert.present();
   }
+  
 }

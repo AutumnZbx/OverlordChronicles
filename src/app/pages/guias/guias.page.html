@@ -11,29 +11,38 @@
 <ion-content class="ion-padding">
   <ion-list>
     <!-- Loop through posts and display them in ion-card -->
-    <ion-card *ngFor="let guia of guias">
-      <ion-card-header>
-        <ion-card-title>{{ guia.titulo }} </ion-card-title>
-      </ion-card-header>
+    <ng-container *ngFor="let post of post">
+      <ion-card *ngIf="shouldDisplayPost(post)">
+        <ion-card-header>
+          <ion-card-title>{{ post.titulo }}</ion-card-title>
+        </ion-card-header>
+    
+        <ion-card-content>
+          <img *ngIf="post.imagen" [src]="post.imagen" alt="Post Image" style="width: 100%; height: 100%;" />
+          <p>{{ post.contenido }}</p>
+          <p><small>Posted on: {{ post.fecha_publicacion }}</small></p>
+          <ion-button (click)="goToPost(post)" fill="clear">Enter post</ion-button>
 
-      <ion-card-content>
-        <img *ngIf="guia.imagen" [src]="guia.imagen" alt="guia Image" style="width: 100%; height: auto;" />
-      <p>{{ guia.contenido }}</p>
-        <p><small>Posted on: {{ guia.fecha_publicacion }}{{ guia.id_guia }}</small></p>
-        <ion-button (click)="goToGuide(guia)" fill="clear">Ver Guia</ion-button> 
-        <button *ngIf="canDeletePost(guia)" mat-icon-button class="example-icon" aria-label="Example delete icon" slot="end" (click)="deleteGuide(guia.id_guia)">
-          <mat-icon>delete</mat-icon>
-        </button>
-      </ion-card-content>
-    </ion-card>
-
+          <ion-button *ngIf="usuario.id_rol === 1 && post.estado === 1" (click)="blockPost(post.id_post,post.id_usuario,post.titulo)" fill="clear">
+            Block Post
+          </ion-button>
+    
+    
+          <!-- Show "Delete" button if the user can delete the post -->
+          <button *ngIf="canDeletePost(post)" mat-icon-button class="example-icon" aria-label="Example delete icon" slot="end" (click)="deletePost(post.id_post)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </ion-card-content>
+      </ion-card>
+    </ng-container>
+  
     <!-- Message if no posts exist -->
-    <p *ngIf="guias.length === 0">No guide available.</p>
+    <p *ngIf="post.length === 0">No posts available.</p>
   </ion-list>
 
   <!-- Floating action button to create a new post -->
   <ion-fab vertical="bottom" horizontal="start" slot="fixed" class="custom-fab" *ngIf="usuario.id_rol !== 3">
-    <ion-fab-button (click)="createGuide()">
+    <ion-fab-button (click)="createPost()">
       <ion-icon name="add"></ion-icon>
     </ion-fab-button>
   </ion-fab>

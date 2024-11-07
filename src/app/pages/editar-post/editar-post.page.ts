@@ -74,7 +74,7 @@ borrarImagen() {
         // Asegúrate de pasar this.post.imagen al método actualizarPost
         await this.bd.actualizarPost(this.post.id_post, this.post.titulo, this.post.contenido, this.post.imagen);
         this.mostrarToast('Post update succesful');
-        this.router.navigate(['/foro']);  // Redirigir a la página del foro
+        this.router.navigate(['/home']);  // Redirigir a la página del foro
       } catch (error) {
         this.mostrarToast('Error updating post');
         console.error('Error al actualizar el post', error);
