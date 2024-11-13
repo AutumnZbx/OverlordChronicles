@@ -23,4 +23,24 @@ describe('LoginPage', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('Validar campo email vacio', () => {
+    component.email = '';
+    component.validateEmail();
+    expect(component.showEmailError).toBeTrue();
+  });
+
+  it('Validar campo email con mas de 30 caracteres', () => {
+    component.email = 'a'.repeat(31);
+    component.validateEmail();
+    expect(component.emailTooLong).toBeTrue();
+  });
+
+  it('Validar campo email correcto', () => {
+    component.email = 'chris.sellao@gmail.com';
+    component.validateEmail();
+    expect(component.showEmailError).toBeFalse();
+    expect(component.emailTooLong).toBeFalse();
+  });
 });
+
