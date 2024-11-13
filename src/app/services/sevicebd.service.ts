@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { SQLite, SQLiteObject } from '@awesome-cordova-plugins/sqlite/ngx';
-import { BehaviorSubject, Observable} from 'rxjs';
+import { BehaviorSubject, filter, from, map, Observable, switchMap, take} from 'rxjs';
 import { AlertController, Platform } from '@ionic/angular';
 import { Rol } from './rol';
 import { Usuarios } from './usuarios';
@@ -457,16 +457,43 @@ export class SevicebdService {
   }
 
   getAllPosts() {
-    return this.database.executeSql('SELECT * FROM post WHERE categoria = 1', []).then((result) => {
-      return result;
-    });
+    return this.isDBReady.pipe(
+      filter((ready) => ready === true),
+      take(1),
+      switchMap(() => {
+        // Ahora puedes estar seguro de que database está inicializado
+        return from(this.database.executeSql('SELECT * FROM post WHERE categoria = 1', [])).pipe(
+          map((result) => {
+            const guides = [];
+            for (let i = 0; i < result.rows.length; i++) {
+              guides.push(result.rows.item(i));
+            }
+            return guides;
+          })
+        );
+      })
+    );
   }
 
   getAllGuides() {
-    return this.database.executeSql('SELECT * FROM post WHERE categoria = 2', []).then((result) => {
-      return result;
-    });
+    return this.isDBReady.pipe(
+      filter((ready) => ready === true),
+      take(1),
+      switchMap(() => {
+        // Ahora puedes estar seguro de que database está inicializado
+        return from(this.database.executeSql('SELECT * FROM post WHERE categoria = 2', [])).pipe(
+          map((result) => {
+            const guides = [];
+            for (let i = 0; i < result.rows.length; i++) {
+              guides.push(result.rows.item(i));
+            }
+            return guides;
+          })
+        );
+      })
+    );
   }
+  
 
 
   deletePost(id_post: number) {

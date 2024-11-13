@@ -24,6 +24,7 @@ export class ForoPage implements OnInit {
   }
 
   ngOnInit() {
+    this.bd.crearConexion();
     this.cargarDatosUsuario();  // Cargar los datos del usuario actual
     this.loadPosts();
   }
@@ -55,15 +56,10 @@ export class ForoPage implements OnInit {
   }
 
   loadPosts() {
-    this.bd.getAllPosts().then(result => {
-      this.post = [];
-      for (let i = 0; i < result.rows.length; i++) {
-        let currentPost = result.rows.item(i);
-        if (currentPost.categoria === 1) {  // Only add posts with categoria = 1
-          this.post.push(currentPost);
-        }
-      }
-      console.log(this.post);  // Check the loaded posts data
+    this.bd.getAllPosts().subscribe(guides => {
+      this.post = guides;
+    }, err => {
+      console.error('Error al cargar las guías:', err);
     });
   }
   

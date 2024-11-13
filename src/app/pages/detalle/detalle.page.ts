@@ -4,7 +4,6 @@ import { ActivatedRoute } from '@angular/router';
 import { ApiService } from 'src/app/services/api.service';
 import { Clipboard } from '@capacitor/clipboard';
 
-
 @Component({
   selector: 'app-detalle',
   templateUrl: './detalle.page.html',
@@ -13,7 +12,7 @@ import { Clipboard } from '@capacitor/clipboard';
 export class DetallePage implements OnInit {
   character: any = null;
 
-  constructor(private route: ActivatedRoute, private api: ApiService,private clipboard: Clipboard) { }
+  constructor(private route: ActivatedRoute, private api: ApiService) { }
 
   ngOnInit() {
     // Obtener el ID del personaje desde la URL
@@ -43,10 +42,10 @@ export class DetallePage implements OnInit {
         await Clipboard.write({
           string: this.character.desc
         }); 
+        console.log('Texto copiado al portapapeles');
       } catch (error) {
-        console.error('Error :', error);
+        console.error('Error al copiar el texto:', error);
       }
     }
   }
-  
 }

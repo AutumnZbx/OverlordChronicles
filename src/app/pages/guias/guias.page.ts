@@ -48,17 +48,13 @@ export class GuiasPage implements OnInit {
   }
 
   loadPosts() {
-    this.bd.getAllGuides().then(result => {
-      this.post = [];
-      for (let i = 0; i < result.rows.length; i++) {
-        let currentPost = result.rows.item(i);
-        if (currentPost.categoria === 2) {  // Only add posts with categoria = 2
-          this.post.push(currentPost);
-        }
-      }
-      console.log(this.post);  // Check the loaded posts data
+    this.bd.getAllGuides().subscribe(guides => {
+      this.post = guides;
+    }, err => {
+      console.error('Error al cargar las guías:', err);
     });
   }
+  
   
 
    // Function to determine if the user can view the post

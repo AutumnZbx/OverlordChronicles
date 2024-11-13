@@ -21,11 +21,10 @@ export class HomePage {
               private activedroute: ActivatedRoute, 
               private bd: SevicebdService, 
               private storage: NativeStorage) { 
-    this.loadLatestContent();
-    this.cargarDatosUsuario();
+
   }
 
-  ionViewWillEnter() {
+  async ionViewWillEnter() {
     this.loadLatestContent();
     this.cargarDatosUsuario();
   }

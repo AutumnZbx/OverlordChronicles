@@ -14,7 +14,7 @@ export class ModperfilPage implements OnInit {
   email: string = '';
   password: string = '';
   
-  currentUser: any;  // Almacena los datos actuales del usuario
+  currentUser: any = { nombre_usuario: '', email: '', password: '' };  // Inicialización predeterminada
   
   // Variables para las validaciones
   nombreVacio: boolean = false;
@@ -31,11 +31,14 @@ export class ModperfilPage implements OnInit {
     const navData = this.router.getCurrentNavigation()?.extras.state;
     if (navData && navData['userId']) {
       this.id_usuario = navData['userId']; 
-      this.cargarDatosUsuario();  
     }
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    if (this.id_usuario) {
+      this.cargarDatosUsuario();
+    }
+  }
 
   cambiarpass() {
     const navigationExtras = {
@@ -61,7 +64,7 @@ export class ModperfilPage implements OnInit {
   validarNombreUsuario() {
     this.nombreVacio = this.nombre_usuario.trim() === '';
     this.nombreInvalido = this.nombre_usuario.length < 5 || this.nombre_usuario.length > 15;
-    this.nombreIgual = this.nombre_usuario === this.currentUser.nombre_usuario;
+    this.nombreIgual = this.currentUser && this.nombre_usuario === this.currentUser.nombre_usuario;
   }
 
   validarEmail() {

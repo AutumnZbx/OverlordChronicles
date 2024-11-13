@@ -18,7 +18,7 @@ export class EjemploGuiasPage implements OnInit {
   comentarios: any[] = [];
   usuario: any = {}; 
 
-  constructor(private router: Router, private activedrouter:ActivatedRoute, private bd: SevicebdService,  private storage: NativeStorage,private clipboard: Clipboard,private toastController: ToastController) { }
+  constructor(private router: Router, private activedrouter:ActivatedRoute, private bd: SevicebdService,  private storage: NativeStorage,private toastController: ToastController) { }
 
   ngOnInit() {
     this.cargarDatosUsuario();
