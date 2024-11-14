@@ -9,19 +9,19 @@ import { SevicebdService } from 'src/app/services/sevicebd.service';
   templateUrl: './guias.page.html',
   styleUrls: ['./guias.page.scss'],
 })
-export class GuiasPage implements OnInit {
+export class GuiasPage {
 
   post: any[] = [];
   usuario: any = {};
+  unreadNotifications: boolean = false;
+
   constructor(private router: Router, private activedroute: ActivatedRoute, private bd:SevicebdService,private storage: NativeStorage, private alertCtrl: AlertController) { 
     
    }
-   ngOnInit() {
-    this.cargarDatosUsuario();  // Cargar los datos del usuario actual
-    this.loadPosts();
-  }
+   
 
   ionViewWillEnter() {
+    this.cargarDatosUsuario(); 
     this.loadPosts();
   }
 
@@ -38,6 +38,7 @@ export class GuiasPage implements OnInit {
           // Obtener los datos del usuario de la base de datos
           this.bd.getUsuarioById(user.id_usuario).then(res => {
             this.usuario = res;
+            this.checkUnreadNotifications();
           });
         }
       });
@@ -45,6 +46,22 @@ export class GuiasPage implements OnInit {
       // Si no hay usuario guardado, redirigir al login o manejar el error
       this.router.navigate(['/login']);
     }
+  }
+
+  // Check for unread notifications for the user
+  checkUnreadNotifications() {
+    const userId = this.usuario.id_usuario;
+  
+    // Fetch unread notifications
+    this.bd.getUnreadNotifications(userId).then((notifications) => {
+      this.unreadNotifications = notifications.length > 0; // true if there are unread notifications
+    });
+  }
+  
+
+  // Navigate to the notifications page
+  goToNotifications() {
+    this.router.navigate(['/notificaciones']);
   }
 
   loadPosts() {

@@ -8,8 +8,8 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-padding">
-  <mat-tab-group>
+<ion-content class="ion-padding" [fullscreen]="true">
+  <mat-tab-group class="custom-tab-group" mat-stretch-tabs="false" mat-align-tabs="center">
     <!-- Administradores -->
     <mat-tab label="Administradores">
       <ion-list>
@@ -35,7 +35,7 @@
     </mat-tab>
 
     <!-- Usuarios Normales -->
-    <mat-tab label="Usuarios Normales">
+    <mat-tab label="Usuarios Normales" >
       <ion-list>
         <ion-card *ngFor="let user of normalUsers" class="user-card">
           <ion-card-header class="user-header">

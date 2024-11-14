@@ -8,6 +8,16 @@ ion-toolbar {
   --color: #bd955b; 
 }
 
+.custom-tab-group {
+  background-color: #141826; /* Fondo personalizado para los tabs */
+  --text-color: #bd955b;
+}
+
+/* Estilo para el título del tab activo */
+.mat-tab-label-active {
+  color: #e0bc86 !important; /* Color del texto del tab activo */
+}
+
 /* Estilo general para las tarjetas */
 .user-card {
   margin-bottom: 15px;

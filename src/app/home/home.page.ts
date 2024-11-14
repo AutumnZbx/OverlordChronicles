@@ -25,6 +25,7 @@ export class HomePage {
   }
 
   async ionViewWillEnter() {
+    this.bd.crearConexion();
     this.loadLatestContent();
     this.cargarDatosUsuario();
   }

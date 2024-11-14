@@ -9,10 +9,11 @@ import { SevicebdService } from 'src/app/services/sevicebd.service';
   templateUrl: './foro.page.html',
   styleUrls: ['./foro.page.scss'],
 })
-export class ForoPage implements OnInit {
+export class ForoPage  {
 
   post: any[] = [];
   usuario: any = {};  // Variable para almacenar los datos del usuario actual
+  unreadNotifications: boolean = false;
 
   constructor(
     private router: Router, 
@@ -23,13 +24,11 @@ export class ForoPage implements OnInit {
   ) { 
   }
 
-  ngOnInit() {
-    this.bd.crearConexion();
-    this.cargarDatosUsuario();  // Cargar los datos del usuario actual
-    this.loadPosts();
-  }
+  
 
   ionViewWillEnter() {
+    this.bd.crearConexion();
+    this.cargarDatosUsuario();  // Cargar los datos del usuario actual
     this.loadPosts();
   }
 
@@ -46,6 +45,7 @@ export class ForoPage implements OnInit {
           // Obtener los datos del usuario de la base de datos
           this.bd.getUsuarioById(user.id_usuario).then(res => {
             this.usuario = res;
+            this.checkUnreadNotifications();
           });
         }
       });
@@ -53,6 +53,22 @@ export class ForoPage implements OnInit {
       // Si no hay usuario guardado, redirigir al login o manejar el error
       this.router.navigate(['/login']);
     }
+  }
+
+  // Check for unread notifications for the user
+  checkUnreadNotifications() {
+    const userId = this.usuario.id_usuario;
+  
+    // Fetch unread notifications
+    this.bd.getUnreadNotifications(userId).then((notifications) => {
+      this.unreadNotifications = notifications.length > 0; // true if there are unread notifications
+    });
+  }
+  
+
+  // Navigate to the notifications page
+  goToNotifications() {
+    this.router.navigate(['/notificaciones']);
   }
 
   loadPosts() {

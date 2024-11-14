@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NativeStorage } from '@awesome-cordova-plugins/native-storage/ngx';
-import { ModalController } from '@ionic/angular';
+import { PopoverController } from '@ionic/angular';
+
 
 @Component({
   selector: 'app-perfil-usuario',
@@ -10,7 +11,8 @@ import { ModalController } from '@ionic/angular';
 })
 export class PerfilUsuarioComponent implements OnInit {
   userName: string = '';
-  constructor(private router: Router,private storage: NativeStorage,private modalController: ModalController) {}
+  usuario: any={};
+  constructor(private router: Router,private storage: NativeStorage,private popoverController: PopoverController) {}
 
   ngOnInit() {
     this.cargarDatosUsuario();
@@ -20,19 +22,13 @@ export class PerfilUsuarioComponent implements OnInit {
     // Aquí puedes obtener los datos desde localStorage o un servicio
     const usuario = JSON.parse(localStorage.getItem('user') || '{}');
     this.userName = usuario.nombre_usuario ;
+    this.usuario = usuario
   }
 
-  irPerfil() {
-    this.router.navigate(['/perfil']);
-    this.cerrarModal(); // Llama al método para cerrar el modal
+  async irPerfil() {
+    await this.router.navigate(['/perfil']);
+    await this.popoverController.dismiss();
   }
 
-  editarPerfil() {
-    this.router.navigate(['/modperfil']);
-    this.cerrarModal(); // Llama al método para cerrar el modal
-  }
-
-  cerrarModal() {
-    this.modalController.dismiss(); // Cierra el modal
-  }
+  
 }

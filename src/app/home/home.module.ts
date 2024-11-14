@@ -9,7 +9,7 @@ import { HomePageRoutingModule } from './home-routing.module';
 import {MatIconModule} from '@angular/material/icon';
 import {MatButtonModule} from '@angular/material/button';
 import {MatToolbarModule} from '@angular/material/toolbar';
-import { PerfilUsuarioComponent } from '../components/perfil-usuario/perfil-usuario.component';
+import { ComponentsModule } from '../components/components.module';
 
 
 
@@ -19,8 +19,9 @@ import { PerfilUsuarioComponent } from '../components/perfil-usuario/perfil-usua
     FormsModule,
     IonicModule,
     HomePageRoutingModule,
-    MatToolbarModule, MatButtonModule, MatIconModule
+    MatToolbarModule, MatButtonModule, MatIconModule,
+    ComponentsModule
   ],
-  declarations: [HomePage,PerfilUsuarioComponent,]
+  declarations: [HomePage,]
 })
 export class HomePageModule {}

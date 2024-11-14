@@ -10,6 +10,7 @@ import { ForoPage } from './foro.page';
 import {MatIconModule} from '@angular/material/icon';
 import {MatButtonModule} from '@angular/material/button';
 import {MatToolbarModule} from '@angular/material/toolbar';
+import { ComponentsModule } from 'src/app/components/components.module';
 
 @NgModule({
   imports: [
@@ -17,7 +18,8 @@ import {MatToolbarModule} from '@angular/material/toolbar';
     FormsModule,
     IonicModule,
     ForoPageRoutingModule,
-    MatToolbarModule, MatButtonModule, MatIconModule
+    MatToolbarModule, MatButtonModule, MatIconModule,
+    ComponentsModule
   ],
   declarations: [ForoPage,]
 })
