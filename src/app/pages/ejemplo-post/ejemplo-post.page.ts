@@ -4,7 +4,7 @@ import { NativeStorage } from '@awesome-cordova-plugins/native-storage/ngx';
 import { SevicebdService } from 'src/app/services/sevicebd.service';
 import { Clipboard } from '@capacitor/clipboard';
 import { ToastController } from '@ionic/angular';
-
+import { Toast } from '@capacitor/toast';
 
 @Component({
   selector: 'app-ejemplo-post',
@@ -147,12 +147,7 @@ export class EjemploPostPage implements OnInit {
     try {
       await this.bd.eliminarComentario(id_comentario);
       this.cargarComentarios(this.post.id_post);  
-      const toast = await this.toastController.create({
-        message: 'Comment deleted',
-        duration: 2000,  
-        position: 'bottom'  
-      });
-      await toast.present();
+      await this.presentToast('Comment deleted.');
     } catch (error) {
       console.error('Error deleting the comment', error);
     }
@@ -170,6 +165,12 @@ export class EjemploPostPage implements OnInit {
       }
     }
   }
-
+  async presentToast(message: string) {
+    await Toast.show({
+      text: message,
+      duration: 'short', // 'short' o 'long'
+      position: 'bottom', // 'top', 'center', 'bottom'
+    });
+  }
 
 }

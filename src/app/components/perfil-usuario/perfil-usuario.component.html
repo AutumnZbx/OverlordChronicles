@@ -1,18 +1,6 @@
-<ion-button slot="end" fill="clear" id="click-trigger">
+<ion-button slot="end" fill="clear" id="click-trigger" (click)="irPerfil()">
   <ion-avatar>
     <img [src]="usuario.foto_perfil" />
   </ion-avatar>
 </ion-button>
-<ion-popover trigger="click-trigger" triggerAction="click">
-  <ng-template>
-    <ion-card class="custom-card">
-      <ion-item lines="none" class="welcome-item">
-        <ion-label>
-          <h2>Welcome, {{userName}}</h2>
-        </ion-label>
-      </ion-item>
-    
-      <ion-button shape="round" fill="solid" class="change-password-btn" (click)="irPerfil()" >Go to profile</ion-button>
-    </ion-card>
-  </ng-template>
-</ion-popover>
+

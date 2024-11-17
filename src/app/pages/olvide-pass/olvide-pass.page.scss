@@ -1,23 +1,26 @@
+ion-toolbar{
+  --ion-background-color:transparent;
+  --opacity:0;
+}
+
 ion-header {
   position: absolute;
 }
 
 ion-content {
-  --background-color: #141826;
-}
-
-ion-toolbar {
   --ion-background-color: transparent;
-  --opacity: 0;
+  --ion-item-background: transparent !important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 16px;
+}
+.bg-color{
+  background: #141826;
 }
 
-/* Fondo oscuro que coincide con el diseño general */
-.bg-color {
-  --ion-background-color: #141826;
-}
-
-
-/* Estilo para la imagen del logo */
+/* Contenedor del logo */
 .logo-container {
   display: flex;
   justify-content: center;
@@ -25,90 +28,81 @@ ion-toolbar {
 }
 
 .app-logo {
-  width: 4000px; /* Ajustar el tamaño del logo */
+  width: 300px; /* Ajusta el tamaño del logo */
   height: auto;
+  object-fit: contain;
 }
 
-ion-card-title{
-  margin-top: 50px !important;
-  font-size: 25px;
-  color:#bd955b;
-  font-weight: 600;
-  text-align: center;
-
-}
-
-ion-card-subtitle{
-  text-align: center;
-  padding-top: 15px !important;
-  font-size: 13px;
-  color: #bd955b;
-  font-weight: 400;
-  text-transform: none;
-  padding: 0 30px;
-}
-
-
-/* Estilo para el card */
-.recover-card {
+/* Estilo para el ion-card */
+ion-card {
+  width: 100%;
+  max-width: 400px;
   background-color: #141826;
   --ion-card-background: #141826;
   --ion-text-color: #bd955b;
-  border: 2px solid #bd955b; /* Borde alrededor del card */
-  border-radius: 10px; /* Bordes redondeados */
-  margin-top: 16px; /* Espaciado superior */
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra para el card */
+  border: 2px solid #bd955b;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
 }
 
-/* Personalización de ion-item para mantener el esquema de colores */
+ion-card-content {
+  padding: 20px;
+}
+
+/* Personalización de ion-item */
 ion-item {
-  --border-color: #bd955b;
   --color: #bd955b;
+  --border-color: #bd955b;
+  background-color: transparent;
   margin-bottom: 16px;
-  background-color: #141826;
 
   ion-label {
     color: #bd955b;
-    background-color: #141826;
+    font-size: 14px;
+    font-weight: 500;
   }
 
   ion-input {
-    color: #ffffff;
-    background-color: #141826;
+    color: #bd955b;
+    --placeholder-color: #bd955b;
+    font-size: 14px;
   }
+}
+
+/* Botón para alternar visibilidad de contraseña */
+
+/* Mensajes de error */
+ion-note {
+  font-size: 12px;
+  color: var(--ion-color-danger);
+  margin-left: 10px;
 }
 
 /* Estilo para los botones */
-.custom-button {
-  --ion-background-color: #bd955b;
+ion-button {
+  --background: #bd955b;
   --color: #141826;
   border-radius: 25px;
+  font-size: 16px;
+  margin-top: 20px;
 }
 
-.login-btn-wrap{
-  text-align: center;
-  padding-top: 45px;
- .login-btn{
-   --ion-primary-color:#bd955b;
-   --background:#bd955b;
-   --background-activated:#E1EAF9;
-   --background-focused:#E1EAF9;
-   --background-hover:#647B9D;
-   color:#F4F6FA;
-   background-color: #bd955b;
-   border-radius: 25px;
- }
+ion-button[expand="block"] {
+  display: block;
+  margin: 0 auto; /* Centra el botón */
 }
 
-/* Estilo del contenido dentro del ion-card */
-ion-card-content {
-  padding: 16px;
-}
-
-/* Media query para pantallas más pequeñas */
+/* Responsivo para pantallas más pequeñas */
 @media (max-width: 768px) {
-  .recover-card {
-    margin: 8px 0;
+  ion-card {
+    width: 90%;
+  }
+
+  .app-logo {
+    width: 120px;
+  }
+
+  ion-card-content {
+    padding: 16px;
   }
 }
-

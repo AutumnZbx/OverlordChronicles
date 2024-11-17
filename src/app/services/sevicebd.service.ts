@@ -30,9 +30,9 @@ export class SevicebdService {
   //variables de creación de tablas
   tablaRol: string = "CREATE TABLE IF NOT EXISTS rol (id_rol INTEGER PRIMARY KEY AUTOINCREMENT, nombre_rol TEXT NOT NULL UNIQUE);";
 
-  tablaUsuarios: string = "CREATE TABLE IF NOT EXISTS usuario (id_usuario INTEGER PRIMARY KEY AUTOINCREMENT,nombre_usuario VARCHAR(15) UNIQUE NOT NULL, email VARCHAR(50) UNIQUE NOT NULL, password VARCHAR(100) NOT NULL, foto_perfil BLOB, id_rol INTEGER NOT NULL, FOREIGN KEY(id_rol) REFERENCES rol(id_rol));";
+  tablaUsuarios: string = "CREATE TABLE IF NOT EXISTS usuario (id_usuario INTEGER PRIMARY KEY AUTOINCREMENT,nombre_usuario VARCHAR(15) UNIQUE NOT NULL, email VARCHAR(50) UNIQUE NOT NULL, password VARCHAR(100) NOT NULL, foto_perfil BLOB, pregunta VARCHAR(50) NOT NULL, respuesta VARCHAR(20) NOT NULL, id_rol INTEGER NOT NULL, FOREIGN KEY(id_rol) REFERENCES rol(id_rol));";
 
-  tablaPost: string = "CREATE TABLE IF NOT EXISTS post (id_post INTEGER PRIMARY KEY AUTOINCREMENT,categoria INTEGER NOT NULL, titulo TEXT NOT NULL, contenido TEXT NOT NULL, imagen BLOB , fecha_publicacion DATETIME DEFAULT CURRENT_TIMESTAMP, estado INTEGER NOT NULL, id_usuario INTEGER NOT NULL, FOREIGN KEY (id_usuario) REFERENCES usuario(id_usuario) ON DELETE CASCADE);";
+  tablaPost: string = "CREATE TABLE IF NOT EXISTS post (id_post INTEGER PRIMARY KEY AUTOINCREMENT,categoria INTEGER NOT NULL, titulo TEXT NOT NULL, contenido TEXT NOT NULL, imagen TEXT , fecha_publicacion DATETIME DEFAULT CURRENT_TIMESTAMP, estado INTEGER NOT NULL, id_usuario INTEGER NOT NULL, FOREIGN KEY (id_usuario) REFERENCES usuario(id_usuario) ON DELETE CASCADE);";
 
   tablaGuias: string = "CREATE TABLE IF NOT EXISTS guias (id_guia INTEGER PRIMARY KEY AUTOINCREMENT,titulo TEXT NOT NULL, contenido TEXT NOT NULL, imagen BLOB , fecha_publicacion DATETIME DEFAULT CURRENT_TIMESTAMP, id_usuario INTEGER NOT NULL, FOREIGN KEY (id_usuario) REFERENCES usuario(id_usuario) ON DELETE CASCADE);";
 
@@ -44,7 +44,7 @@ export class SevicebdService {
 
   rolesApp: string = "INSERT OR IGNORE INTO rol (id_rol, nombre_rol) VALUES (1, 'Admin'); INSERT OR IGNORE INTO rol (id_rol, nombre_rol) VALUES (2, 'Usuario');  INSERT OR IGNORE INTO rol (id_rol, nombre_rol) VALUES (3, 'bloqueado');"
 
-  usuariosApp: string = "INSERT or IGNORE INTO usuario (nombre_usuario,email,password,foto_perfil,id_rol) VALUES ('Admin','admin','admin','assets/images/alain_thumb.png','1');"
+  usuariosApp: string = "INSERT or IGNORE INTO usuario (nombre_usuario,email,password,foto_perfil,pregunta,respuesta,id_rol) VALUES ('Admin','admin','admin','assets/images/alain_thumb.png','hola','adios','1');"
 
   postApp: string = "INSERT or IGNORE INTO post (titulo,contenido,imagen,id_usuario)VALUES ('Welcome to Overlord Chronicles','Hello and welcome to the community! We are excited to have you here! In this app, you’ll find a wide variety of content created to enhance your experience and help you stay informed and engaged with everything that’s happening.  Welcome aboard, and enjoy the adventure!','assets/images/header2.png','1');"
 
@@ -202,10 +202,9 @@ export class SevicebdService {
     })
   }
 
-  registrarUsuario(nombre_usuario: string, email: string, password:string, id_rol:number) {
+  registrarUsuario(nombre_usuario: string, email: string, password:string, id_rol:number,pregunta: string,respuesta: string) {
     const foto_perfil = 'assets/images/alain_thumb.png'; 
-    return this.database.executeSql('INSERT INTO usuario(nombre_usuario, email, password, foto_perfil, id_rol) VALUES(?,?,?,?,?)',[nombre_usuario,email,password,foto_perfil,id_rol]).then(res=>{
-      this.presentAlert("Sign Up","Account created");
+    return this.database.executeSql('INSERT INTO usuario(nombre_usuario, email, password, foto_perfil, id_rol, pregunta, respuesta) VALUES(?,?,?,?,?,?,?)',[nombre_usuario,email,password,foto_perfil,id_rol,pregunta,respuesta]).then(res=>{
       this.seleccionarUsuario();
     }).catch(e=>{
       this.presentAlert('Sign Up', 'Error: ' + JSON.stringify(e));
@@ -269,7 +268,6 @@ export class SevicebdService {
       'INSERT INTO post (titulo, contenido, imagen, fecha_publicacion, id_usuario, estado, categoria) VALUES (?, ?, ?, ?, ?, ?, ?)',
       [titulo, contenido, imagen, createdAt, id_usuario, estado, categoria]  // Provide all 7 values in the correct order
     ).then(res => {
-      this.presentAlert("Add", "Post created");
       this.seleccionarPost();  // Refresh the post list after adding the new post
     }).catch(e => {
       this.presentAlert('Add', 'Error: ' + JSON.stringify(e));
@@ -285,7 +283,6 @@ export class SevicebdService {
       'INSERT INTO post (titulo, contenido, imagen, fecha_publicacion, id_usuario, estado, categoria) VALUES (?, ?, ?, ?, ?, ?, ?)',
       [titulo, contenido, imagen, createdAt, id_usuario, estado, categoria]  // Provide all 7 values in the correct order
     ).then(res => {
-      this.presentAlert("Add", "Guide created");
       this.seleccionarPost();  // Refresh the post list after adding the new post
     }).catch(e => {
       this.presentAlert('Add', 'Error: ' + JSON.stringify(e));
@@ -409,7 +406,6 @@ export class SevicebdService {
       'INSERT INTO guias (titulo, contenido, imagen, fecha_publicacion, id_usuario) VALUES (?, ?, ?, ?, ?)',  
       [titulo, contenido, imagen, createdAt, id_usuario]  
     ).then(res => {
-      this.presentAlert("Add", "Guide created");
       this.seleccionarGuia();  
     }).catch(e => {
       this.presentAlert('Add', 'Error: ' + JSON.stringify(e));
@@ -433,7 +429,6 @@ export class SevicebdService {
 
   eliminarUsuario(id_usuario: string){
     return this.database.executeSql('DELETE FROM usuario WHERE id_usuario = ?',[id_usuario]).then(res=>{
-      this.presentAlert("Delete"," User deleted");
     }).catch(e=>{
       this.presentAlert('Delete', 'Error: ' + JSON.stringify(e));
     })
@@ -635,10 +630,10 @@ export class SevicebdService {
     });
   }
   
-  updatePassword(id_usuario: number, nuevaContrasena: string): Promise<any> {
+  updatePassword(email: string, nuevaContrasena: string): Promise<any> {
     return new Promise((resolve, reject) => {
-      const query = `UPDATE usuario SET password = ? WHERE id_usuario = ?`;
-      this.database.executeSql(query, [nuevaContrasena, id_usuario])
+      const query = `UPDATE usuario SET password = ? WHERE email = ?`;
+      this.database.executeSql(query, [nuevaContrasena, email])
         .then(res => {
           if (res.rowsAffected > 0) {
             resolve('Password changed');
@@ -821,6 +816,11 @@ async createNotification(tipo: number, titulo: string, contenido: string, estado
     VALUES (?, ?, ?, ?, ?)
   `;
   return this.database.executeSql(query, [tipo, titulo, contenido, estado, userId]);
+}
+
+getSecurityQuestionAndAnswer(email: string) {
+  const query = `SELECT pregunta, respuesta FROM usuario WHERE email = ?`;
+  return this.database.executeSql(query, [email]);
 }
 
 

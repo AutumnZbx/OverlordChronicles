@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
 import { SevicebdService } from 'src/app/services/sevicebd.service';
-
+import { Toast } from '@capacitor/toast';
 @Component({
   selector: 'app-modperfil',
   templateUrl: './modperfil.page.html',
@@ -104,7 +104,7 @@ export class ModperfilPage implements OnInit {
 
       if (Object.keys(cambios).length > 0) {
         this.bd.updateUsuario(this.id_usuario, cambios).then(() => {
-          this.mostrarAlerta('Success', 'Profile updated successfully');
+          this.presentToast('Account info updated.');
           this.router.navigate(['/perfil']);
         }).catch(err => {
           console.error('Error updating profile:', err);
@@ -125,5 +125,13 @@ export class ModperfilPage implements OnInit {
       buttons: ['OK']
     });
     await alert.present();
+  }
+
+  async presentToast(message: string) {
+    await Toast.show({
+      text: message,
+      duration: 'short', // 'short' o 'long'
+      position: 'bottom', // 'top', 'center', 'bottom'
+    });
   }
 }

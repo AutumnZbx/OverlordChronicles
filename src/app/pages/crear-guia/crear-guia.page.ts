@@ -5,7 +5,7 @@ import { AlertController } from '@ionic/angular';
 import { SevicebdService } from 'src/app/services/sevicebd.service';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 import { NativeStorage } from '@awesome-cordova-plugins/native-storage/ngx';
-
+import { Toast } from '@capacitor/toast';
 @Component({
   selector: 'app-crear-guia',
   templateUrl: './crear-guia.page.html',
@@ -67,6 +67,7 @@ export class CrearGuiaPage implements OnInit {
 
     this.bd.addGuide(this.titulo, this.contenido, this.imagen, this.currentUserId).then(() => {
       this.router.navigate(['/guias'], { state: { refresh: true } });
+      this.presentToast('Post created.');
     });
   }
 
@@ -77,6 +78,13 @@ export class CrearGuiaPage implements OnInit {
       buttons: ['OK']
     });
     await alert.present();
+  }
+  async presentToast(message: string) {
+    await Toast.show({
+      text: message,
+      duration: 'short', // 'short' o 'long'
+      position: 'bottom', // 'top', 'center', 'bottom'
+    });
   }
   
 }

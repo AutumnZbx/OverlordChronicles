@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { AlertController, ToastController } from '@ionic/angular';
 import { SevicebdService } from 'src/app/services/sevicebd.service';
 import { AuthService } from 'src/app/services/auth.service';
+import { Toast } from '@capacitor/toast';
 
 @Component({
   selector: 'app-login',
@@ -79,13 +80,6 @@ export class LoginPage implements OnInit {
     await alert.present();
   }
   
-  async presentToast(message: string) {
-    const toast = await this.toastController.create({
-      message,
-      duration: 1500
-    });
-    await toast.present();
-  }
 
   async handleLogin(event: Event) {
     event.preventDefault();
@@ -103,7 +97,7 @@ export class LoginPage implements OnInit {
     // Call to database to check credentials
     const result = await this.bd.checkUserCredentials(this.email, this.password);
     if (result.rows.length > 0) {
-      this.presentToast('Login Successful');
+      this.presentToast('Welcome.');
       const usuarioLogueado = result.rows.item(0);
       const user = {
         id_usuario: usuarioLogueado.id_usuario,
@@ -125,5 +119,13 @@ export class LoginPage implements OnInit {
 
   registro() {
     this.router.navigate(['/registro']);
+  }
+
+  async presentToast(message: string) {
+    await Toast.show({
+      text: message,
+      duration: 'short', // 'short' o 'long'
+      position: 'bottom', // 'top', 'center', 'bottom'
+    });
   }
 }

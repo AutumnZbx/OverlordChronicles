@@ -1,104 +1,79 @@
 <ion-header class="ion-no-border">
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-back-button defaulthref="login" text=""></ion-back-button>
+      <ion-back-button defaultHref="login" text=""></ion-back-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-padding bg-color">
-  <!-- Logo de la aplicación -->
+<ion-content class="bg-color">
   <div class="logo-container">
     <img src="../../../assets/images/logo.png" alt="App Logo" class="app-logo" />
   </div>
-
-  <!-- Card centrado -->
-  <ion-card class="recover-card">
-
-    <ion-card-header>
-      <ion-card-title>Forgot your password?</ion-card-title>
-      <ion-card-subtitle>Type your email and we'll send you a code</ion-card-subtitle>
-    </ion-card-header>
+  <ion-card>
     <ion-card-content>
-      <!-- Formulario para enviar el código -->
-      <form (ngSubmit)="enviarCodigo()">
+      <!-- Paso 1: Ingresar email -->
+      <div *ngIf="currentStep === 1">
         <ion-item>
-          <ion-input placeholder="email" [(ngModel)]="email" name="email" maxlength="50" type="email" required></ion-input>
+          <ion-input
+            placeholder="Enter your email"
+            [(ngModel)]="email"
+            (ionBlur)="validateEmail()"
+            maxlength="50"
+          ></ion-input>
         </ion-item>
-        <div class="login-btn-wrap">
-          <ion-button  shape="round" type="submit"  fill="solid" class="login-btn">
-            Send Code
-          </ion-button>
-        </div>
-      </form>
+        <ion-note *ngIf="showEmailError" color="danger">{{ emailErrorMessage }}</ion-note>
+        <ion-button expand="block" (click)="verifyEmail()">Next</ion-button>
+      </div>
 
-      <!-- Código de recuperación -->
-      <form *ngIf="codigoEnviado" (ngSubmit)="verificarCodigo()">
+      <!-- Paso 2: Pregunta de seguridad -->
+      <div *ngIf="currentStep === 2">
+        <p>Your security question:</p>
+        <ion-text class="security-question">{{ securityQuestion }}</ion-text>
         <ion-item>
-          <ion-input placeholder="Recovery Code" [(ngModel)]="codigo" name="codigo" maxlength="6"type="text" required></ion-input>
+          <ion-input
+            placeholder="Your answer"
+            [(ngModel)]="securityAnswer"
+            (ionBlur)="validateSecurityAnswer()"
+            maxlength="20"
+          ></ion-input>
         </ion-item>
-        <div class="login-btn-wrap">
-          <ion-button  shape="round" type="submit"  fill="solid" class="login-btn">
-            Verify Code
-          </ion-button>
-        </div>
-      </form>
+        <ion-note *ngIf="showSecurityAnswerError" color="danger">{{ securityAnswerErrorMessage }}</ion-note>
+        <ion-button expand="block" (click)="verifySecurityAnswer()">Next</ion-button>
+      </div>
 
-      <!-- Nueva contraseña -->
-        <form *ngIf="codigoVerificado"(submit)="restablecerContrasena()">
-          <!-- Input para la nueva contraseña -->
-          <ion-item class="custom-item">
-            <ion-input
-              [type]="showPassword ? 'text' : 'password'"
-              placeholder="New Password"
-              [(ngModel)]="newPassword"
-              maxlength="15"
-              name="passwordInput"
-              required
-              (ngModelChange)="validarPasswords()"
-            ></ion-input>
-            <ion-icon
-              [name]="showPassword ? 'eye-outline' : 'eye-off-outline'"
-              slot="end"
-              (click)="togglePasswordVisibility()"
-            ></ion-icon>
-          </ion-item>
-          <ion-text color="danger" *ngIf="newPasswordVacia">Password cannot be empty</ion-text>
-          <ion-text color="danger" *ngIf="passwordLarga">Password cannot exceed 15 characters</ion-text>
-  
-          <!-- Input para confirmar la nueva contraseña -->
-          <ion-item class="custom-item">
-            <ion-input
-              [type]="showConfirmPassword ? 'text' : 'password'"
-              placeholder="Confirm Password"
-              [(ngModel)]="confirmPassword"
-              maxlength="15"
-              name="confirmPasswordInput"
-              required
-              (ngModelChange)="validarPasswords()"
-            ></ion-input>
-            <ion-icon
-              [name]="showConfirmPassword ? 'eye-outline' : 'eye-off-outline'"
-              slot="end"
-              (click)="toggleConfirmPasswordVisibility()"
-            ></ion-icon>
-          </ion-item>
-          <ion-text color="danger" *ngIf="confirmPasswordVacia">Password confirmation cannot be empty</ion-text>
-          <ion-text color="danger" *ngIf="passwordsNoCoinciden">Passwords do not match</ion-text>
-          <ion-text color="medium">
-            <p>Your new password must:</p>
-            <ul>
-              <li>Contain at least one uppercase letter.</li>
-              <li>Contain at least one number.</li>
-              <li>Contain at least one special character.</li>
-              <li>Be at least 8 characters long.</li>
-            </ul>
-          </ion-text>
-          <!-- Botón para cambiar la contraseña -->
-          <div class="button-wrapper">
-            <ion-button type="submit" expand="block" class="small-button">Change Password</ion-button>
-          </div>
-        </form>
+      <!-- Paso 3: Restablecer contraseña -->
+      <div *ngIf="currentStep === 3">
+        <ion-item>
+          <ion-input
+            [type]="showPassword ? 'text' : 'password'"
+            placeholder="New password"
+            [(ngModel)]="newPassword"
+            (ionBlur)="validatePassword()"
+            maxlength="15"
+          ></ion-input>
+          <ion-button fill="clear" slot="end" (click)="togglePasswordVisibility()">
+            <ion-icon [name]="showPassword ? 'eye-off' : 'eye'"></ion-icon>
+          </ion-button>
+        </ion-item>
+        <ion-note *ngIf="showPasswordError" color="danger">{{ passwordErrorMessage }}</ion-note>
+
+        <ion-item>
+          <ion-input
+            [type]="showConfirmPassword ? 'text' : 'password'"
+            placeholder="Confirm password"
+            [(ngModel)]="confirmPassword"
+            (ionBlur)="validatePasswordMatch()"
+            maxlength="15"
+          ></ion-input>
+          <ion-button fill="clear" slot="end" (click)="toggleConfirmPasswordVisibility()">
+            <ion-icon [name]="showConfirmPassword ? 'eye-off' : 'eye'"></ion-icon>
+          </ion-button>
+        </ion-item>
+        <ion-note *ngIf="showPasswordMatchError" color="danger">Passwords do not match.</ion-note>
+
+        <ion-button expand="block" (click)="resetPassword()">Reset Password</ion-button>
+      </div>
     </ion-card-content>
   </ion-card>
 </ion-content>

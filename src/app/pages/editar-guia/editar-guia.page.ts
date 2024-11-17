@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ToastController } from '@ionic/angular';
 import { SevicebdService } from 'src/app/services/sevicebd.service';
 import { Camera, CameraResultType } from '@capacitor/camera';
+import { Toast } from '@capacitor/toast';
 
 @Component({
   selector: 'app-editar-guia',
@@ -69,7 +70,7 @@ export class EditarGuiaPage implements OnInit {
         try {
           // Asegúrate de pasar this.post.imagen al método actualizarPost
           await this.bd.actualizarGuia(this.guia.id_guia, this.guia.titulo, this.guia.contenido, this.guia.imagen);
-          this.mostrarToast('Guia actualizado correctamente');
+          await this.presentToast('Guide edited succesful.');
           this.router.navigate(['/guias']);  // Redirigir a la página del foro
         } catch (error) {
           this.mostrarToast('Error al actualizar guia');
@@ -89,5 +90,11 @@ export class EditarGuiaPage implements OnInit {
       });
       await toast.present();
     }
-  
+    async presentToast(message: string) {
+      await Toast.show({
+        text: message,
+        duration: 'short', // 'short' o 'long'
+        position: 'bottom', // 'top', 'center', 'bottom'
+      });
+    }
   }

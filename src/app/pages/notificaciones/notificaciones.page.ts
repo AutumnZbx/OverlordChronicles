@@ -3,6 +3,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { NativeStorage } from '@awesome-cordova-plugins/native-storage/ngx';
 import { AlertController } from '@ionic/angular';
 import { SevicebdService } from 'src/app/services/sevicebd.service';
+import { Toast } from '@capacitor/toast';
+
 
 @Component({
   selector: 'app-notificaciones',
@@ -66,6 +68,7 @@ export class NotificacionesPage implements OnInit {
     await this.bd.marcarComoLeida(id_notificacion);
     // Reload the notifications after marking as read
     this.cargarNotificaciones(); 
+    await this.presentToast('Notification readed.');
   }
   
   async marcarTodasComoLeidas() {
@@ -73,7 +76,16 @@ export class NotificacionesPage implements OnInit {
       // Mark all notifications as read for the user
       await this.bd.marcarTodasComoLeidas(this.usuario.id_usuario);
       this.cargarNotificaciones(); // Reload after marking all as read
+      await this.presentToast('All Notifications readed.');
     }
+  }
+
+  async presentToast(message: string) {
+    await Toast.show({
+      text: message,
+      duration: 'short', // 'short' o 'long'
+      position: 'bottom', // 'top', 'center', 'bottom'
+    });
   }
   
   async eliminarNotificacion(id_notificacion: number) {
@@ -81,5 +93,6 @@ export class NotificacionesPage implements OnInit {
     await this.bd.eliminarNotificacion(id_notificacion);
     // Reload notifications after deletion
     this.cargarNotificaciones();
+    await this.presentToast('Notification deleted.');
   }
 }

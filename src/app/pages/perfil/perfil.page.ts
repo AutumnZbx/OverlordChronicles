@@ -4,6 +4,8 @@ import { NativeStorage } from '@awesome-cordova-plugins/native-storage/ngx';
 import { AlertController } from '@ionic/angular';
 import { SevicebdService } from 'src/app/services/sevicebd.service';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
+import { Toast } from '@capacitor/toast';
+
 @Component({
   selector: 'app-perfil',
   templateUrl: './perfil.page.html',
@@ -104,6 +106,14 @@ export class PerfilPage implements OnInit {
     this.cargarDatosUsuario();
   };
 
+  async presentToast(message: string) {
+    await Toast.show({
+      text: message,
+      duration: 'short', // 'short' o 'long'
+      position: 'bottom', // 'top', 'center', 'bottom'
+    });
+  }
+
   cambiarFoto() {
     if (this.imagen) {
       // Lógica para actualizar la imagen de perfil en la base de datos
@@ -112,6 +122,7 @@ export class PerfilPage implements OnInit {
       // Ejemplo de código para subir la foto al servidor
       this.bd.updateFotoPerfil(this.usuario.id_usuario, this.imagen).then(() => {
         console.log('Foto de perfil actualizada correctamente.');
+        this.presentToast('Profile photo changed.');
         // Puedes agregar lógica aquí para actualizar la vista del perfil, o mostrar una notificación
       }).catch((err: any) => {
         console.error('Error al actualizar la foto de perfil:', err);

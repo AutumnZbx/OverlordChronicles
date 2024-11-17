@@ -3,7 +3,7 @@ import { Router,ActivatedRoute } from '@angular/router';
 import { NativeStorage } from '@awesome-cordova-plugins/native-storage/ngx';
 import { AlertController } from '@ionic/angular';
 import { SevicebdService } from 'src/app/services/sevicebd.service';
-
+import { Toast } from '@capacitor/toast';
 @Component({
   selector: 'app-guias',
   templateUrl: './guias.page.html',
@@ -161,6 +161,7 @@ export class GuiasPage {
           handler: () => {
             // Lógica para borrar el post de la base de datos
             this.bd.deletePost(id_post).then(() => {
+             this.presentToast('Guide deleted.');
               this.loadPosts(); // Recargar la lista de posts después de eliminar
             });
           },
@@ -179,7 +180,13 @@ export class GuiasPage {
     });
     await alert.present();
   }
-  
+  async presentToast(message: string) {
+    await Toast.show({
+      text: message,
+      duration: 'short', // 'short' o 'long'
+      position: 'bottom', // 'top', 'center', 'bottom'
+    });
+  }
     
 
 }

@@ -5,7 +5,7 @@ import { AlertController } from '@ionic/angular';
 import { Camera, CameraResultType } from '@capacitor/camera';
 import { SevicebdService } from 'src/app/services/sevicebd.service';
 import { NativeStorage } from '@awesome-cordova-plugins/native-storage/ngx';
-
+import { Toast } from '@capacitor/toast';
 @Component({
   selector: 'app-crear-post',
   templateUrl: './crear-post.page.html',
@@ -65,6 +65,7 @@ export class CrearPostPage implements OnInit {
 
     this.bd.addPost(this.titulo, this.contenido, this.imagen, this.currentUserId).then(() => {
       this.router.navigate(['/foro'], { state: { refresh: true } });
+       this.presentToast('Post created.');
     });
   }
 
@@ -75,5 +76,12 @@ export class CrearPostPage implements OnInit {
       buttons: ['OK']
     });
     await alert.present();
+  }
+  async presentToast(message: string) {
+    await Toast.show({
+      text: message,
+      duration: 'short', // 'short' o 'long'
+      position: 'bottom', // 'top', 'center', 'bottom'
+    });
   }
 }

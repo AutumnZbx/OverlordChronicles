@@ -5,6 +5,15 @@
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
     <ion-title>Forum</ion-title>
+    <!-- Bell Icon for Notifications -->
+    <ion-button slot="end" fill="clear" (click)="goToNotifications()">
+      <ion-icon
+        name="notifications"
+        [color]="unreadNotifications ? 'danger' : 'medium'">
+      </ion-icon>
+    </ion-button>
+    <app-perfil-usuario slot="end" fill="clear" id="click-trigger"></app-perfil-usuario>
+    <!-- Profile Avatar -->
   </ion-toolbar>
 </ion-header>
 

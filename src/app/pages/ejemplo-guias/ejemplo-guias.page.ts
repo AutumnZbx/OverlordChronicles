@@ -4,7 +4,7 @@ import { NativeStorage } from '@awesome-cordova-plugins/native-storage/ngx';
 import { ToastController } from '@ionic/angular';
 import { SevicebdService } from 'src/app/services/sevicebd.service';
 import { Clipboard } from '@capacitor/clipboard';
-
+import { Toast } from '@capacitor/toast';
 @Component({
   selector: 'app-ejemplo-guias',
   templateUrl: './ejemplo-guias.page.html',
@@ -148,16 +148,17 @@ export class EjemploGuiasPage implements OnInit {
     try {
       await this.bd.eliminarComentario2(id_comentario);
       this.cargarComentarios(this.guias.id_guia);  
-      const toast = await this.toastController.create({
-        message: 'Comment deleted',
-        duration: 2000,  
-        position: 'bottom'  
-      });
-      await toast.present();
+      await this.presentToast('Comment deleted.');
     } catch (error) {
       console.error('Error deleting the comment', error);
     }
   }
-
+  async presentToast(message: string) {
+    await Toast.show({
+      text: message,
+      duration: 'short', // 'short' o 'long'
+      position: 'bottom', // 'top', 'center', 'bottom'
+    });
+  }
 
 }

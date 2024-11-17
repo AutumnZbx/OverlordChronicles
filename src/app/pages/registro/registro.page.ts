@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
 import { SevicebdService } from 'src/app/services/sevicebd.service';
+import { Toast } from '@capacitor/toast';
 
 @Component({
   selector: 'app-registro',
@@ -15,6 +16,15 @@ export class RegistroPage implements OnInit {
   password2: string = '';
   showPassword: boolean = false;
   showConfirmPassword: boolean = false;
+
+  // Pregunta y respuesta de seguridad
+securityQuestion: string = '';
+securityAnswer: string = '';
+
+// Control de errores
+showSecurityQuestionError: boolean = false;
+showSecurityAnswerError: boolean = false;
+
 
   // Control de errores
   showUsernameError: boolean = false;
@@ -81,6 +91,17 @@ export class RegistroPage implements OnInit {
     return passwordRegex.test(password);
   }
 
+  validateSecurityQuestion() {
+    this.showSecurityQuestionError = this.securityQuestion.trim() === '';
+    return !this.showSecurityQuestionError; // Retorna si es válida
+  }
+  
+  validateSecurityAnswer() {
+    this.showSecurityAnswerError = this.securityAnswer.trim() === '';
+    return !this.showSecurityAnswerError; // Retorna si es válida
+  }
+  
+
   async presentAlert(titulo: string, msj: string) {
     const alert = await this.alertController.create({
       header: titulo,
@@ -98,13 +119,10 @@ export class RegistroPage implements OnInit {
     const isEmailValid = this.validateEmail();
     const isPasswordValid = this.validatePassword();
     const isPasswordMatch = this.validatePasswordMatch();
+    const isSecurityQuestionValid = this.validateSecurityQuestion();
+    const isSecurityAnswerValid = this.validateSecurityAnswer();
   
-    console.log("Username valid:", isUsernameValid);
-    console.log("Email valid:", isEmailValid);
-    console.log("Password valid:", isPasswordValid);
-    console.log("Passwords match:", isPasswordMatch);
-  
-    if (!isUsernameValid || !isEmailValid || !isPasswordValid || !isPasswordMatch) {
+    if (!isUsernameValid || !isEmailValid || !isPasswordValid || !isPasswordMatch || !isSecurityQuestionValid || !isSecurityAnswerValid) {
       await this.presentAlert('Error', 'Please fill all fields correctly before signing up.');
       return;
     }
@@ -116,9 +134,25 @@ export class RegistroPage implements OnInit {
       return;
     }
   
-    // Registrar usuario
-    console.log("Registering user:", this.nombre_usuario);
-    this.bd.registrarUsuario(this.nombre_usuario, this.email, this.password, 2);
+    // Registrar usuario con datos adicionales
+    this.bd.registrarUsuario(
+      this.nombre_usuario,
+      this.email,
+      this.password,
+      2, // Rol de usuario estándar
+      this.securityQuestion,
+      this.securityAnswer
+    );
     this.router.navigate(['/login']);
+    await this.presentToast('Account created.');
   }
+
+  async presentToast(message: string) {
+    await Toast.show({
+      text: message,
+      duration: 'short', // 'short' o 'long'
+      position: 'bottom', // 'top', 'center', 'bottom'
+    });
+  }
+  
 }

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
 import { SevicebdService } from 'src/app/services/sevicebd.service';
-
+import { Toast } from '@capacitor/toast';
 @Component({
   selector: 'app-cambio-pass',
   templateUrl: './cambio-pass.page.html',
@@ -102,7 +102,7 @@ export class CambioPassPage implements OnInit {
     // Actualizar la contraseña
     this.bd.updatePassword(this.id_usuario, this.newPassword)
       .then(() => {
-        this.mostrarAlerta('Success', 'Password changed successfully.');
+         this.presentToast('Password changed.');
         this.logout();
       })
       .catch(err => {
@@ -114,5 +114,13 @@ export class CambioPassPage implements OnInit {
   logout() {
     localStorage.removeItem('user');
     this.router.navigate(['/login'], { replaceUrl: true });
+  }
+
+  async presentToast(message: string) {
+    await Toast.show({
+      text: message,
+      duration: 'short', // 'short' o 'long'
+      position: 'bottom', // 'top', 'center', 'bottom'
+    });
   }
 }

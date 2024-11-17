@@ -79,6 +79,37 @@
           Passwords do not match. Try again.
         </p>
 
+        <!-- Seleccionar una pregunta de seguridad -->
+<ion-item>
+  <ion-label>Security Question</ion-label>
+  <ion-select [(ngModel)]="securityQuestion" name="securityQuestion" placeholder="Select a question">
+    <ion-select-option value="What is your mother's maiden name?">What is your mother's maiden name?</ion-select-option>
+    <ion-select-option value="What was the name of your first pet?">What was the name of your first pet?</ion-select-option>
+    <ion-select-option value="What was your first car?">What was your first car?</ion-select-option>
+    <ion-select-option value="What elementary school did you attend?">What elementary school did you attend?</ion-select-option>
+    <ion-select-option value="What is the name of the town where you were born?">What is the name of the town where you were born?</ion-select-option>
+  </ion-select>
+</ion-item>
+<p *ngIf="showSecurityQuestionError" class="error-text">
+  Please select a security question.
+</p>
+
+<!-- Campo para la respuesta de la pregunta de seguridad -->
+<ion-item>
+  <ion-input
+    placeholder="Answer"
+    [(ngModel)]="securityAnswer"
+    name="securityAnswer"
+    (ionBlur)="validateSecurityAnswer()">
+  </ion-input>
+  <ion-icon name="lock-closed-outline"></ion-icon>
+</ion-item>
+<p *ngIf="showSecurityAnswerError" class="error-text">
+  Please provide an answer to your security question.
+</p>
+
+        
+
         <!-- Botón para registrarse -->
         <div class="sign-btn-wrap">
           <ion-button shape="round" type="submit" fill="solid" class="sign-btn">Sign Up</ion-button>

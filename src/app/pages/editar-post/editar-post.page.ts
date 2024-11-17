@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ToastController } from '@ionic/angular';
 import { SevicebdService } from 'src/app/services/sevicebd.service';
 import { Camera, CameraResultType } from '@capacitor/camera';
+import { Toast } from '@capacitor/toast';
 
 @Component({
   selector: 'app-editar-post',
@@ -73,7 +74,7 @@ borrarImagen() {
       try {
         // Asegúrate de pasar this.post.imagen al método actualizarPost
         await this.bd.actualizarPost(this.post.id_post, this.post.titulo, this.post.contenido, this.post.imagen);
-        this.mostrarToast('Post update succesful');
+        await this.presentToast('Post edited succesful.');
         this.router.navigate(['/home']);  // Redirigir a la página del foro
       } catch (error) {
         this.mostrarToast('Error updating post');
@@ -92,6 +93,13 @@ borrarImagen() {
       position: 'bottom'
     });
     await toast.present();
+  }
+  async presentToast(message: string) {
+    await Toast.show({
+      text: message,
+      duration: 'short', // 'short' o 'long'
+      position: 'bottom', // 'top', 'center', 'bottom'
+    });
   }
 
 }

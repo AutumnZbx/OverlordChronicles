@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AlertController, ToastController } from '@ionic/angular';
 import { SevicebdService } from 'src/app/services/sevicebd.service';
 import { Usuarios } from 'src/app/services/usuarios';
-
+import { Toast } from '@capacitor/toast';
 @Component({
   selector: 'app-adminperfile',
   templateUrl: './adminperfile.page.html',
@@ -21,16 +21,7 @@ export class AdminperfilePage implements OnInit {
     this.loadUsers();
   }
 
-  
 
-  async presentToast(message: string) {
-    const toast = await this.toastController.create({
-      message,
-      duration: 1500,
-      position: 'bottom'
-    });
-    await toast.present();
-  }
 
   async loadUsers() {
     this.admins = [];
@@ -56,25 +47,25 @@ export class AdminperfilePage implements OnInit {
   // Function to make the user an admin
   async makeAdmin(id_usuario: number) {
     const alert = await this.alertController.create({
-      header: 'Confirmar',
-      message: '¿Estás seguro de que quieres convertir a este usuario en administrador?',
+      header: 'Comfirm',
+      message: 'Are you sure you want to make this user an administrator?',
       buttons: [
         {
-          text: 'Cancelar',
+          text: 'Cancel',
           role: 'cancel',
         },
         {
-          text: 'Convertir en Admin',
+          text: 'Make admin',
           handler: async () => {
             await this.bd.updateUserRole(id_usuario, 1);
             await this.bd.createNotification(
               1, // tipo de notificación
-              'Promoción a Administrador', // título
-              'Has sido promovido al rol de administrador.', // contenido
+              'Promotion to Administrator', // título
+              'You have been promoted to the role of administrator.', // contenido
               0, // estado (por ejemplo, 0 para "no leído")
               id_usuario // id del usuario
             );
-            this.presentToast('El usuario ha sido convertido en administrador.');
+            this.presentToast('The user has been made an administrator.');
             this.loadUsers();
           },
         },
@@ -87,25 +78,25 @@ export class AdminperfilePage implements OnInit {
   // Función para quitar el rol de administrador
 async removeAdmin(id_usuario: number) {
   const alert = await this.alertController.create({
-    header: 'Confirmar',
-    message: '¿Estás seguro de que quieres quitar el rol de administrador a este usuario?',
+    header: 'Confirm',
+    message: 'Are you sure you want to remove the administrator role from this user?',
     buttons: [
       {
-        text: 'Cancelar',
+        text: 'Cancel',
         role: 'cancel',
       },
       {
-        text: 'Quitar Admin',
+        text: 'Drop admin',
         handler: async () => {
           await this.bd.updateUserRole(id_usuario, 2);
           await this.bd.createNotification(
             3, // tipo de notificación (por ejemplo, 3 para eliminación de admin)
-            'Rol de Administrador Removido', // título
-            'Tu rol de administrador ha sido revocado.', // contenido
+            'Administrator Role Removed', // título
+            'Your administrator role has been revoked.', // contenido
             0, // estado (no leído)
             id_usuario // id del usuario
           );
-          this.presentToast('El rol de administrador ha sido removido.');
+          this.presentToast('The administrator role has been removed.');
           this.loadUsers();
         },
       },
@@ -117,26 +108,31 @@ async removeAdmin(id_usuario: number) {
 
   async confirmBlockUser(id_usuario: number) {
     const alert = await this.alertController.create({
-      header: 'Bloquear Usuario',
+      header: 'Block user',
       inputs: [
-        { name: 'reason', type: 'text', placeholder: 'Razón del bloqueo' },
-        { name: 'days', type: 'number', placeholder: 'Duración en días' },
+        { name: 'reason', type: 'text', placeholder: 'Reason' },
+        { name: 'days', type: 'number', placeholder: 'Duration in days', min: 1,},
       ],
       buttons: [
         { text: 'Cancelar', role: 'cancel' },
         {
           text: 'Confirmar',
           handler: async (data) => {
+            if (data.days < 1) {
+              await this.presentToast('Duration must be at least 1 day.');
+              return false; // Aseguramos que se devuelve un valor aquí
+            }
             await this.bd.updateUserRole(id_usuario, 3);
             await this.bd.createNotification(
               2, // tipo de notificación
-              'Cuenta Bloqueada', // título
-              `Has sido bloqueado por ${data.days} días. Motivo: ${data.reason}`, // contenido
+              'Account Blocked', // título
+              `You have been blocked for ${data.days} days. Motive: ${data.reason}`, // contenido
               0, // estado (por ejemplo, 0 para "no leído")
               id_usuario // id del usuario
             );
-            this.presentToast(`Usuario bloqueado por ${data.days} días`);
+            this.presentToast(`User blocked for ${data.days} days. Motive: ${data.reason}`);
             this.loadUsers();
+            return true;
           },
         },
       ],
@@ -147,25 +143,25 @@ async removeAdmin(id_usuario: number) {
   // Función para desbloquear a un usuario
 async unblockUser(id_usuario: number) {
   const alert = await this.alertController.create({
-    header: 'Confirmar',
-    message: '¿Estás seguro de que quieres desbloquear a este usuario?',
+    header: 'Confirm',
+    message: 'Are you sure you want to unblock this user?',
     buttons: [
       {
-        text: 'Cancelar',
+        text: 'Cancel',
         role: 'cancel',
       },
       {
-        text: 'Desbloquear',
+        text: 'Unblock',
         handler: async () => {
           await this.bd.updateUserRole(id_usuario, 2);
           await this.bd.createNotification(
             4, // tipo de notificación (por ejemplo, 4 para desbloqueo)
-            'Cuenta Desbloqueada', // título
-            'Tu cuenta ha sido restaurada y puedes continuar usando la plataforma.', // contenido
+            'Account Unlocked', // título
+            'Your account has been restored and you can continue using the platform.', // contenido
             0, // estado (no leído)
             id_usuario // id del usuario
           );
-          this.presentToast('El usuario ha sido desbloqueado.');
+          this.presentToast('User has been unlocked.');
           this.loadUsers();
         },
       },
@@ -202,6 +198,14 @@ async unblockUser(id_usuario: number) {
   deleteUser(id_usuario: any) {
     this.bd.eliminarUsuario(id_usuario).then(() => {
       this.loadUsers(); // Reload users after deletion
+    });
+  }
+
+  async presentToast(message: string) {
+    await Toast.show({
+      text: message,
+      duration: 'short', // 'short' o 'long'
+      position: 'bottom', // 'top', 'center', 'bottom'
     });
   }
 
