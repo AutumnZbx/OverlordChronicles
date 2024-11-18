@@ -46,9 +46,9 @@ export class SevicebdService {
 
   usuariosApp: string = "INSERT or IGNORE INTO usuario (nombre_usuario,email,password,foto_perfil,pregunta,respuesta,id_rol) VALUES ('Admin','admin','admin','assets/images/alain_thumb.png','hola','adios','1');"
 
-  postApp: string = "INSERT or IGNORE INTO post (categoria,titulo,contenido,imagen,id_usuario)VALUES ('1','Welcome to Overlord Chronicles','Hello and welcome to the community! We are excited to have you here! In this app, you’ll find a wide variety of content created to enhance your experience and help you stay informed and engaged with everything that’s happening.  Welcome aboard, and enjoy the adventure!','assets/images/header2.png','1');"
+  postApp: string = "INSERT or IGNORE INTO post (categoria,estado,titulo,contenido,imagen,id_usuario)VALUES ('1','1','Welcome to Overlord Chronicles','Hello and welcome to the community! We are excited to have you here! In this app, you’ll find a wide variety of content created to enhance your experience and help you stay informed and engaged with everything that’s happening.  Welcome aboard, and enjoy the adventure!','assets/images/header2.png','1');"
 
-  guiaApp: string = "INSERT or IGNORE INTO post (categoria,titulo,contenido,imagen,id_usuario)VALUES ('2','Forum Guidelines: Respect and Community Standards','To ensure our community remains a friendly and welcoming space for everyone, we’ve established some important guidelines for interacting with others and sharing content in the forum. Please read through these rules carefully and help us maintain a positive environment! Respect Others  No Explicit or Inappropriate Content  Stay On Topic  Contribute Positively ','assets/images/welcome.png','1');"
+  guiaApp: string = "INSERT or IGNORE INTO post (categoria,estado,titulo,contenido,imagen,id_usuario)VALUES ('2','1','Forum Guidelines: Respect and Community Standards','To ensure our community remains a friendly and welcoming space for everyone, we’ve established some important guidelines for interacting with others and sharing content in the forum. Please read through these rules carefully and help us maintain a positive environment! Respect Others  No Explicit or Inappropriate Content  Stay On Topic  Contribute Positively ','assets/images/welcome.png','1');"
 
 
 
@@ -154,8 +154,8 @@ export class SevicebdService {
       //ejecutar los inserts en caso de que existan
       await this.database.executeSql(this.rolesApp,[]);
       await this.database.executeSql(this.usuariosApp,[]);
-      await this.database.executeSql(this.postApp,[]);
-      await this.database.executeSql(this.guiaApp,[]);
+      //await this.database.executeSql(this.postApp,[]);
+      //await this.database.executeSql(this.guiaApp,[]);
 
     }catch(e){
       this.presentAlert('crear conexion','error en crear bd' + JSON.stringify(e));

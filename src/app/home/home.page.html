@@ -14,7 +14,11 @@
         [color]="unreadNotifications ? 'danger' : 'medium'">
       </ion-icon>
     </ion-button>
-    <app-perfil-usuario slot="end" fill="clear" id="click-trigger"></app-perfil-usuario>
+    <ion-button slot="end" fill="clear" id="click-trigger" (click)="irPerfil()">
+      <ion-avatar>
+        <img [src]="usuario.foto_perfil" />
+      </ion-avatar>
+    </ion-button>
     <!-- Profile Avatar -->
   </ion-toolbar>
 </ion-header>

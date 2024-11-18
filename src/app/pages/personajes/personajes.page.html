@@ -7,6 +7,17 @@
     <ion-title>
       Characters List
     </ion-title>
+    <ion-button slot="end" fill="clear" (click)="goToNotifications()">
+      <ion-icon
+        name="notifications"
+        [color]="unreadNotifications ? 'danger' : 'medium'">
+      </ion-icon>
+    </ion-button>
+    <ion-button slot="end" fill="clear" id="click-trigger" (click)="irPerfil()">
+      <ion-avatar>
+        <img [src]="usuario.foto_perfil" />
+      </ion-avatar>
+    </ion-button>
   </ion-toolbar>
 </ion-header>
 

@@ -194,4 +194,9 @@ export class ForoPage  {
     });
   }
 
+  irPerfil() {
+    this.router.navigate(['/perfil']);
+  }
+
+
 }

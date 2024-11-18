@@ -11,7 +11,8 @@ import { SevicebdService } from 'src/app/services/sevicebd.service';
 })
 export class PersonajesPage implements OnInit {
   
-  usuario: any = {}; 
+  usuario: any = {};  // Variable para almacenar los datos del usuario actual
+  unreadNotifications: boolean = false;
   
   characterList: any[] = [];  // Lista de personajes
   constructor(private api : ApiService, private router: Router, private bd:SevicebdService, private storage: NativeStorage) { 
@@ -25,26 +26,37 @@ export class PersonajesPage implements OnInit {
       this.loadCharacters();
       this.cargarDatosUsuario();
     }
-    cargarDatosUsuario() {
-      // Verificar si hay un usuario guardado en localStorage
-      const storedUser = localStorage.getItem('user');
-      if (storedUser) {
-        // Parsear el usuario guardado
-        const user = JSON.parse(storedUser);
-        // Consultar por el estado de la base de datos
-        this.bd.dbReady().subscribe(data => {
-          if (data) {
-            // Obtener los datos del usuario de la base de datos
-            this.bd.getUsuarioById(user.id_usuario).then(res => {
-              this.usuario = res;
-            });
-          }
-        });
-      } else {
-        // Si no hay usuario guardado, redirigir al login o manejar el error
-        this.router.navigate(['/login']);
-      }
+    // Cargar los datos del usuario desde localStorage o servicio
+  cargarDatosUsuario() {
+    // Verificar si hay un usuario guardado en localStorage
+    const storedUser = localStorage.getItem('user');
+    if (storedUser) {
+      // Parsear el usuario guardado
+      const user = JSON.parse(storedUser);
+      // Consultar por el estado de la base de datos
+      this.bd.dbReady().subscribe(data => {
+        if (data) {
+          // Obtener los datos del usuario de la base de datos
+          this.bd.getUsuarioById(user.id_usuario).then(res => {
+            this.usuario = res;
+            this.checkUnreadNotifications();
+          });
+        }
+      });
+    } else {
+      // Si no hay usuario guardado, redirigir al login o manejar el error
+      this.router.navigate(['/login']);
     }
+  }
+
+  checkUnreadNotifications() {
+    const userId = this.usuario.id_usuario;
+  
+    // Fetch unread notifications
+    this.bd.getUnreadNotifications(userId).then((notifications) => {
+      this.unreadNotifications = notifications.length > 0; // true if there are unread notifications
+    });
+  }
 
     loadCharacters() {
       this.api.getAllCharacters().subscribe((res) => {
@@ -59,6 +71,15 @@ export class PersonajesPage implements OnInit {
     // Navegar a la página de detalles
     goToDetails(id: any) {
       this.router.navigate(['/detalle', id]);
+    }
+
+    irPerfil() {
+      this.router.navigate(['/perfil']);
+    }
+  
+    // Navigate to the notifications page
+    goToNotifications() {
+      this.router.navigate(['/notificaciones']);
     }
   }
 

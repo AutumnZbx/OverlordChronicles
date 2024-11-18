@@ -18,6 +18,10 @@ export class PerfilUsuarioComponent implements OnInit {
     this.cargarDatosUsuario();
   }
 
+  async ionViewWillEnter() {
+    this.cargarDatosUsuario();
+  }
+
   cargarDatosUsuario() {
     // Aquí puedes obtener los datos desde localStorage o un servicio
     const usuario = JSON.parse(localStorage.getItem('user') || '{}');
@@ -27,7 +31,6 @@ export class PerfilUsuarioComponent implements OnInit {
 
   async irPerfil() {
     await this.router.navigate(['/perfil']);
-    await this.popoverController.dismiss();
   }
 
   

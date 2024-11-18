@@ -4,7 +4,7 @@ import { SevicebdService } from 'src/app/services/sevicebd.service';
 import { SQLite } from '@awesome-cordova-plugins/sqlite/ngx';
 import { NativeStorage } from '@awesome-cordova-plugins/native-storage/ngx';
 import { IonicModule } from '@ionic/angular';
-import { RouterTestingModule } from '@angular/router/testing'; // Importa RouterTestingModule
+import { RouterTestingModule } from '@angular/router/testing'; 
 import { of } from 'rxjs';
 
 describe('CrearPostPage', () => {
@@ -13,18 +13,16 @@ describe('CrearPostPage', () => {
   let mockServicebdService: Partial<SevicebdService>;
 
   beforeEach(() => {
-    // Crear mock para SevicebdService
     mockServicebdService = {
-      // Aquí puedes añadir métodos simulados de SevicebdService si los necesitas
     };
 
     TestBed.configureTestingModule({
       declarations: [CrearPostPage],
-      imports: [IonicModule.forRoot(), RouterTestingModule], // Agregar RouterTestingModule
+      imports: [IonicModule.forRoot(), RouterTestingModule], 
       providers: [
         { provide: SevicebdService, useValue: mockServicebdService },
-        { provide: SQLite, useValue: {} },         // Mock vacío para SQLite
-        { provide: NativeStorage, useValue: {} }   // Mock vacío para NativeStorage
+        { provide: SQLite, useValue: {} },         
+        { provide: NativeStorage, useValue: {} }   
       ]
     }).compileComponents();
 

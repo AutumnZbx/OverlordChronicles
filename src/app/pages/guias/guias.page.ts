@@ -187,7 +187,12 @@ export class GuiasPage {
       position: 'bottom', // 'top', 'center', 'bottom'
     });
   }
-    
+  
+  irPerfil() {
+    this.router.navigate(['/perfil']);
+  }
+
+
 
 }
 

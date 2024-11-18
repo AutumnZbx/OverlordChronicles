@@ -25,7 +25,7 @@ export class HomePage {
   }
 
   async ionViewWillEnter() {
-    this.bd.crearConexion();
+    //this.bd.crearConexion();
     this.loadLatestContent();
     this.cargarDatosUsuario();
   }
@@ -77,12 +77,7 @@ export class HomePage {
       this.unreadNotifications = notifications.length > 0; // true if there are unread notifications
     });
   }
-  
 
-  // Navigate to the notifications page
-  goToNotifications() {
-    this.router.navigate(['/notificaciones']);
-  }
 
   // Navigate to the post details page
   goToPost(post: any) {
@@ -104,5 +99,13 @@ export class HomePage {
   logout() {
     localStorage.removeItem('user');
     this.router.navigate(['/inicio']);
+  }
+  irPerfil() {
+    this.router.navigate(['/perfil']);
+  }
+
+  // Navigate to the notifications page
+  goToNotifications() {
+    this.router.navigate(['/notificaciones']);
   }
 }

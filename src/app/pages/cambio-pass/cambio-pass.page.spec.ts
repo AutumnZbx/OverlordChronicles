@@ -11,7 +11,6 @@ describe('CambioPassPage', () => {
   let mockServicebdService: Partial<SevicebdService>;
 
   beforeEach(() => {
-    // Crear el mock de SevicebdService
     mockServicebdService = {
       dbReady: () => of(true),
       getUsuarioById: (id: number) => Promise.resolve({ id_usuario: id, nombre_usuario: 'Test User', password: 'test123' })
