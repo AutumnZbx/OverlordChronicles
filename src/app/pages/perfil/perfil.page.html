@@ -33,6 +33,7 @@
           </ion-card-header>
           <ion-card-content>
             <p>{{ post.contenido }}</p>
+            <ion-button (click)="goToPost(post)" fill="clear">Go to post</ion-button> 
           </ion-card-content>
         </ion-card>
       </ion-list>
@@ -50,6 +51,7 @@
           </ion-card-header>
           <ion-card-content>
             <p>{{ guia.contenido }}</p>
+            <ion-button (click)="goToGuide(guias)" fill="clear">Go to guide</ion-button> 
           </ion-card-content>
         </ion-card>
       </ion-list>

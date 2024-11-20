@@ -4,97 +4,34 @@
       <ion-back-button></ion-back-button>
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
-    <ion-title> Welcome</ion-title>
-    <ion-button slot="end" fill="clear" (click)="goToNotifications()">
-      <ion-icon
-        name="notifications"
-        [color]="unreadNotifications ? 'danger' : 'medium'">
-      </ion-icon>
-    </ion-button>
-    <ion-button slot="end" fill="clear" id="click-trigger" (click)="irPerfil()">
-      <ion-avatar>
-        <img [src]="usuario.foto_perfil" />
-      </ion-avatar>
-    </ion-button>
+    <ion-select [(ngModel)]="filter" (ionChange)="applyFilter()" slot="end" placeholder="Filter Users">
+      <ion-select-option value="admins">Administrators</ion-select-option>
+      <ion-select-option value="normal">Normal Users</ion-select-option>
+      <ion-select-option value="blocked">Blocked Users</ion-select-option>
+    </ion-select>
   </ion-toolbar>
 </ion-header>
 
 <ion-content class="ion-padding" [fullscreen]="true">
-  <mat-tab-group class="custom-tab-group" mat-stretch-tabs="false" mat-align-tabs="center">
-    <!-- Administradores -->
-    <mat-tab label="Administradores">
-      <ion-list>
-        <ion-card *ngFor="let admin of admins" class="user-card">
-          <ion-card-header class="user-header">
-            <ion-avatar>
-              <ion-img [src]="admin.foto_perfil" alt="User Profile"></ion-img>
-            </ion-avatar>
-          </ion-card-header>
-          <ion-card-content>
-            <p>ID: {{ admin.id_usuario }}</p>
-            <p>Username: {{ admin.nombre_usuario }}</p>
-            <p>Email: {{ admin.email }}</p>
-          </ion-card-content>
-          <div class="action-buttons">
-            <!-- Botón para quitar admin -->
-            <ion-button class="custom-button remove-admin-button" (click)="removeAdmin(admin.id_usuario)">
-              Drop admin
-            </ion-button>
-          </div>
-        </ion-card>
-      </ion-list>
-    </mat-tab>
-
-    <!-- Usuarios Normales -->
-    <mat-tab label="Usuarios Normales" >
-      <ion-list>
-        <ion-card *ngFor="let user of normalUsers" class="user-card">
-          <ion-card-header class="user-header">
-            <ion-avatar>
-              <ion-img [src]="user.foto_perfil" alt="User Profile"></ion-img>
-            </ion-avatar>
-          </ion-card-header>
-          <ion-card-content>
-            <p>ID: {{ user.id_usuario }}</p>
-            <p>Username: {{ user.nombre_usuario }}</p>
-            <p>Email: {{ user.email }}</p>
-          </ion-card-content>
-          <div class="action-buttons">
-            <!-- Botón para hacer admin -->
-            <ion-button class="custom-button admin-button" (click)="makeAdmin(user.id_usuario)">
-              Make admin
-            </ion-button>
-            <!-- Botón para bloquear usuario -->
-            <ion-button class="custom-button block-button" (click)="confirmBlockUser(user.id_usuario)">
-              Ban user
-            </ion-button>
-          </div>
-        </ion-card>
-      </ion-list>
-    </mat-tab>
-
-    <!-- Usuarios Bloqueados -->
-    <mat-tab label="Usuarios Bloqueados">
-      <ion-list>
-        <ion-card *ngFor="let blockedUser of blockedUsers" class="user-card">
-          <ion-card-header class="user-header">
-            <ion-avatar>
-              <ion-img [src]="blockedUser.foto_perfil" alt="User Profile"></ion-img>
-            </ion-avatar>
-          </ion-card-header>
-          <ion-card-content>
-            <p>ID: {{ blockedUser.id_usuario }}</p>
-            <p>Username: {{ blockedUser.nombre_usuario }}</p>
-            <p>Email: {{ blockedUser.email }}</p>
-          </ion-card-content>
-          <div class="action-buttons">
-            <!-- Botón para desbloquear usuario -->
-            <ion-button class="custom-button unblock-button" (click)="unblockUser(blockedUser.id_usuario)">
-              Unban user
-            </ion-button>
-          </div>
-        </ion-card>
-      </ion-list>
-    </mat-tab>
-  </mat-tab-group>
+  <ion-list>
+    <ion-card *ngFor="let user of filteredUsers" class="user-card">
+      <ion-card-header class="user-header">
+        <ion-avatar>
+          <ion-img [src]="user.foto_perfil" alt="User Profile"></ion-img>
+        </ion-avatar>
+      </ion-card-header>
+      <ion-card-content>
+        <p>ID: {{ user.id_usuario }}</p>
+        <p>Username: {{ user.nombre_usuario }}</p>
+        <p>Email: {{ user.email }}</p>
+      </ion-card-content>
+      <div class="action-buttons" *ngIf="filter !== 'blocked'">
+        <ion-button *ngIf="user.id_rol === 2" (click)="makeAdmin(user.id_usuario)">Make Admin</ion-button>
+        <ion-button (click)="confirmBlockUser(user.id_usuario)">Block User</ion-button>
+      </div>
+      <div class="action-buttons" *ngIf="filter === 'blocked'">
+        <ion-button (click)="unblockUser(user.id_usuario)">Unblock User</ion-button>
+      </div>
+    </ion-card>
+  </ion-list>
 </ion-content>

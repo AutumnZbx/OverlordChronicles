@@ -14,6 +14,9 @@ export class AdminperfilePage implements OnInit {
   admins: any[] = [];
   normalUsers: any[] = [];
   blockedUsers: any[] = [];
+  filteredUsers: any[] = [];
+  filter: string = 'admins';
+
   usuario: any = {};  // Variable para almacenar los datos del usuario actual
   unreadNotifications: boolean = false;
 
@@ -62,20 +65,22 @@ export class AdminperfilePage implements OnInit {
     this.admins = [];
     this.normalUsers = [];
     this.blockedUsers = [];
+    this.filteredUsers = [];
     
-    this.bd.getAllUsers().then(result => {
-      for (let i = 0; i < result.rows.length; i++) {
-        const user = result.rows.item(i);
-        if (user.id_rol === 1) {
-          this.admins.push(user);
-        } else if (user.id_rol === 2) {
-          this.normalUsers.push(user);
-        } else if (user.id_rol === 3) {
-          this.blockedUsers.push(user);
-        }
-      }
-      this.changeDetectorRef.detectChanges(); // Forzar la actualización manual
-    });
+    const result = await this.bd.getAllUsers();
+    for (let i = 0; i < result.rows.length; i++) {
+      const user = result.rows.item(i);
+      if (user.id_rol === 1) this.admins.push(user);
+      else if (user.id_rol === 2) this.normalUsers.push(user);
+      else if (user.id_rol === 3) this.blockedUsers.push(user);
+    }
+    this.applyFilter(); // Aplicar el filtro inicial
+  }
+
+  applyFilter() {
+    if (this.filter === 'admins') this.filteredUsers = [...this.admins];
+    else if (this.filter === 'normal') this.filteredUsers = [...this.normalUsers];
+    else if (this.filter === 'blocked') this.filteredUsers = [...this.blockedUsers];
   }
   
 
@@ -141,39 +146,67 @@ async removeAdmin(id_usuario: number) {
 }
 
 
-  async confirmBlockUser(id_usuario: number) {
-    const alert = await this.alertController.create({
-      header: 'Block user',
-      inputs: [
-        { name: 'reason', type: 'text', placeholder: 'Reason' },
-        { name: 'days', type: 'number', placeholder: 'Duration in days', min: 1,},
-      ],
-      buttons: [
-        { text: 'Cancelar', role: 'cancel' },
-        {
-          text: 'Confirmar',
-          handler: async (data) => {
-            if (data.days < 1) {
-              await this.presentToast('Duration must be at least 1 day.');
-              return false; // Aseguramos que se devuelve un valor aquí
-            }
-            await this.bd.updateUserRole(id_usuario, 3);
-            await this.bd.createNotification(
-              2, // tipo de notificación
-              'Account Blocked', // título
-              `You have been blocked for ${data.days} days. Motive: ${data.reason}`, // contenido
-              0, // estado (por ejemplo, 0 para "no leído")
-              id_usuario // id del usuario
-            );
-            this.presentToast(`User blocked for ${data.days} days. Motive: ${data.reason}`);
-            this.loadUsers();
-            return true;
-          },
+async confirmBlockUser(id_usuario: number) {
+  const alert = await this.alertController.create({
+    header: 'Block User',
+    inputs: [
+      {
+        name: 'reason',
+        type: 'radio',
+        label: 'Spam',
+        value: 'Spam',
+      },
+      {
+        name: 'reason',
+        type: 'radio',
+        label: 'Harassment',
+        value: 'Harassment',
+      },
+      {
+        name: 'reason',
+        type: 'radio',
+        label: 'Inappropriate Content',
+        value: 'Inappropriate Content',
+      },
+      {
+        name: 'reason',
+        type: 'radio',
+        label: 'Violation of Guidelines',
+        value: 'Violation of Guidelines',
+      },
+      {
+        name: 'reason',
+        type: 'radio',
+        label: 'Other',
+        value: 'Other',
+      },
+    ],
+    buttons: [
+      { text: 'Cancel', role: 'cancel' },
+      {
+        text: 'Block',
+        handler: async (data) => {
+          if (!data) {
+            this.presentToast('Please select a reason for blocking.');
+            return false;
+          }
+          await this.bd.updateUserRole(id_usuario, 3);
+          await this.bd.createNotification(
+            2,
+            'Account Blocked',
+            `Your account has been blocked. Reason: ${data}`,
+            0,
+            id_usuario
+          );
+          this.presentToast(`User blocked for reason: ${data}`);
+          this.loadUsers();
+          return true;
         },
-      ],
-    });
-    await alert.present();
-  }
+      },
+    ],
+  });
+  await alert.present();
+}
 
   // Función para desbloquear a un usuario
 async unblockUser(id_usuario: number) {

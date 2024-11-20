@@ -75,24 +75,19 @@ export class PerfilPage implements OnInit {
     this.router.navigate(['/modperfil'], navigationExtras);
   }
 
-   // Navegar a la página del post
-   goToPost(id_post: number) {
+  goToPost(post: any) {
     const navigationExtras = {
-      state: {
-        postId: id_post
-      }
+      state: { postId: post.id_post } 
     };
     this.router.navigate(['/ejemplo-post'], navigationExtras);
   }
 
-  // Navegar a la página de la guía
-  goToGuide(id_guia: number) {
+  // Navigate to the guide details page
+  goToGuide(guias: any) {
     const navigationExtras = {
-      state: {
-        guiaId: id_guia
-      }
+      state: { postId: guias.id_post } 
     };
-    this.router.navigate(['/ejemplo-guias'], navigationExtras);
+    this.router.navigate(['/ejemplo-post'], navigationExtras);
   }
 
   takePicture = async () => {

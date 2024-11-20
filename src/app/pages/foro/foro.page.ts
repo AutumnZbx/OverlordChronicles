@@ -94,41 +94,99 @@ export class ForoPage  {
 
   async blockPost(id_post: number, id_usuario: number, titulo: string) {
     const alert = await this.alertCtrl.create({
-        header: 'Block Post',
-        message: 'Please provide the reason for blocking this post.',
-        inputs: [
-            {
-                name: 'reason',
-                type: 'textarea',
-                placeholder: 'Reason for blocking',
-            },
-        ],
-        buttons: [
-            {
-                text: 'Cancel',
-                role: 'cancel',
-                cssClass: 'secondary',
-            },
-            {
-                text: 'Block',
-                handler: (data) => {
-                    if (data.reason) {
-                        // Call the updatePostStatus method to update the post status and create the notification
-                        this.bd.updatePostStatus(id_post, 2, id_usuario, data.reason).then(() => {
-                            this.loadPosts(); // Reload posts after blocking
-                            this.presentAlert("Blocked", "Post has been successfully blocked and user notified.");
-                        });
-                    } else {
-                        this.presentAlert("Error", "Reason for blocking is required.");
-                    }
-                },
-            },
-        ],
+      header: 'Block Post',
+      message: 'Please select the reason for blocking this post.',
+      inputs: [
+        {
+          name: 'reason',
+          type: 'radio',
+          label: 'Inappropriate Content',
+          value: 'Inappropriate Content',
+        },
+        {
+          name: 'reason',
+          type: 'radio',
+          label: 'Spam',
+          value: 'Spam',
+        },
+        {
+          name: 'reason',
+          type: 'radio',
+          label: 'Copyright Violation',
+          value: 'Copyright Violation',
+        },
+        {
+          name: 'reason',
+          type: 'radio',
+          label: 'Offensive Language',
+          value: 'Offensive Language',
+        },
+        {
+          name: 'reason',
+          type: 'radio',
+          label: 'Other',
+          value: 'Other',
+        },
+      ],
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          cssClass: 'secondary',
+        },
+        {
+          text: 'Block',
+          handler: (data) => {
+            if (data) {
+              // Handle the case when a reason is selected
+              const fullMessage = `${data}. You can update the post from your profile.`;
+              this.bd.updatePostStatus(id_post, 2, id_usuario, fullMessage).then(() => {
+                this.loadPosts(); // Reload posts
+                this.presentAlert(
+                  'Blocked',
+                  `Post has been successfully blocked for the following reason: "${data}". The user has been notified.`
+                );
+              });
+              return true; // Successfully handled
+            } else {
+              // Handle the case when no reason is selected
+              this.presentAlert('Error', 'You must select a reason for blocking the post.');
+              return false; // Indicate failure
+            }
+          },
+        },
+      ],
     });
-
+  
     await alert.present();
-}
+  }
+  
+  
 
+async unblockPost(id_post: number,id_usuario: number, titulo: string) {
+  const alert = await this.alertCtrl.create({
+    header: 'Unblock Post',
+    message: 'Are you sure you want to unblock this post?',
+    buttons: [
+      {
+        text: 'Cancel',
+        role: 'cancel',
+        cssClass: 'secondary',
+      },
+      {
+        text: 'Unblock',
+        handler: () => {
+          this.bd.updatePostStatus(id_post, 1, id_usuario).then(() => {
+            this.loadPosts(); // Recargar lista de posts
+            this.presentToast('Post unblocked successfully.');
+          });
+        },
+      },
+    ],
+  });
+
+  await alert.present();
+}
   
 
 

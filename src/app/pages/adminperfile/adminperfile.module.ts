@@ -7,8 +7,7 @@ import { IonicModule } from '@ionic/angular';
 import { AdminperfilePageRoutingModule } from './adminperfile-routing.module';
 
 import { AdminperfilePage } from './adminperfile.page';
-import { MatTabsModule } from '@angular/material/tabs';
-
+import {MatTabsModule} from '@angular/material/tabs';
 
 @NgModule({
   imports: [

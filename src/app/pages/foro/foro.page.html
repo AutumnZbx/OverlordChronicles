@@ -39,6 +39,10 @@
           <ion-button *ngIf="usuario.id_rol === 1 && post.estado === 1" (click)="blockPost(post.id_post,post.id_usuario,post.titulo)" fill="clear">
             Block Post
           </ion-button>
+            <ion-button *ngIf="post.estado === 2 && isAdmin()" (click)="unblockPost(post.id_post,post.id_usuario,post.titulo)"fill="clear">
+              Unblock Post
+            </ion-button>
+
     
     
           <!-- Show "Delete" button if the user can delete the post -->

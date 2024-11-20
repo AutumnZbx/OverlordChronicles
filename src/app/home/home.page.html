@@ -41,12 +41,12 @@
       <ion-item *ngFor="let post of latestPosts" >
         <ion-card>
           <ion-card-header>
-            <ion-card-title>{{ post.titulo }}</ion-card-title>
+            <ion-card-title (click)="goToPost(post)">{{ post.titulo }}</ion-card-title>
           </ion-card-header>
           <ion-card-content>
-            <img *ngIf="post.imagen" [src]="post.imagen" alt="Post Image" style="width: 100%; height: auto;" />
+            <img (click)="goToPost(post)"*ngIf="post.imagen" [src]="post.imagen" alt="Post Image" style="width: 100%; height: auto;" />
               <p>{{ post.contenido }}</p>
-              <ion-button (click)="goToPost(post)" fill="clear">Ver Post</ion-button> 
+              <ion-button (click)="goToPost(post)" fill="clear">Go to post</ion-button> 
           </ion-card-content>
         </ion-card>
       </ion-item>
@@ -66,12 +66,12 @@
       <ion-item *ngFor="let guias of latestGuides">
         <ion-card>
           <ion-card-header>
-            <ion-card-title>{{ guias.titulo }}</ion-card-title>
+            <ion-card-title (click)="goToGuide(guias)">{{ guias.titulo }}</ion-card-title>
           </ion-card-header>
           <ion-card-content>
-            <img *ngIf="guias.imagen" [src]="guias.imagen" alt="guias Image" style="width: 100%; height: 75%;" />
+            <img (click)="goToGuide(guias)" *ngIf="guias.imagen" [src]="guias.imagen" alt="guias Image" style="width: 100%; height: 75%;" />
               <p>{{ guias.contenido }}</p>
-              <ion-button (click)="goToGuide(guias)" fill="clear">Ver Guia</ion-button> 
+              <ion-button (click)="goToGuide(guias)" fill="clear">Go to guide</ion-button> 
           </ion-card-content>
         </ion-card>
       </ion-item>

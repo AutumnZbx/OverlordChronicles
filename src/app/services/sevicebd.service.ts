@@ -290,36 +290,57 @@ export class SevicebdService {
   }
   
 
-  async updatePostStatus(id_post: number, estado: number, id_usuario: number, reason: string) {
+  async updatePostStatus(
+    id_post: number,
+    estado: number,
+    id_usuario: number,
+    reason?: string // Optional because it's not needed for unblocking
+  ) {
     // Update the post's status
     await this.database.executeSql(
-        'UPDATE post SET estado = ? WHERE id_post = ?',
-        [estado, id_post]
+      'UPDATE post SET estado = ? WHERE id_post = ?',
+      [estado, id_post]
     );
-
-    // If the post is being blocked, retrieve the post title and insert a single notification
+  
     if (estado === 2) {
-        // Retrieve the post title
-        const result = await this.database.executeSql(
-            'SELECT titulo FROM post WHERE id_post = ?',
-            [id_post]
-        );
-
-        const postTitle = result.rows.length > 0 ? result.rows.item(0).titulo : 'Publicación';
-
-        const tipo = 1; // Type 1 for blocked post
-        const titulo = `Post bloqued: ${postTitle}`; // Title of notification
-        const contenido = `Your post named "${postTitle}" has been bloqued. Because: ${reason}`;
-        const estadoNotificacion = 0; // 0 for unread
-
-        await this.database.executeSql(
-            `INSERT INTO notificacion (tipo, titulo, contenido, estado, id_usuario) 
-             VALUES (?, ?, ?, ?, ?)`,
-            [tipo, titulo, contenido, estadoNotificacion, id_usuario]
-        );
+      // Handle blocking the post
+      const result = await this.database.executeSql(
+        'SELECT titulo FROM post WHERE id_post = ?',
+        [id_post]
+      );
+  
+      const postTitle = result.rows.length > 0 ? result.rows.item(0).titulo : 'Post';
+      const tipo = 1; // Type 1 for blocked post
+      const titulo = `Post Blocked: ${postTitle}`;
+      const contenido = `Your post "${postTitle}" has been blocked. Reason: ${reason}. You can update the post from your profile.`;
+      const estadoNotificacion = 0; // Unread
+  
+      await this.database.executeSql(
+        `INSERT INTO notificacion (tipo, titulo, contenido, estado, id_usuario) 
+         VALUES (?, ?, ?, ?, ?)`,
+        [tipo, titulo, contenido, estadoNotificacion, id_usuario]
+      );
+    } else if (estado === 1) {
+      // Handle unblocking the post
+      const result = await this.database.executeSql(
+        'SELECT titulo FROM post WHERE id_post = ?',
+        [id_post]
+      );
+  
+      const postTitle = result.rows.length > 0 ? result.rows.item(0).titulo : 'Post';
+      const tipo = 2; // Type 2 for unblocked post
+      const titulo = `Post Unblocked: ${postTitle}`;
+      const contenido = `Your post "${postTitle}" has been unblocked and is now visible.`;
+      const estadoNotificacion = 0; // Unread
+  
+      await this.database.executeSql(
+        `INSERT INTO notificacion (tipo, titulo, contenido, estado, id_usuario) 
+         VALUES (?, ?, ?, ?, ?)`,
+        [tipo, titulo, contenido, estadoNotificacion, id_usuario]
+      );
     }
-}
-
+  }
+  
   
 
   // Method in SevicebdService to get only visible posts
@@ -538,7 +559,7 @@ export class SevicebdService {
 
 
   getPostsByUser(id_usuario: number) {
-    const sql = 'SELECT * FROM post WHERE id_usuario = ?';
+    const sql = 'SELECT * FROM post WHERE id_usuario = ? and categoria = 1';
     return this.database.executeSql(sql, [id_usuario]).then(res => {
       const posts: any[] | PromiseLike<any[]> = [];
       for (let i = 0; i < res.rows.length; i++) {
@@ -552,7 +573,7 @@ export class SevicebdService {
   }
 
   getGuiasByUser(id_usuario: number) {
-    const sql = 'SELECT * FROM guias WHERE id_usuario = ?';
+    const sql = 'SELECT * FROM post WHERE id_usuario = ? and categoria = 2';
     return this.database.executeSql(sql, [id_usuario]).then(res => {
       const guias = [];
       for (let i = 0; i < res.rows.length; i++) {
@@ -564,6 +585,13 @@ export class SevicebdService {
       return [];
     });
   }
+
+  async updatePostStatus2(id_post: number, estado: number): Promise<void> {
+    const query = 'UPDATE posts SET estado = ? WHERE id_post = ?';
+    await this.database.executeSql(query, [estado, id_post]);
+  }
+  
+  
 
   getUsuarioById(id_usuario: number) {
     const sql = 'SELECT * FROM usuario WHERE id_usuario = ?';
