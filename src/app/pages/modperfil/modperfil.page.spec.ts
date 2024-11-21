@@ -12,7 +12,7 @@ describe('ModperfilPage', () => {
   beforeEach(async () => {
     sevicebdServiceSpy = jasmine.createSpyObj('SevicebdService', ['getUsuarioById', 'updateUsuario']);
     
-    // Simular un usuario de prueba para la función `getUsuarioById`
+    
     sevicebdServiceSpy.getUsuarioById.and.returnValue(Promise.resolve({
       id_usuario: 1,
       nombre_usuario: 'Usuario de prueba',
@@ -35,7 +35,7 @@ describe('ModperfilPage', () => {
   });
 
 
-  it('should load user data on initialization', async () => {
+  it('Simular usuario logeado', async () => {
     await component.cargarDatosUsuario();
     expect(component.currentUser.nombre_usuario).toBe('Usuario de prueba');
     expect(component.nombre_usuario).toBe('Usuario de prueba');
