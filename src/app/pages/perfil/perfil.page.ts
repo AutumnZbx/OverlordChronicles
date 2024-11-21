@@ -82,7 +82,6 @@ export class PerfilPage implements OnInit {
     this.router.navigate(['/ejemplo-post'], navigationExtras);
   }
 
-  // Navigate to the guide details page
   goToGuide(guias: any) {
     const navigationExtras = {
       state: { postId: guias.id_post } 

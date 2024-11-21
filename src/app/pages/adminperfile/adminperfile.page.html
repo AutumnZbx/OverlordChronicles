@@ -27,7 +27,8 @@
       </ion-card-content>
       <div class="action-buttons" *ngIf="filter !== 'blocked'">
         <ion-button *ngIf="user.id_rol === 2" (click)="makeAdmin(user.id_usuario)">Make Admin</ion-button>
-        <ion-button (click)="confirmBlockUser(user.id_usuario)">Block User</ion-button>
+        <ion-button *ngIf="user.id_rol === 1" (click)="removeAdmin(user.id_usuario)">Drop Admin</ion-button>
+        <ion-button *ngIf="user.id_rol === 2" (click)="confirmBlockUser(user.id_usuario)">Block User</ion-button>
       </div>
       <div class="action-buttons" *ngIf="filter === 'blocked'">
         <ion-button (click)="unblockUser(user.id_usuario)">Unblock User</ion-button>
