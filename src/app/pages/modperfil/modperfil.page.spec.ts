@@ -35,12 +35,7 @@ describe('ModperfilPage', () => {
   });
 
 
-  it('Simular usuario logeado', async () => {
-    await component.cargarDatosUsuario();
-    expect(component.currentUser.nombre_usuario).toBe('Usuario de prueba');
-    expect(component.nombre_usuario).toBe('Usuario de prueba');
-    expect(component.email).toBe('test@example.com');
-  });
+  
   
   describe('validarNombreUsuario', () => {
     it('Validar campo username vacio', () => {

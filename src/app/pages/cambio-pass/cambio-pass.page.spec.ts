@@ -31,41 +31,39 @@ describe('CambioPassPage', () => {
     fixture.detectChanges();
   });
 
-  describe('validarPasswords', () => {
-    it('Validar campo contraseña vacio', () => {
-      component.newPassword = '   ';
-      component.validarPasswords();
-      expect(component.newPasswordVacia).toBeTrue();
-    });
+  it('Validar campo contraseña vacio', () => {
+    component.newPassword = '   ';
+    component.validarPasswords();
+    expect(component.newPasswordVacia).toBeTrue();
+  });
 
-    it('Validar campo confirmar contraseña vacio', () => {
-      component.confirmPassword = '   ';
-      component.validarPasswords();
-      expect(component.confirmPasswordVacia).toBeTrue();
-    });
+  it('Validar campo confirmar contraseña vacio', () => {
+    component.confirmPassword = '   ';
+    component.validarPasswords();
+    expect(component.confirmPasswordVacia).toBeTrue();
+  });
 
-    it('Validar caracteres maximos en los campos de contraseña y confirmar contraseña', () => {
-      component.newPassword = 'a'.repeat(16);
-      component.confirmPassword = 'a'.repeat(16);
-      component.validarPasswords();
-      expect(component.passwordLarga).toBeTrue();
-    });
+  it('Validar caracteres maximos en los campos de contraseña y confirmar contraseña', () => {
+    component.newPassword = 'a'.repeat(16);
+    component.confirmPassword = 'a'.repeat(16);
+    component.validarPasswords();
+    expect(component.passwordLarga).toBeTrue();
+  });
 
-    it('Validar que ambas contraseñas no coincidan', () => {
-      component.newPassword = 'Password1';
-      component.confirmPassword = 'Password2';
-      component.validarPasswords();
-      expect(component.passwordsNoCoinciden).toBeTrue();
-    });
+  it('Validar que ambas contraseñas no coincidan', () => {
+    component.newPassword = 'Password1';
+    component.confirmPassword = 'Password2';
+    component.validarPasswords();
+    expect(component.passwordsNoCoinciden).toBeTrue();
+  });
 
-    it('Validar campos contraseñas correctas', () => {
-      component.newPassword = 'Kuki2024*';
-      component.confirmPassword = 'Kuki2024*';
-      component.validarPasswords();
-      expect(component.newPasswordVacia).toBeFalse();
-      expect(component.confirmPasswordVacia).toBeFalse();
-      expect(component.passwordLarga).toBeFalse();
-      expect(component.passwordsNoCoinciden).toBeFalse();
-    });
+  it('Validar campos contraseñas correctas', () => {
+    component.newPassword = 'Kuki2024*';
+    component.confirmPassword = 'Kuki2024*';
+    component.validarPasswords();
+    expect(component.newPasswordVacia).toBeFalse();
+    expect(component.confirmPasswordVacia).toBeFalse();
+    expect(component.passwordLarga).toBeFalse();
+    expect(component.passwordsNoCoinciden).toBeFalse();
   });
 });

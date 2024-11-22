@@ -32,43 +32,39 @@ describe('CrearPostPage', () => {
     fixture.detectChanges();
   });
 
-  describe('validarTitulo', () => {
-    it('Validar campo titulo con menos de 10 caracteres', () => {
-      component.titulo = 'titulo'; 
-      component.validarTitulo();
-      expect(component.tituloError).toBeTrue();
-    });
-
-    it('Validar campo titulo con mas de 50 caracteres', () => {
-      component.titulo = 'A'.repeat(51); 
-      component.validarTitulo();
-      expect(component.tituloError).toBeTrue();
-    });
-
-    it('Validar campo titulo correcto', () => {
-      component.titulo = 'Título válido prueba';
-      component.validarTitulo();
-      expect(component.tituloError).toBeFalse();
-    });
+  it('Validar campo titulo con menos de 10 caracteres', () => {
+    component.titulo = 'titulo'; 
+    component.validarTitulo();
+    expect(component.tituloError).toBeTrue();
   });
 
-  describe('validarContenido', () => {
-    it('Validar campo contenido con menos de 10 caracteres', () => {
-      component.contenido = 'contenido'; 
-      component.validarContenido();
-      expect(component.contenidoError).toBeTrue();
-    });
+  it('Validar campo titulo con mas de 50 caracteres', () => {
+    component.titulo = 'A'.repeat(51); 
+    component.validarTitulo();
+    expect(component.tituloError).toBeTrue();
+  });
 
-    it('Validar campo contenido con mas de 250 carecteres', () => {
-      component.contenido = 'A'.repeat(251); 
-      component.validarContenido();
-      expect(component.contenidoError).toBeTrue();
-    });
+  it('Validar campo titulo correcto', () => {
+    component.titulo = 'Título válido prueba';
+    component.validarTitulo();
+    expect(component.tituloError).toBeFalse();
+  });
 
-    it('Validar campo contenido correcto', () => {
-      component.contenido = 'Contenido del post correcto';
-      component.validarContenido();
-      expect(component.contenidoError).toBeFalse();
-    });
+  it('Validar campo contenido con menos de 10 caracteres', () => {
+    component.contenido = 'contenido'; 
+    component.validarContenido();
+    expect(component.contenidoError).toBeTrue();
+  });
+
+  it('Validar campo contenido con mas de 250 carecteres', () => {
+    component.contenido = 'A'.repeat(251); 
+    component.validarContenido();
+    expect(component.contenidoError).toBeTrue();
+  });
+
+  it('Validar campo contenido correcto', () => {
+    component.contenido = 'Contenido del post correcto';
+    component.validarContenido();
+    expect(component.contenidoError).toBeFalse();
   });
 });

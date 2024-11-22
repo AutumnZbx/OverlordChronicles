@@ -20,17 +20,17 @@ describe('RegistroPage', () => {
     fixture.detectChanges();
   });
 
-  it('Vaidar nombre de usuario vacio', () => {
+  it('Validar username vacio', () => {
     component.nombre_usuario = '';
     expect(component.validateUsername()).toBeFalse();
   });
   
-  it('Validar cantidad de caracteres nombre de usuario', () => {
-    component.nombre_usuario = 'abcdefghijklmnop';
+  it('Validar cantidad de caracteres maximos en el campo username', () => {
+    component.nombre_usuario = 'a'.repeat(16);
     expect(component.validateUsername()).toBeFalse();
   });
   
-  it('Validar nombre de usuario correcto', () => {
+  it('Validar username correcto', () => {
     component.nombre_usuario = 'Autumnbzx';
     expect(component.validateUsername()).toBeTrue();
   });
